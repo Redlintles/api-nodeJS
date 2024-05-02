@@ -36,16 +36,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv").config();
-var express = require("express");
-var app = express();
-var userRouter = require("./routes/userRouter");
-app.use("/user", userRouter);
-app.get("/", function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
+var sequelize_1 = require("sequelize");
+var userFn = require("../../models/user");
+var db = require("../../utils/db");
+var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var User;
     return __generator(this, function (_a) {
-        return [2 /*return*/, res.send("Hello World!")];
+        switch (_a.label) {
+            case 0:
+                User = userFn(db, sequelize_1.DataTypes);
+                return [4 /*yield*/, User.create({
+                        username: "Banana",
+                        email: "Banana@gmail.com",
+                        password: "Bananation",
+                        phone_number: "5511958923093"
+                    })];
+            case 1:
+                _a.sent();
+                return [2 /*return*/, res.send("Banana")];
+        }
     });
-}); });
-app.listen(3000, function () {
-    console.log("Server is running!");
-});
+}); };
+module.exports = createUser;

@@ -1,21 +1,21 @@
 {
   "development": {
     "username": "root",
-    "password": "itsumade@1997",
+    "password": "Itsumade@1997",
     "database": "nodeSQL",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "itsumade@1997",
+    "password": "Itsumade@1997",
     "database": "nodeSQL",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": "itsumade@1997",
+    "password": "Itsumade@1997",
     "database": "nodeSQL",
     "host": "127.0.0.1",
     "dialect": "mysql"
