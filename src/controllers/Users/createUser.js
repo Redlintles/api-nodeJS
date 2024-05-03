@@ -36,24 +36,75 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var sequelize_1 = require("sequelize");
-var userFn = require("../../models/user");
-var db = require("../../utils/db");
+var User = require("../../models/user");
+var _a = require("../../utils/stringUtils"), isInRange = _a.isInRange, userValidation = _a.userValidation;
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var User;
+    var body, obj, lengthCheck, validateEmail, validatePassword, validatePhoneNumber, validateUsername;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                User = userFn(db, sequelize_1.DataTypes);
-                return [4 /*yield*/, User.create({
-                        username: "Banana",
-                        email: "Banana@gmail.com",
-                        password: "Bananation",
-                        phone_number: "5511958923093"
-                    })];
+                body = req.body;
+                obj = {
+                    username: body.username,
+                    email: body.email,
+                    password: body.password,
+                    phone_number: body.phone_number,
+                };
+                if (Object.values(obj).includes(undefined)) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Fields Missing(must have username,email,password and phone_number)",
+                        })];
+                }
+                lengthCheck = [
+                    isInRange(obj.username),
+                    isInRange(obj.email),
+                    isInRange(obj.password, 0, 20),
+                    isInRange(obj.phone_number, 0, 19),
+                ];
+                validateEmail = userValidation.validateEmail, validatePassword = userValidation.validatePassword, validatePhoneNumber = userValidation.validatePhoneNumber, validateUsername = userValidation.validateUsername;
+                if (lengthCheck.includes(false)) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Fields length out of range(max for username is 30, max for email is 30, max for password is 20, max for phone_number is 19",
+                        })];
+                }
+                if (!validateEmail(obj.email)) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Email is not valid",
+                        })];
+                }
+                else if (!validatePassword(obj.password)) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Password is too weak",
+                        })];
+                }
+                else if (!validateUsername(obj.username)) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Username is not valid(cannot start with numbers but can end with them, and no special symbols",
+                        })];
+                }
+                else if (!validatePhoneNumber(obj.phone_number)) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Phone Number is not valid",
+                        })];
+                }
+                obj.phone_number = obj.phone_number
+                    .split("")
+                    .filter(function (item) { return /^\d$/.test(item); })
+                    .join("");
+                return [4 /*yield*/, User.create(obj)];
             case 1:
                 _a.sent();
-                return [2 /*return*/, res.send("Banana")];
+                return [2 /*return*/, res.status(200).json({
+                        error: false,
+                        message: "Usuário Adicionado Com Sucesso",
+                        user: obj,
+                    })];
         }
     });
 }); };

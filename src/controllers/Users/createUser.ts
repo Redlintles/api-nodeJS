@@ -1,17 +1,79 @@
 import { Request, Response } from "express";
-import { DataTypes } from "sequelize";
-const userFn = require("../../models/user")
-const db = require("../../utils/db")
+const User = require("../../models/user");
+const { isInRange, userValidation } = require("../../utils/stringUtils");
 
 const createUser = async (req: Request, res: Response) => {
-    const User = userFn(db,DataTypes)
-    await User.create({
-        username: "Banana",
-        email: "Banana@gmail.com",
-        password: "Bananation",
-        phone_number: "5511958923093"
-    })
-    return res.send("Banana")
+  const { body } = req;
+  const obj = {
+    username: body.username,
+    email: body.email,
+    password: body.password,
+    phone_number: body.phone_number,
+  };
+
+  if (Object.values(obj).includes(undefined)) {
+    return res.status(400).json({
+      error: true,
+      message:
+        "Fields Missing(must have username,email,password and phone_number)",
+    });
+  }
+  const lengthCheck = [
+    isInRange(obj.username),
+    isInRange(obj.email),
+    isInRange(obj.password, 0, 20),
+    isInRange(obj.phone_number, 0, 19),
+  ];
+
+  const {
+    validateEmail,
+    validatePassword,
+    validatePhoneNumber,
+    validateUsername,
+  } = userValidation;
+
+  if (lengthCheck.includes(false)) {
+    return res.status(400).json({
+      error: true,
+      message:
+        "Fields length out of range(max for username is 30, max for email is 30, max for password is 20, max for phone_number is 19",
+    });
+  }
+
+  if (!validateEmail(obj.email)) {
+    return res.status(400).json({
+      error: true,
+      message: "Email is not valid",
+    });
+  } else if (!validatePassword(obj.password)) {
+    return res.status(400).json({
+      error: true,
+      message: "Password is too weak",
+    });
+  } else if (!validateUsername(obj.username)) {
+    return res.status(400).json({
+      error: true,
+      message:
+        "Username is not valid(cannot start with numbers but can end with them, and no special symbols",
+    });
+  } else if (!validatePhoneNumber(obj.phone_number)) {
+    return res.status(400).json({
+      error: true,
+      message: "Phone Number is not valid",
+    });
+  }
+  obj.phone_number = obj.phone_number
+    .split("")
+    .filter((item) => /^\d$/.test(item))
+    .join("");
+
+  await User.create(obj);
+
+  return res.status(200).json({
+    error: false,
+    message: "Usuário Adicionado Com Sucesso",
+    user: obj,
+  });
 };
 
 module.exports = createUser;
