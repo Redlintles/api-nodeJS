@@ -40,6 +40,8 @@ require("dotenv").config();
 var express = require("express");
 var app = express();
 var userRouter = require("./routes/userRouter");
+var bodyParser = require("body-parser");
+app.use(bodyParser.json());
 app.use("/user", userRouter);
 app.get("/", function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {

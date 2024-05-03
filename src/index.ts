@@ -6,6 +6,8 @@ const app = express();
 const userRouter = require("./routes/userRouter")
 const bodyParser = require("body-parser")
 
+
+app.use(bodyParser.json())
 app.use("/user", userRouter)
 
 app.get("/", async (_: Request, res: Response) => {
