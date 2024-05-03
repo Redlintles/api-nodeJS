@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 const User = require("../../models/user.js");
 
 const getUserById = async (req: Request, res: Response) => {
-  const { id } = req.query;
+  let { id } = req.query;
 
   if (!id) {
     return res.status(400).json({
@@ -17,10 +17,9 @@ const getUserById = async (req: Request, res: Response) => {
       message: "Id must be a number",
     });
   }
+  let userId = parseInt(id.toString());
 
-  id = parseInt(id);
-
-  const object = await User.findByPk(id);
+  const object = await User.findByPk(userId);
 
   if (!object) {
     return res.status(400).json({

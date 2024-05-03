@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var User = require("../../models/user.js");
 var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, object;
+    var id, userId, object;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -55,8 +55,8 @@ var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             message: "Id must be a number",
                         })];
                 }
-                id = parseInt(id);
-                return [4 /*yield*/, User.findByPk(id)];
+                userId = parseInt(id.toString());
+                return [4 /*yield*/, User.findByPk(userId)];
             case 1:
                 object = _a.sent();
                 if (!object) {
