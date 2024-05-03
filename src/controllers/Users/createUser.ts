@@ -64,7 +64,7 @@ const createUser = async (req: Request, res: Response) => {
   }
   obj.phone_number = obj.phone_number
     .split("")
-    .filter((item) => /^\d$/.test(item))
+    .filter((item: string) => /^\d$/.test(item))
     .join("");
 
   await User.create(obj);
