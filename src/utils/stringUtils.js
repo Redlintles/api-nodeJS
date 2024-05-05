@@ -21,7 +21,7 @@ function validatePassword(str) {
     return regex.test(str);
 }
 function validatePhoneNumber(str) {
-    var regex = /^\+\d{1,4}\s\d{2}\s\d{4,5}-\d{4}$/;
+    var regex = /^\d{13}$/;
     return regex.test(str);
 }
 module.exports = {

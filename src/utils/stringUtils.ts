@@ -24,7 +24,7 @@ function validatePassword(str: string): boolean {
 }
 
 function validatePhoneNumber(str: string): boolean {
-  const regex = /^\+\d{1,4}\s\d{2}\s\d{4,5}-\d{4}$/;
+  const regex = /^\d{13}$/;
   return regex.test(str);
 }
 
