@@ -67,12 +67,12 @@ const createUser = async (req: Request, res: Response) => {
     .filter((item: string) => /^\d$/.test(item))
     .join("");
 
-  await User.create(obj);
+  const user = await User.create(obj);
 
   return res.status(200).json({
     error: false,
     message: "Usuário Adicionado Com Sucesso",
-    user: obj,
+    user,
   });
 };
 

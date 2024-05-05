@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var User = require("../../models/user.js");
 var deleteById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, userId, object, obj;
+    var id, userId, object;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -60,19 +60,13 @@ var deleteById = function (req, res) { return __awaiter(void 0, void 0, void 0, 
             case 1:
                 object = _a.sent();
                 if (!object) return [3 /*break*/, 3];
-                obj = {
-                    username: object.username,
-                    email: object.email,
-                    password: object.password,
-                    phone_number: object.phone_number,
-                };
                 return [4 /*yield*/, object.destroy()];
             case 2:
                 _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "User deleted succesfully",
-                        user: obj,
+                        user: object,
                     })];
             case 3: return [2 /*return*/, res.status(400).json({
                     error: true,

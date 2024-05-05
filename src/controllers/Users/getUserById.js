@@ -69,12 +69,7 @@ var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                     return [2 /*return*/, res.status(200).json({
                             error: false,
                             message: "SUCCESS",
-                            user: {
-                                username: object.username,
-                                email: object.email,
-                                password: object.password,
-                                phone_number: object.phone_number,
-                            },
+                            user: object,
                         })];
                 }
                 return [2 /*return*/];

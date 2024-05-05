@@ -30,12 +30,7 @@ const getUserById = async (req: Request, res: Response) => {
     return res.status(200).json({
       error: false,
       message: "SUCCESS",
-      user: {
-        username: object.username,
-        email: object.email,
-        password: object.password,
-        phone_number: object.phone_number,
-      },
+      user: object,
     });
   }
 };

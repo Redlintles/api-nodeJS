@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var User = require("../../models/user");
 var _a = require("../../utils/stringUtils"), isInRange = _a.isInRange, userValidation = _a.userValidation;
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var body, obj, lengthCheck, validateEmail, validatePassword, validatePhoneNumber, validateUsername;
+    var body, obj, lengthCheck, validateEmail, validatePassword, validatePhoneNumber, validateUsername, user;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -99,11 +99,11 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                     .join("");
                 return [4 /*yield*/, User.create(obj)];
             case 1:
-                _a.sent();
+                user = _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Usuário Adicionado Com Sucesso",
-                        user: obj,
+                        user: user,
                     })];
         }
     });

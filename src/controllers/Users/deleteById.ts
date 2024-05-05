@@ -21,19 +21,12 @@ const deleteById = async (req: Request, res: Response) => {
 
   const object = await User.findByPk(userId);
   if (object) {
-    const obj = {
-      username: object.username,
-      email: object.email,
-      password: object.password,
-      phone_number: object.phone_number,
-    };
-
     await object.destroy();
 
     return res.status(200).json({
       error: false,
       message: "User deleted succesfully",
-      user: obj,
+      user: object,
     });
   } else {
     return res.status(400).json({
