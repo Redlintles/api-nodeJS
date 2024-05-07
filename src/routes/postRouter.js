@@ -3,6 +3,7 @@ var express = require("express");
 var router = express.Router();
 var createPost = require("../controllers/Posts/createPost");
 var getPostById = require("../controllers/Posts/getPostById");
+var getPostsByUserId = require("../controllers/Posts/getPostsByUserId");
 var multer = require("multer");
 var upload = multer({
     storage: multer.memoryStorage(),
@@ -10,4 +11,5 @@ var upload = multer({
 });
 router.post("/add", upload.single("image"), createPost);
 router.get("/getById", getPostById);
+router.get("/getPostsByUserId", getPostsByUserId);
 module.exports = router;
