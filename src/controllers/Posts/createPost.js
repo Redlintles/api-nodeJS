@@ -47,14 +47,14 @@ var createPost = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 if (req.file && req.file.size > 500000) {
                     res.status(400).json({
                         error: true,
-                        message: "Imagem muito grande(max 500kb)"
+                        message: "Imagem muito grande(max 500kb)",
                     });
                 }
                 obj = {
                     id_author: req.body.id_author,
                     title: req.body.title,
                     content: req.body.content,
-                    image: req.file ? req.file.buffer : undefined
+                    image: req.file ? req.file.buffer : undefined,
                 };
                 return [4 /*yield*/, User.findByPk(parseInt(obj.id_author))];
             case 1:
@@ -62,23 +62,23 @@ var createPost = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 if (!author) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Usuário não encontrado"
+                            message: "Usuário não encontrado",
                         })];
                 }
                 if (Object.values(obj).includes(undefined) && obj.image !== undefined) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Fields Missing"
+                            message: "Fields Missing",
                         })];
                 }
                 lengthCheck = [
                     isInRange(obj.title, 0, 50),
-                    isInRange(obj.content, 0, 200)
+                    isInRange(obj.content, 0, 200),
                 ];
                 if (lengthCheck.includes(false)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Exceeded Max Fields Length(for title is 50, for content is 200)"
+                            message: "Exceeded Max Fields Length(for title is 50, for content is 200)",
                         })];
                 }
                 return [4 /*yield*/, Post.create(obj)];
@@ -88,7 +88,7 @@ var createPost = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                         error: false,
                         message: "Postagem criada com sucesso",
                         author: author,
-                        post: post
+                        post: post,
                     })];
         }
     });
