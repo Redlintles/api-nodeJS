@@ -40,11 +40,14 @@ var isInRange = require("../../utils/stringUtils").isInRange;
 var Post = require("../../models/post.js");
 var User = require("../../models/user.js");
 var createPost = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var obj, author, lengthCheck, post;
+    var maxSize, obj, author, lengthCheck, post;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                if (req.file && req.file.size > 500000) {
+                maxSize = process.env.MAX_IMAGE_SIZE
+                    ? parseInt(process.env.MAX_IMAGE_SIZE)
+                    : 500000;
+                if (req.file && req.file.size > maxSize) {
                     res.status(400).json({
                         error: true,
                         message: "Imagem muito grande(max 500kb)",

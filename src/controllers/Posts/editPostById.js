@@ -50,7 +50,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Post = require("../../models/post.js");
 var validateId = require("../../utils/validateId");
 var editPostById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, postId, post, old, obj2;
+    var id, postId, maxSize, post, old, obj2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -62,7 +62,10 @@ var editPostById = function (req, res) { return __awaiter(void 0, void 0, void 0
                             message: postId,
                         })];
                 }
-                if (req.file && req.file.size > 500000) {
+                maxSize = process.env.MAX_IMAGE_SIZE
+                    ? parseInt(process.env.MAX_IMAGE_SIZE)
+                    : 500000;
+                if (req.file && req.file.size > maxSize) {
                     res.status(400).json({
                         error: true,
                         message: "Image is too big(max size is 500kb)",

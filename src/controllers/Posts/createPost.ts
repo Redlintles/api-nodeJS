@@ -13,7 +13,10 @@ interface ImageRequest extends Request {
 }
 
 const createPost = async (req: ImageRequest, res: Response) => {
-  if (req.file && req.file.size > 500000) {
+  const maxSize: number = process.env.MAX_IMAGE_SIZE
+    ? parseInt(process.env.MAX_IMAGE_SIZE)
+    : 500000;
+  if (req.file && req.file.size > maxSize) {
     res.status(400).json({
       error: true,
       message: "Imagem muito grande(max 500kb)",
