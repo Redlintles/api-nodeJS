@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var User = require("../../models/user");
-var userValidation = require("../../utils/stringUtils").userValidation;
 var validateEditObj = require("../../utils/validateEditObj");
 var validateId = require("../../utils/validateId");
 var editById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {

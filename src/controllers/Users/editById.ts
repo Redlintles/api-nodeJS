@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 const User = require("../../models/user");
-const { userValidation } = require("../../utils/stringUtils");
 const validateEditObj = require("../../utils/validateEditObj");
 
 const validateId = require("../../utils/validateId");
