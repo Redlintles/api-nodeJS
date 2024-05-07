@@ -36,20 +36,41 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv").config();
-var express = require("express");
-var app = express();
-var userRouter = require("./routes/userRouter");
-var postRouter = require("./routes/postRouter");
-var bodyParser = require("body-parser");
-app.use(bodyParser.json());
-app.use("/post", postRouter);
-app.use("/user", userRouter);
-app.get("/", function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
+var Post = require("../../models/post.js");
+var validateId = require("../../utils/validateId");
+var deletePostById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, postId, post;
     return __generator(this, function (_a) {
-        return [2 /*return*/, res.send("Hello World!")];
+        switch (_a.label) {
+            case 0:
+                id = req.query.id;
+                postId = validateId(id);
+                if (typeof postId === "string") {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: postId,
+                        })];
+                }
+                return [4 /*yield*/, Post.findByPk(postId)];
+            case 1:
+                post = _a.sent();
+                if (!!post) return [3 /*break*/, 2];
+                return [2 /*return*/, res.status(400).json({
+                        error: true,
+                        message: "Post Not Found",
+                    })];
+            case 2: return [4 /*yield*/, Post.destroy({
+                    where: {
+                        id: postId,
+                    },
+                })];
+            case 3:
+                _a.sent();
+                return [2 /*return*/, res.status(200).json({
+                        error: false,
+                        post: post,
+                    })];
+        }
     });
-}); });
-app.listen(3000, function () {
-    console.log("Server is running!");
-});
+}); };
+module.exports = deletePostById;

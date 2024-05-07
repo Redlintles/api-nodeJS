@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-const User = require("../../models/user.js");
+
+const Post = require("../../models/post.js");
 
 const validateId = require("../../utils/validateId");
 
-const getUserById = async (req: Request, res: Response) => {
+const getPostById = async (req: Request, res: Response) => {
   const { id } = req.query;
 
   let userId = validateId(id);
@@ -15,20 +16,20 @@ const getUserById = async (req: Request, res: Response) => {
     });
   }
 
-  const object = await User.findByPk(userId);
+  const post = await Post.findByPk(userId);
 
-  if (!object) {
+  if (!post) {
     return res.status(400).json({
       error: true,
-      message: "User not found",
+      message: "Post not found",
     });
   } else {
     return res.status(200).json({
       error: false,
-      message: "SUCCESS",
-      user: object,
+      message: "Post found successfully",
+      post,
     });
   }
 };
 
-module.exports = getUserById;
+module.exports = getPostById;

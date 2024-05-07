@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,54 +47,68 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var User = require("../../models/user");
-var validateEditObj = require("../../utils/validateEditObj");
+var Post = require("../../models/post.js");
 var validateId = require("../../utils/validateId");
-var editById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, userId, object, old, result, after;
+var editPostById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, postId, maxSize, post, old, obj2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 id = req.query.id;
-                userId = validateId(id);
-                if (typeof userId === "string") {
+                postId = validateId(id);
+                if (typeof postId === "string") {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: userId,
+                            message: postId,
                         })];
                 }
-                return [4 /*yield*/, User.findByPk(userId)];
-            case 1:
-                object = _a.sent();
-                if (!object) return [3 /*break*/, 5];
-                old = {
-                    username: object.username,
-                    email: object.email,
-                    password: object.password,
-                    phone_number: object.phone_number,
-                };
-                result = validateEditObj(old, req.body);
-                if (!(typeof result == "string")) return [3 /*break*/, 2];
-                return [2 /*return*/, res.status(400).json({
+                maxSize = process.env.MAX_IMAGE_SIZE
+                    ? parseInt(process.env.MAX_IMAGE_SIZE)
+                    : 500000;
+                if (req.file && req.file.size > maxSize) {
+                    res.status(400).json({
                         error: true,
-                        message: result,
+                        message: "Image is too big(max size is 500kb)",
+                    });
+                }
+                return [4 /*yield*/, Post.findByPk(postId)];
+            case 1:
+                post = _a.sent();
+                if (!!post) return [3 /*break*/, 2];
+                res.status(400).json({
+                    error: true,
+                    message: "Post not found for edit",
+                });
+                return [3 /*break*/, 4];
+            case 2:
+                old = {
+                    id_author: post.id_author,
+                    title: post.title,
+                    content: post.content,
+                    image: post.image,
+                    createdAt: post.createdAt,
+                    updatedAt: post.updatedAt,
+                };
+                obj2 = Object.assign({}, old, __assign({}, req.body));
+                if (req.file) {
+                    obj2["image"] = req.file.buffer;
+                }
+                return [4 /*yield*/, Post.update(obj2, {
+                        where: {
+                            id: postId,
+                        },
                     })];
-            case 2: return [4 /*yield*/, User.update(result, {
-                    where: { id: userId },
-                })];
             case 3:
                 _a.sent();
-                return [4 /*yield*/, User.findByPk(userId)];
-            case 4:
-                after = _a.sent();
-                return [2 /*return*/, res.status(200).json({
-                        error: false,
-                        message: "User Updated Successfully",
-                        old: object,
-                        after: after,
-                    })];
-            case 5: return [2 /*return*/];
+                res.status(200).json({
+                    error: false,
+                    message: "Post Updated Successfully",
+                    old: old,
+                    new: obj2,
+                });
+                _a.label = 4;
+            case 4: return [2 /*return*/];
         }
     });
 }); };
-module.exports = editById;
+module.exports = editPostById;
