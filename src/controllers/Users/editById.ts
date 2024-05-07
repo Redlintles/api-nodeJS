@@ -3,23 +3,18 @@ const User = require("../../models/user");
 const { userValidation } = require("../../utils/stringUtils");
 const validateEditObj = require("../../utils/validateEditObj");
 
+const validateId = require("../../utils/validateId");
 const editById = async (req: Request, res: Response) => {
   const { id } = req.query;
 
-  if (!id) {
-    return res.status(400).json({
-      error: true,
-      message: "Id is not defined",
-    });
-  }
+  let userId = validateId(id);
 
-  if (!/^\d+$/.test(id.toString())) {
+  if (typeof userId === "string") {
     return res.status(400).json({
       error: true,
-      message: "Id must be a number",
+      message: userId,
     });
   }
-  let userId = parseInt(id.toString());
 
   const object = await User.findByPk(userId);
 

@@ -37,32 +37,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Post = require("../../models/post.js");
+var validateId = require("../../utils/validateId");
 var getPostById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var id, userId, post;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 id = req.query.id;
-                if (!id) {
+                userId = validateId(id);
+                if (typeof userId === "string") {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Id is not defined",
+                            message: userId,
                         })];
                 }
-                if (!/^\d+$/.test(id.toString())) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Id must be a number",
-                        })];
-                }
-                userId = parseInt(id.toString());
                 return [4 /*yield*/, Post.findByPk(userId)];
             case 1:
                 post = _a.sent();
                 if (!post) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Post not found"
+                            message: "Post not found",
                         })];
                 }
                 else {

@@ -2,37 +2,33 @@ import { Request, Response } from "express";
 
 const Post = require("../../models/post.js");
 
+const validateId = require("../../utils/validateId");
+
 const getPostById = async (req: Request, res: Response) => {
   const { id } = req.query;
 
-  if (!id) {
-    return res.status(400).json({
-      error: true,
-      message: "Id is not defined",
-    });
-  }
+  let userId = validateId(id);
 
-  if (!/^\d+$/.test(id.toString())) {
+  if (typeof userId === "string") {
     return res.status(400).json({
       error: true,
-      message: "Id must be a number",
+      message: userId,
     });
   }
-  let userId = parseInt(id.toString());
 
   const post = await Post.findByPk(userId);
 
-  if(!post) {
+  if (!post) {
     return res.status(400).json({
-        error: true,
-        message: "Post not found"
-    })
+      error: true,
+      message: "Post not found",
+    });
   } else {
     return res.status(200).json({
-        error: false,
-        message: "Post found successfully",
-        post,
-    })
+      error: false,
+      message: "Post found successfully",
+      post,
+    });
   }
 };
 

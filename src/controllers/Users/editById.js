@@ -39,25 +39,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var User = require("../../models/user");
 var userValidation = require("../../utils/stringUtils").userValidation;
 var validateEditObj = require("../../utils/validateEditObj");
+var validateId = require("../../utils/validateId");
 var editById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var id, userId, object, old, result, after;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 id = req.query.id;
-                if (!id) {
+                userId = validateId(id);
+                if (typeof userId === "string") {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Id is not defined",
+                            message: userId,
                         })];
                 }
-                if (!/^\d+$/.test(id.toString())) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Id must be a number",
-                        })];
-                }
-                userId = parseInt(id.toString());
                 return [4 /*yield*/, User.findByPk(userId)];
             case 1:
                 object = _a.sent();

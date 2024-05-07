@@ -1,23 +1,19 @@
 import { Request, Response } from "express";
 const User = require("../../models/user.js");
 
+const validateId = require("../../utils/validateId");
+
 const getUserById = async (req: Request, res: Response) => {
-  let { id } = req.query;
+  const { id } = req.query;
 
-  if (!id) {
+  let userId = validateId(id);
+
+  if (typeof userId === "string") {
     return res.status(400).json({
       error: true,
-      message: "Id is not defined",
+      message: userId,
     });
   }
-
-  if (!/^\d+$/.test(id.toString())) {
-    return res.status(400).json({
-      error: true,
-      message: "Id must be a number",
-    });
-  }
-  let userId = parseInt(id.toString());
 
   const object = await User.findByPk(userId);
 
