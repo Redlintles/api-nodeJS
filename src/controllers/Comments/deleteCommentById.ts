@@ -23,11 +23,13 @@ const deleteCommentById = async (req: Request, res: Response) => {
       message: "Comentário não existe",
     });
   } else {
-    await Comment.destroy({
-      where: {
-        belongs_to: register.id,
-      },
-    });
+    if (!register.belongs_to) {
+      await Comment.destroy({
+        where: {
+          belongs_to: register.id,
+        },
+      });
+    }
     await register.destroy();
 
     return res.status(200).json({

@@ -59,15 +59,18 @@ var deleteCommentById = function (req, res) { return __awaiter(void 0, void 0, v
                         error: true,
                         message: "Comentário não existe",
                     })];
-            case 2: return [4 /*yield*/, Comment.destroy({
-                    where: {
-                        belongs_to: register.id,
-                    },
-                })];
+            case 2:
+                if (!!register.belongs_to) return [3 /*break*/, 4];
+                return [4 /*yield*/, Comment.destroy({
+                        where: {
+                            belongs_to: register.id,
+                        },
+                    })];
             case 3:
                 _a.sent();
-                return [4 /*yield*/, register.destroy()];
-            case 4:
+                _a.label = 4;
+            case 4: return [4 /*yield*/, register.destroy()];
+            case 5:
                 _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
