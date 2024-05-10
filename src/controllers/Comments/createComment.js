@@ -37,7 +37,83 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Comment = require("../../models/comment.js");
-var createComment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-    return [2 /*return*/];
-}); }); };
+var validateId = require("../../utils/validateId");
+var isInRange = require("../../utils/stringUtils").isInRange;
+var User = require("../../models/user");
+var Post = require("../../models/post");
+var createComment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, id_author, id_post, belongs_to, comment, comment_1, author, post, register;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.body, id_author = _a.id_author, id_post = _a.id_post, belongs_to = _a.belongs_to, comment = _a.comment;
+                id_post = validateId(id_post);
+                if (typeof id_post === "string") {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: id_post,
+                        })];
+                }
+                id_author = validateId(id_author);
+                if (typeof id_author === "string") {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: id_author,
+                        })];
+                }
+                belongs_to = validateId(belongs_to);
+                if (!(typeof belongs_to === "number")) return [3 /*break*/, 2];
+                return [4 /*yield*/, Comment.findByPk(belongs_to)];
+            case 1:
+                comment_1 = _b.sent();
+                if (!comment_1) {
+                    return [2 /*return*/, res.send(400).json({
+                            error: true,
+                            message: "Comment is not defined",
+                        })];
+                }
+                return [3 /*break*/, 3];
+            case 2:
+                belongs_to = null;
+                _b.label = 3;
+            case 3: return [4 /*yield*/, User.findByPk(id_author)];
+            case 4:
+                author = _b.sent();
+                return [4 /*yield*/, Post.findByPk(id_post)];
+            case 5:
+                post = _b.sent();
+                if (!author) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Autor do post não existe",
+                        })];
+                }
+                if (!post) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Post Não existe",
+                        })];
+                }
+                if (!isInRange(comment, 0, 200)) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Tamanho máximo para um comentário é de 200 caracteres",
+                        })];
+                }
+                return [4 /*yield*/, Comment.create({
+                        id_post: id_post,
+                        id_author: id_author,
+                        comment: comment,
+                        belongs_to: belongs_to,
+                    })];
+            case 6:
+                register = _b.sent();
+                return [2 /*return*/, res.status(200).json({
+                        error: false,
+                        message: "Comment Created Successfully",
+                        comment: register,
+                    })];
+        }
+    });
+}); };
 module.exports = createComment;
