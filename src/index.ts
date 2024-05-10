@@ -5,11 +5,13 @@ const express = require("express");
 const app = express();
 const userRouter = require("./routes/userRouter");
 const postRouter = require("./routes/postRouter");
+const commentsRouter = require("./routes/CommentsRouter");
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
 app.use("/post", postRouter);
 app.use("/user", userRouter);
+app.use("/comments", commentsRouter);
 
 app.get("/", async (_: Request, res: Response) => {
   return res.send("Hello World!");
