@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Tag = require("../../models/tag.js");
 var createTag = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var tag_name, obj;
+    var tag_name, tags, obj;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -55,16 +55,29 @@ var createTag = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             message: "Tag Name length should be below 15 characters",
                         })];
                 }
+                tag_name = tag_name.toLowerCase();
+                return [4 /*yield*/, Tag.findAll({
+                        where: {
+                            tag_name: tag_name,
+                        },
+                    })];
+            case 1:
+                tags = _a.sent();
+                if (!(tags.length == 0)) return [3 /*break*/, 3];
                 return [4 /*yield*/, Tag.create({
                         tag_name: tag_name,
                     })];
-            case 1:
+            case 2:
                 obj = _a.sent();
-                return [2 /*return*/, res.status(400).json({
+                return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Tag created successfully",
                         obj: obj,
                     })];
+            case 3: return [2 /*return*/, res.status(400).json({
+                    error: true,
+                    message: "Tag already exists",
+                })];
         }
     });
 }); };
