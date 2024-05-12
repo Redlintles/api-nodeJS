@@ -7,6 +7,7 @@ const userRouter = require("./routes/userRouter");
 const postRouter = require("./routes/postRouter");
 const commentsRouter = require("./routes/CommentsRouter");
 const tagsRouter = require("./routes/tagsRouter");
+const adminRouter = require("./routes/adminRouter");
 
 const bodyParser = require("body-parser");
 
@@ -15,6 +16,7 @@ app.use("/post", postRouter);
 app.use("/user", userRouter);
 app.use("/comments", commentsRouter);
 app.use("/tags", tagsRouter);
+app.use("/admin", adminRouter);
 
 app.get("/", async (_: Request, res: Response) => {
   return res.send("Hello World!");
