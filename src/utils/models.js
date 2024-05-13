@@ -1,6 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var db = require("./db");
-var Datatypes = require("sequelize").Datatypes;
+var sequelize_1 = require("sequelize");
 var adminFn = require("../models/admin.js");
 var commentFn = require("../models/comment.js");
 var groupFn = require("../models/group.js");
@@ -14,16 +15,16 @@ var userGroupFn = require("../models/user_group.js");
 var userTagFn = require("../models/user_tag.js");
 var userFn = require("../models/user.js");
 module.exports = {
-    Admin: adminFn(db, Datatypes),
-    Comment: commentFn(db, Datatypes),
-    Group: groupFn(db, Datatypes),
-    Post: postFn(db, Datatypes),
-    User: userFn(db, Datatypes),
-    Tag: tagFn(db, Datatypes),
-    PostLikes: postLikesFn(db, Datatypes),
-    Profile: profileFn(db, Datatypes),
-    UserFollower: userFollowerFn(db, Datatypes),
-    UserFriends: userFriendsFn(db, Datatypes),
-    UserGroup: userGroupFn(db, Datatypes),
-    UserTag: userTagFn(db, Datatypes),
+    Admin: adminFn(db, sequelize_1.DataTypes),
+    Comment: commentFn(db, sequelize_1.DataTypes),
+    Group: groupFn(db, sequelize_1.DataTypes),
+    Post: postFn(db, sequelize_1.DataTypes),
+    User: userFn(db, sequelize_1.DataTypes),
+    Tag: tagFn(db, sequelize_1.DataTypes),
+    PostLikes: postLikesFn(db, sequelize_1.DataTypes),
+    Profile: profileFn(db, sequelize_1.DataTypes),
+    UserFollower: userFollowerFn(db, sequelize_1.DataTypes),
+    UserFriends: userFriendsFn(db, sequelize_1.DataTypes),
+    UserGroup: userGroupFn(db, sequelize_1.DataTypes),
+    UserTag: userTagFn(db, sequelize_1.DataTypes),
 };
