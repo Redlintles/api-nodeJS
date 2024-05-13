@@ -8,6 +8,7 @@ const postRouter = require("./routes/postRouter");
 const commentsRouter = require("./routes/CommentsRouter");
 const tagsRouter = require("./routes/tagsRouter");
 const adminRouter = require("./routes/adminRouter");
+const sequelize = require("./utils/db");
 
 const bodyParser = require("body-parser");
 
@@ -22,6 +23,11 @@ app.get("/", async (_: Request, res: Response) => {
   return res.send("Hello World!");
 });
 
-app.listen(3000, () => {
-  console.log("Server is running!");
-});
+sequelize
+  .sync({ alter: true })
+  .then(() => {
+    app.listen(3000, () => {
+      console.log("Server is running!");
+    });
+  })
+  .catch((err) => console.log(err));
