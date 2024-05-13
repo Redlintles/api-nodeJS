@@ -36,7 +36,58 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var createAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-    return [2 /*return*/];
-}); }); };
+var uuid_1 = require("uuid");
+var userValidations = require("../../utils/stringUtils").userValidations;
+var Admin = require("../../utils/models").Admin;
+var createAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var apiKey, _a, username, password, validateUsername, validatePassword, isNotDefined, admin;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                apiKey = (0, uuid_1.v4)();
+                _a = req.body, username = _a.username, password = _a.password;
+                validateUsername = userValidations.validateUsername, validatePassword = userValidations.validatePassword;
+                isNotDefined = [username, password].includes(undefined);
+                if (isNotDefined) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Username or password not defined",
+                        })];
+                }
+                if (!validateUsername(username)) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Username not valid",
+                        })];
+                }
+                if (!validateUsername(password)) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Password is too weak",
+                        })];
+                }
+                return [4 /*yield*/, Admin.create({
+                        username: username,
+                        password: password,
+                        "api-key": apiKey,
+                    })];
+            case 1:
+                admin = _b.sent();
+                if (admin) {
+                    return [2 /*return*/, res.status(200).json({
+                            error: false,
+                            message: "Admin Created Successfully",
+                            admin: admin,
+                        })];
+                }
+                else {
+                    return [2 /*return*/, res.status(500).json({
+                            error: true,
+                            message: "An Unexpected error ocurred, please try later",
+                        })];
+                }
+                return [2 /*return*/];
+        }
+    });
+}); };
 module.exports = createAdmin;
