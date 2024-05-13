@@ -1,8 +1,7 @@
 "use strict";
-const { Model, DataTypes } = require("sequelize");
+const { Model } = require("sequelize");
 
-const db = require("../utils/db");
-module.exports = ((sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   class Admin extends Model {
     /**
      * Helper method for defining associations.
@@ -17,6 +16,7 @@ module.exports = ((sequelize, DataTypes) => {
     {
       username: DataTypes.STRING,
       password: DataTypes.STRING,
+      "api-key": DataTypes.STRING,
     },
     {
       sequelize,
@@ -24,4 +24,4 @@ module.exports = ((sequelize, DataTypes) => {
     }
   );
   return Admin;
-})(db, DataTypes);
+};
