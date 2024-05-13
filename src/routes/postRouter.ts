@@ -7,11 +7,13 @@ const getPostsByUserId = require("../controllers/Posts/getPostsByUserId");
 const editById = require("../controllers/Posts/editPostById");
 const deletePostById = require("../controllers/Posts/deletePostById");
 const multer = require("multer");
-
+const auth = require("../middlewares/auth");
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 500000 },
 });
+
+router.use(auth);
 
 router.post("/add", upload.single("image"), createPost);
 router.put("/editById", upload.single("image"), editById);

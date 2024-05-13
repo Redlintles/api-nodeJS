@@ -37,17 +37,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var uuid_1 = require("uuid");
-var userValidations = require("../../utils/stringUtils").userValidations;
+var userValidation = require("../../utils/stringUtils").userValidation;
 var Admin = require("../../utils/models").Admin;
 var createAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var apiKey, _a, username, password, validateUsername, validatePassword, isNotDefined, admin;
+    var apiKey, newApiKey, _a, username, password, validateUsername, validatePassword, isNotDefined, root, admin;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                apiKey = (0, uuid_1.v4)();
+                apiKey = req.headers["x-api-key"];
+                newApiKey = (0, uuid_1.v4)();
                 _a = req.body, username = _a.username, password = _a.password;
-                validateUsername = userValidations.validateUsername, validatePassword = userValidations.validatePassword;
+                validateUsername = userValidation.validateUsername, validatePassword = userValidation.validatePassword;
                 isNotDefined = [username, password].includes(undefined);
+                return [4 /*yield*/, Admin.findOne({ where: { "api-key": apiKey } })];
+            case 1:
+                root = _b.sent();
+                if (root && root.username !== "root") {
+                    return [2 /*return*/, res.status(401).json({
+                            error: true,
+                            message: "Only root can create admins",
+                        })];
+                }
                 if (isNotDefined) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
@@ -60,7 +70,7 @@ var createAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             message: "Username not valid",
                         })];
                 }
-                if (!validateUsername(password)) {
+                if (!validatePassword(password)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
                             message: "Password is too weak",
@@ -69,9 +79,9 @@ var createAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [4 /*yield*/, Admin.create({
                         username: username,
                         password: password,
-                        "api-key": apiKey,
+                        "api-key": newApiKey,
                     })];
-            case 1:
+            case 2:
                 admin = _b.sent();
                 if (admin) {
                     return [2 /*return*/, res.status(200).json({
