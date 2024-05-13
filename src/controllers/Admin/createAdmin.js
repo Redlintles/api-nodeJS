@@ -40,7 +40,7 @@ var uuid_1 = require("uuid");
 var userValidation = require("../../utils/stringUtils").userValidation;
 var Admin = require("../../utils/models").Admin;
 var createAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var apiKey, newApiKey, _a, username, password, validateUsername, validatePassword, isNotDefined, root, admin;
+    var apiKey, newApiKey, _a, username, password, validateUsername, validatePassword, isNotDefined, root, adm, admin;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -76,12 +76,25 @@ var createAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             message: "Password is too weak",
                         })];
                 }
+                return [4 /*yield*/, Admin.findOne({
+                        where: {
+                            username: username,
+                        },
+                    })];
+            case 2:
+                adm = _b.sent();
+                if (adm) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "User already Exists",
+                        })];
+                }
                 return [4 /*yield*/, Admin.create({
                         username: username,
                         password: password,
                         "api-key": newApiKey,
                     })];
-            case 2:
+            case 3:
                 admin = _b.sent();
                 if (admin) {
                     return [2 /*return*/, res.status(200).json({

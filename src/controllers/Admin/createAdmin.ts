@@ -40,6 +40,19 @@ const createAdmin = async (req: Request, res: Response) => {
     });
   }
 
+  const adm = await Admin.findOne({
+    where: {
+      username: username,
+    },
+  });
+
+  if (adm) {
+    return res.status(400).json({
+      error: true,
+      message: "User already Exists",
+    });
+  }
+
   const admin = await Admin.create({
     username,
     password,
