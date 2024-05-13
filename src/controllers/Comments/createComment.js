@@ -36,11 +36,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Comment = require("../../models/comment.js");
+var Comment = require("../../utils/models").Comment;
 var validateId = require("../../utils/validateId");
 var isInRange = require("../../utils/stringUtils").isInRange;
-var User = require("../../models/user");
-var Post = require("../../models/post");
+var User = require("../..utils/models").User;
+var Post = require("../..utils/models").Post;
 var createComment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, id_author, id_post, belongs_to, comment, comment_1, author, post, register;
     return __generator(this, function (_b) {

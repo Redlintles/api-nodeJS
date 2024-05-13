@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-const User = require("../../models/user");
+const { User } = require("../../utils/models");
 const { isInRange, userValidation } = require("../../utils/stringUtils");
 
 const createUser = async (req: Request, res: Response) => {

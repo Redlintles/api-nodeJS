@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var User = require("../../models/user");
+var User = require("../../utils/models").User;
 var _a = require("../../utils/stringUtils"), isInRange = _a.isInRange, userValidation = _a.userValidation;
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var body, obj, lengthCheck, validateEmail, validatePassword, validatePhoneNumber, validateUsername, user;

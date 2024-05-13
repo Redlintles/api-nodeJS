@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-const Post = require("../../models/post.js");
+const { Post } = require("../../utils/models");
 
 const validateId = require("../../utils/validateId");
 

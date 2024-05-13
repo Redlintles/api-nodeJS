@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-const Tag = require("../../models/tag.js");
+const { Tag } = require("../../utils/models");
 const createTag = async (req: Request, res: Response) => {
   let { tag_name } = req.body;
 

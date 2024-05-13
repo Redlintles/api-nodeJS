@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-const Tag = require("../../models/tag.js");
+const { Tag } = require("../../utils/models");
 
 const validateId = require("../../utils/validateId");
 

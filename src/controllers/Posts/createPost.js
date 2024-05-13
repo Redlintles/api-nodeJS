@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var isInRange = require("../../utils/stringUtils").isInRange;
-var Post = require("../../models/post.js");
-var User = require("../../models/user.js");
+var Post = require("../../utils/models").Post;
+var User = require("../../utils/models").User;
 var createPost = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var maxSize, obj, author, lengthCheck, post;
     return __generator(this, function (_a) {

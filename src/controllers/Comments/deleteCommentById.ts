@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 const validateId = require("../../utils/validateId");
-const Comment = require("../../models/comment.js");
+const { Comment } = require("../../utils/models");
 
 const deleteCommentById = async (req: Request, res: Response) => {
   let { id: commentId } = req.query;

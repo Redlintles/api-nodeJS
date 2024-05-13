@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Tag = require("../../models/tag.js");
+var Tag = require("../../utils/models").Tag;
 var createTag = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var tag_name, tags, obj;
     return __generator(this, function (_a) {

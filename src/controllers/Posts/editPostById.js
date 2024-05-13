@@ -47,7 +47,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Post = require("../../models/post.js");
+var Post = require("../../utils/models").Post;
 var validateId = require("../../utils/validateId");
 var editPostById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var id, postId, maxSize, post, old, obj2;

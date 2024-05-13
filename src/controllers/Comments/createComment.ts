@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-const Comment = require("../../models/comment.js");
+const { Comment } = require("../../utils/models");
 const validateId = require("../../utils/validateId");
 const { isInRange } = require("../../utils/stringUtils");
-const User = require("../../models/user");
-const Post = require("../../models/post");
+const { User } = require("../..utils/models");
+const { Post } = require("../..utils/models");
 
 const createComment = async (req: Request, res: Response) => {
   let { id_author, id_post, belongs_to, comment } = req.body;

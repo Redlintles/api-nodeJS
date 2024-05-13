@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-const Comment = require("../../models/comment.js");
+const { Comment } = require("../../utils/models");
 const validateId = require("../../utils/validateId");
 const { isInRange } = require("../../utils/stringUtils");
 
