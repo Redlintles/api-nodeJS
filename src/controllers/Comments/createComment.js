@@ -42,7 +42,7 @@ var isInRange = require("../../utils/stringUtils").isInRange;
 var User = require("../../utils/models").User;
 var Post = require("../../utils/models").Post;
 var createComment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_author, id_post, belongs_to, comment, comment_1, author, post, register;
+    var _a, id_author, id_post, belongs_to, comment, origin_1, author, post, register;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -61,26 +61,40 @@ var createComment = function (req, res) { return __awaiter(void 0, void 0, void 
                             message: id_author,
                         })];
                 }
-                belongs_to = validateId(belongs_to);
-                if (!(typeof belongs_to === "number")) return [3 /*break*/, 2];
+                if (belongs_to) {
+                    belongs_to = validateId(belongs_to);
+                    if (typeof belongs_to === "string") {
+                        return [2 /*return*/, res.status(400).json({
+                                error: true,
+                                message: belongs_to,
+                            })];
+                    }
+                }
+                else {
+                    belongs_to = null;
+                }
+                if (!belongs_to) return [3 /*break*/, 2];
                 return [4 /*yield*/, Comment.findByPk(belongs_to)];
             case 1:
-                comment_1 = _b.sent();
-                if (!comment_1) {
-                    return [2 /*return*/, res.send(400).json({
+                origin_1 = _b.sent();
+                if (!origin_1) {
+                    return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Comment is not defined",
+                            message: "Origin comment does not exists",
                         })];
                 }
-                return [3 /*break*/, 3];
-            case 2:
-                belongs_to = null;
-                _b.label = 3;
-            case 3: return [4 /*yield*/, User.findByPk(id_author)];
-            case 4:
+                if (origin_1.belongs_to) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "An answer cannot belong to another answer",
+                        })];
+                }
+                _b.label = 2;
+            case 2: return [4 /*yield*/, User.findByPk(id_author)];
+            case 3:
                 author = _b.sent();
                 return [4 /*yield*/, Post.findByPk(id_post)];
-            case 5:
+            case 4:
                 post = _b.sent();
                 if (!author) {
                     return [2 /*return*/, res.status(400).json({
@@ -106,7 +120,7 @@ var createComment = function (req, res) { return __awaiter(void 0, void 0, void 
                         comment: comment,
                         belongs_to: belongs_to,
                     })];
-            case 6:
+            case 5:
                 register = _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
