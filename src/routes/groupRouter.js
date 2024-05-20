@@ -13,7 +13,9 @@ var upload = multer({
 });
 var createGroup = require("../controllers/Group/createGroup");
 var deleteGroup = require("../controllers/Group/deleteGroup");
+var getUserGroups = require("../controllers/Group/getUserGroups");
 router.use(auth);
 router.post("/add", upload.single("banner"), createGroup);
+router.get("/getUserGroups", getUserGroups);
 router.delete("/delete", deleteGroup);
 module.exports = router;
