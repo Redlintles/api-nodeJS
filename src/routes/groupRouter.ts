@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const createGroup = require("../controllers/Group/createGroup");
 const multer = require("multer");
 const auth = require("../middlewares/auth");
 const upload = multer({
@@ -12,7 +11,11 @@ const upload = multer({
   },
 });
 
+const createGroup = require("../controllers/Group/createGroup");
+const deleteGroup = require("../controllers/Group/deleteGroup");
+
 router.use(auth);
 router.post("/add", upload.single("banner"), createGroup);
+router.delete("/delete", deleteGroup);
 
 module.exports = router;
