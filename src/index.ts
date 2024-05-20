@@ -9,7 +9,7 @@ const commentsRouter = require("./routes/CommentsRouter");
 const tagsRouter = require("./routes/tagsRouter");
 const adminRouter = require("./routes/adminRouter");
 const sequelize = require("./utils/db");
-
+const groupRouter = require("./routes/groupRouter");
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
@@ -18,6 +18,7 @@ app.use("/user", userRouter);
 app.use("/comments", commentsRouter);
 app.use("/tags", tagsRouter);
 app.use("/admin", adminRouter);
+app.use("/group", groupRouter);
 
 app.get("/", async (_: Request, res: Response) => {
   return res.send("Hello World!");
