@@ -27,4 +27,5 @@ module.exports = {
     UserFriends: userFriendsFn(db, sequelize_1.DataTypes),
     UserGroup: userGroupFn(db, sequelize_1.DataTypes),
     UserTag: userTagFn(db, sequelize_1.DataTypes),
+    sequelizeConn: db,
 };
