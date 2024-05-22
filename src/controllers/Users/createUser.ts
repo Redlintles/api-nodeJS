@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-const { User } = require("../../utils/models");
+const { User, Profile, sequelizeConn } = require("../../utils/models");
 const { isInRange, userValidation } = require("../../utils/stringUtils");
 
 const createUser = async (req: Request, res: Response) => {
@@ -67,13 +67,29 @@ const createUser = async (req: Request, res: Response) => {
     .filter((item: string) => /^\d$/.test(item))
     .join("");
 
-  const user = await User.create(obj);
+  const transaction = await sequelizeConn.transaction();
 
-  return res.status(200).json({
-    error: false,
-    message: "Usuário Adicionado Com Sucesso",
-    user,
-  });
+  try {
+    const user = await User.create(obj);
+    const profile = await Profile.create({
+      id_user: user.id,
+    });
+
+    await transaction.commit();
+    return res.status(200).json({
+      error: false,
+      message: "Usuário Adicionado Com Sucesso",
+      user,
+      profile,
+    });
+  } catch {
+    await transaction.rollback();
+    return res.status(400).json({
+      error: true,
+      message:
+        "A Inserção não pode ser realizada por algum motivo desconhecido",
+    });
+  }
 };
 
 module.exports = createUser;
