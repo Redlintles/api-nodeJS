@@ -47,6 +47,7 @@ var adminRouter = require("./routes/adminRouter");
 var sequelize = require("./utils/db");
 var groupRouter = require("./routes/groupRouter");
 var bodyParser = require("body-parser");
+var profileRouter = require("./routes/profileRouter");
 app.use(bodyParser.json());
 app.use("/post", postRouter);
 app.use("/user", userRouter);
@@ -54,6 +55,7 @@ app.use("/comments", commentsRouter);
 app.use("/tags", tagsRouter);
 app.use("/admin", adminRouter);
 app.use("/group", groupRouter);
+app.use("/profile", profileRouter);
 app.get("/", function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         return [2 /*return*/, res.send("Hello World!")];
