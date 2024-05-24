@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _a = require("../../utils/models"), userGroup = _a.userGroup, Group = _a.Group, User = _a.User;
+var _a = require("../../utils/models"), UserGroup = _a.UserGroup, Group = _a.Group, User = _a.User;
 var validateId = require("../../utils/validateId");
 var addMember = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, id_user, id_group, userId, groupId, userToAdd, groupToBelong, obj;
@@ -76,7 +76,7 @@ var addMember = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             message: "Grupo não existe",
                         })];
                 }
-                return [4 /*yield*/, userGroup.create({
+                return [4 /*yield*/, UserGroup.create({
                         id_member: userId,
                         id_group: groupId,
                     })];

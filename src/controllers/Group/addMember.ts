@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-const { userGroup, Group, User } = require("../../utils/models");
+const { UserGroup, Group, User } = require("../../utils/models");
 const validateId = require("../../utils/validateId");
 
 const addMember = async (req: Request, res: Response) => {
@@ -39,7 +39,7 @@ const addMember = async (req: Request, res: Response) => {
     });
   }
 
-  const obj = await userGroup.create({
+  const obj = await UserGroup.create({
     id_member: userId,
     id_group: groupId,
   });
