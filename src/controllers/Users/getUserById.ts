@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-const { User } = require("../../utils/models");
+const { User, Profile } = require("../../utils/models");
 
 const validateId = require("../../utils/validateId");
 
@@ -16,8 +16,9 @@ const getUserById = async (req: Request, res: Response) => {
   }
 
   const object = await User.findByPk(userId);
+  const profile = await Profile.findOne({ where: { id_user: userId } });
 
-  if (!object) {
+  if (!object || !profile) {
     return res.status(400).json({
       error: true,
       message: "User not found",
@@ -27,6 +28,7 @@ const getUserById = async (req: Request, res: Response) => {
       error: false,
       message: "SUCCESS",
       user: object,
+      profile,
     });
   }
 };

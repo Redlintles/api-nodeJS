@@ -36,10 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var User = require("../../utils/models").User;
+var _a = require("../../utils/models"), User = _a.User, Profile = _a.Profile;
 var validateId = require("../../utils/validateId");
 var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, userId, object;
+    var id, userId, object, profile;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -54,7 +54,10 @@ var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [4 /*yield*/, User.findByPk(userId)];
             case 1:
                 object = _a.sent();
-                if (!object) {
+                return [4 /*yield*/, Profile.findOne({ where: { id_user: userId } })];
+            case 2:
+                profile = _a.sent();
+                if (!object || !profile) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
                             message: "User not found",
@@ -65,6 +68,7 @@ var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             error: false,
                             message: "SUCCESS",
                             user: object,
+                            profile: profile,
                         })];
                 }
                 return [2 /*return*/];
