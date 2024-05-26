@@ -89,7 +89,6 @@ var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 _c.trys.push([4, 8, , 10]);
                 return [4 /*yield*/, UserGroup.destroy({
                         where: {
-                            id_member: admin_id,
                             id_group: group.id,
                         },
                     })];

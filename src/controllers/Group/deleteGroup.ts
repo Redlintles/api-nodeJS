@@ -52,7 +52,6 @@ const deleteGroup = async (req: Request, res: Response) => {
   try {
     await UserGroup.destroy({
       where: {
-        id_member: admin_id,
         id_group: group.id,
       },
     });
