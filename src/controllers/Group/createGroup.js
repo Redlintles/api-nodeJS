@@ -36,13 +36,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _a = require("../../utils/models"), User = _a.User, Group = _a.Group;
+var _a = require("../../utils/models"), User = _a.User, Group = _a.Group, sequelizeConn = _a.sequelizeConn, UserGroup = _a.UserGroup;
 var validateId = require("../../utils/validateId");
 var isInRange = require("../../utils/stringUtils").isInRange;
 var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, admin_id, group_name, group_desc, max_size, userId, groupOwner, groups, newGroup;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var _a, admin_id, group_name, group_desc, max_size, userId, groupOwner, groups, transaction, newGroup, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
                 _a = req.body, admin_id = _a.admin_id, group_name = _a.group_name, group_desc = _a.group_desc;
                 max_size = process.env.MAX_FILE_SIZE
@@ -63,7 +63,7 @@ var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 }
                 return [4 /*yield*/, User.findByPk(userId)];
             case 1:
-                groupOwner = _b.sent();
+                groupOwner = _c.sent();
                 if (!groupOwner) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
@@ -89,32 +89,48 @@ var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                         attributes: ["group_name"],
                     })];
             case 2:
-                groups = _b.sent();
+                groups = _c.sent();
                 if (groups.map(function (g) { return g.group_name; }).includes(group_name)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
                             message: "Você já criou um grupo com este nome",
                         })];
                 }
+                return [4 /*yield*/, sequelizeConn.transaction()];
+            case 3:
+                transaction = _c.sent();
+                _c.label = 4;
+            case 4:
+                _c.trys.push([4, 8, , 10]);
                 return [4 /*yield*/, Group.create({
                         admin_id: userId,
                         group_name: group_name,
                         group_desc: group_desc,
                         group_banner: req.file ? req.file.buffer : undefined,
                     })];
-            case 3:
-                newGroup = _b.sent();
-                if (!newGroup) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Houve algum erro ao criar o novo grupo, tente novamente mais tarde",
-                        })];
-                }
+            case 5:
+                newGroup = _c.sent();
+                return [4 /*yield*/, UserGroup.create({
+                        id_group: newGroup.id,
+                        id_member: userId,
+                    })];
+            case 6:
+                _c.sent();
+                return [4 /*yield*/, transaction.commit()];
+            case 7:
+                _c.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Grupo criado com sucesso",
                         obj: newGroup,
                     })];
+            case 8:
+                _b = _c.sent();
+                return [4 /*yield*/, transaction.rollback()];
+            case 9:
+                _c.sent();
+                return [3 /*break*/, 10];
+            case 10: return [2 /*return*/];
         }
     });
 }); };

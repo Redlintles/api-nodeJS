@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-const { User, Group } = require("../../utils/models");
+const { User, Group, sequelizeConn, UserGroup } = require("../../utils/models");
 const validateId = require("../../utils/validateId");
 const { isInRange } = require("../../utils/stringUtils");
 
@@ -68,25 +68,31 @@ const createGroup = async (req: ImageRequest, res: Response) => {
     });
   }
 
-  const newGroup = await Group.create({
-    admin_id: userId,
-    group_name,
-    group_desc,
-    group_banner: req.file ? req.file.buffer : undefined,
-  });
+  const transaction = await sequelizeConn.transaction();
 
-  if (!newGroup) {
-    return res.status(400).json({
-      error: true,
-      message:
-        "Houve algum erro ao criar o novo grupo, tente novamente mais tarde",
+  try {
+    const newGroup = await Group.create({
+      admin_id: userId,
+      group_name,
+      group_desc,
+      group_banner: req.file ? req.file.buffer : undefined,
     });
+
+    await UserGroup.create({
+      id_group: newGroup.id,
+      id_member: userId,
+    });
+
+    await transaction.commit();
+
+    return res.status(200).json({
+      error: false,
+      message: "Grupo criado com sucesso",
+      obj: newGroup,
+    });
+  } catch {
+    await transaction.rollback();
   }
-  return res.status(200).json({
-    error: false,
-    message: "Grupo criado com sucesso",
-    obj: newGroup,
-  });
 };
 
 module.exports = createGroup;
