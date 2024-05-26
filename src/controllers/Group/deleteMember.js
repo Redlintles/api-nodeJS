@@ -64,6 +64,12 @@ var deleteMember = function (req, res) { return __awaiter(void 0, void 0, void 0
                 return [4 /*yield*/, User.findByPk(userId)];
             case 2:
                 targetUser = _b.sent();
+                if (targetGroup.admin_id === targetUser.id) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "O Dono não pode se excluir do grupo que criou",
+                        })];
+                }
                 if (!targetUser) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,

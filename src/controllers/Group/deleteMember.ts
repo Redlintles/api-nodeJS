@@ -25,6 +25,13 @@ const deleteMember = async (req: Request, res: Response) => {
   const targetGroup = await Group.findByPk(groupId);
   const targetUser = await User.findByPk(userId);
 
+  if (targetGroup.admin_id === targetUser.id) {
+    return res.status(400).json({
+      error: true,
+      message: "O Dono não pode se excluir do grupo que criou",
+    });
+  }
+
   if (!targetUser) {
     return res.status(400).json({
       error: true,
