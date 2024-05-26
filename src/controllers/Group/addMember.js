@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var _a = require("../../utils/models"), UserGroup = _a.UserGroup, Group = _a.Group, User = _a.User;
 var validateId = require("../../utils/validateId");
 var addMember = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_user, id_group, userId, groupId, userToAdd, groupToBelong, obj;
+    var _a, id_user, id_group, userId, groupId, userToAdd, groupToBelong, isInGroup, obj;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -76,11 +76,25 @@ var addMember = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             message: "Grupo não existe",
                         })];
                 }
+                return [4 /*yield*/, UserGroup.findOne({
+                        where: {
+                            id_member: userId,
+                            id_group: groupId,
+                        },
+                    })];
+            case 3:
+                isInGroup = _b.sent();
+                if (isInGroup) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "O Usuário já está no grupo",
+                        })];
+                }
                 return [4 /*yield*/, UserGroup.create({
                         id_member: userId,
                         id_group: groupId,
                     })];
-            case 3:
+            case 4:
                 obj = _b.sent();
                 if (!obj) {
                     return [2 /*return*/, res.status(500).json({

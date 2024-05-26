@@ -39,6 +39,20 @@ const addMember = async (req: Request, res: Response) => {
     });
   }
 
+  const isInGroup = await UserGroup.findOne({
+    where: {
+      id_member: userId,
+      id_group: groupId,
+    },
+  });
+
+  if (isInGroup) {
+    return res.status(400).json({
+      error: true,
+      message: "O Usuário já está no grupo",
+    });
+  }
+
   const obj = await UserGroup.create({
     id_member: userId,
     id_group: groupId,
