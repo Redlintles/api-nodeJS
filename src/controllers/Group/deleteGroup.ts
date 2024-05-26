@@ -4,7 +4,7 @@ const { isInRange } = require("../../utils/stringUtils");
 
 const validateId = require("../../utils/validateId");
 
-const { User, Group } = require("../../utils/models");
+const { User, Group, UserGroup, sequelizeConn } = require("../../utils/models");
 const deleteGroup = async (req: Request, res: Response) => {
   const { group_name, admin_id } = req.body;
 
@@ -47,12 +47,31 @@ const deleteGroup = async (req: Request, res: Response) => {
     });
   }
 
-  await group.destroy();
+  const transaction = await sequelizeConn.transaction();
 
-  return res.status(200).json({
-    error: false,
-    message: "Grupo Excluído com sucesso",
-  });
+  try {
+    await UserGroup.destroy({
+      where: {
+        id_member: admin_id,
+        id_group: group.id,
+      },
+    });
+    await group.destroy();
+
+    await transaction.commit();
+
+    return res.status(200).json({
+      error: false,
+      message: "Grupo Excluído com sucesso",
+    });
+  } catch {
+    await transaction.rollback();
+    return res.status(500).json({
+      error: true,
+      message:
+        "O Grupo não pode ser excluído por algum motivo desconhecido, tente novamente mais tarde",
+    });
+  }
 };
 
 module.exports = deleteGroup;

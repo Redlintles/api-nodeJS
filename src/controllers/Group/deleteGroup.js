@@ -38,11 +38,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var isInRange = require("../../utils/stringUtils").isInRange;
 var validateId = require("../../utils/validateId");
-var _a = require("../../utils/models"), User = _a.User, Group = _a.Group;
+var _a = require("../../utils/models"), User = _a.User, Group = _a.Group, UserGroup = _a.UserGroup, sequelizeConn = _a.sequelizeConn;
 var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, group_name, admin_id, userId, groupOwner, group;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var _a, group_name, admin_id, userId, groupOwner, group, transaction, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
                 _a = req.body, group_name = _a.group_name, admin_id = _a.admin_id;
                 userId = validateId(admin_id);
@@ -60,7 +60,7 @@ var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 }
                 return [4 /*yield*/, User.findByPk(admin_id)];
             case 1:
-                groupOwner = _b.sent();
+                groupOwner = _c.sent();
                 if (!groupOwner) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
@@ -74,20 +74,47 @@ var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                         },
                     })];
             case 2:
-                group = _b.sent();
+                group = _c.sent();
                 if (!group) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
                             message: "Grupo não existe",
                         })];
                 }
-                return [4 /*yield*/, group.destroy()];
+                return [4 /*yield*/, sequelizeConn.transaction()];
             case 3:
-                _b.sent();
+                transaction = _c.sent();
+                _c.label = 4;
+            case 4:
+                _c.trys.push([4, 8, , 10]);
+                return [4 /*yield*/, UserGroup.destroy({
+                        where: {
+                            id_member: admin_id,
+                            id_group: group.id,
+                        },
+                    })];
+            case 5:
+                _c.sent();
+                return [4 /*yield*/, group.destroy()];
+            case 6:
+                _c.sent();
+                return [4 /*yield*/, transaction.commit()];
+            case 7:
+                _c.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Grupo Excluído com sucesso",
                     })];
+            case 8:
+                _b = _c.sent();
+                return [4 /*yield*/, transaction.rollback()];
+            case 9:
+                _c.sent();
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "O Grupo não pode ser excluído por algum motivo desconhecido, tente novamente mais tarde",
+                    })];
+            case 10: return [2 /*return*/];
         }
     });
 }); };
