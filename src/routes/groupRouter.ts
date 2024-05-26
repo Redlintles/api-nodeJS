@@ -18,7 +18,7 @@ const getAllGroups = require("../controllers/Group/getAllGroups");
 const editGroup = require("../controllers/Group/editGroup");
 
 const addMember = require("../controllers/Group/addMember");
-
+const deleteMember = require("../controllers/Group/deleteMember");
 router.use(auth);
 router.post("/add", upload.single("banner"), createGroup);
 router.get("/getUserGroups", getUserGroups);
@@ -26,5 +26,6 @@ router.get("/getAllGroups", getAllGroups);
 router.put("/editGroup", upload.single("banner"), editGroup);
 router.delete("/delete", deleteGroup);
 router.post("/addMember", addMember);
+router.delete("/deleteMember", deleteMember);
 
 module.exports = router;
