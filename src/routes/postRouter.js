@@ -7,6 +7,7 @@ var getPostsByUserId = require("../controllers/Posts/getPostsByUserId");
 var editById = require("../controllers/Posts/editPostById");
 var deletePostById = require("../controllers/Posts/deletePostById");
 var addPostLike = require("../controllers/Posts/addPostLike");
+var removePostLike = require("../controllers/Posts/removePostLike");
 var multer = require("multer");
 var auth = require("../middlewares/auth");
 var upload = multer({
@@ -20,4 +21,5 @@ router.get("/getById", getPostById);
 router.get("/getPostsByUserId", getPostsByUserId);
 router.delete("/deleteById", deletePostById);
 router.post("/addPostLike", addPostLike);
+router.delete("/removePostLike", removePostLike);
 module.exports = router;
