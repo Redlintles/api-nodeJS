@@ -1,5 +1,10 @@
 import { Request, Response } from "express";
-const { Post } = require("../../utils/models");
+const {
+  Post,
+  PostLikes,
+  sequelizeConn,
+  Comment,
+} = require("../../utils/models");
 const validateId = require("../../utils/validateId");
 
 const deletePostById = async (req: Request, res: Response) => {
@@ -21,15 +26,38 @@ const deletePostById = async (req: Request, res: Response) => {
       error: true,
       message: "Post Not Found",
     });
-  } else {
+  }
+
+  const transaction = await sequelizeConn.transaction();
+
+  try {
+    await Comment.destroy({
+      where: {
+        id_post: postId,
+      },
+    });
+
+    await PostLikes.destroy({
+      where: {
+        id_post: postId,
+      },
+    });
     await Post.destroy({
       where: {
         id: postId,
       },
     });
+
+    await transaction.commit();
     return res.status(200).json({
       error: false,
       post,
+    });
+  } catch {
+    await transaction.rollback();
+    return res.status(500).json({
+      error: true,
+      message: "O Post não pode ser exclúido por algum motivo desconhecido",
     });
   }
 };
