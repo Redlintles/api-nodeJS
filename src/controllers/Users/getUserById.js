@@ -36,10 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _a = require("../../utils/models"), User = _a.User, Profile = _a.Profile;
+var _a = require("../../utils/models"), User = _a.User, Profile = _a.Profile, UserFriends = _a.UserFriends, UserFollower = _a.UserFollower, sequelizeConn = _a.sequelizeConn;
 var validateId = require("../../utils/validateId");
 var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, userId, object, profile;
+    var id, userId, transaction, object, profile, friends, followers, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -51,27 +51,71 @@ var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             message: userId,
                         })];
                 }
-                return [4 /*yield*/, User.findByPk(userId)];
+                return [4 /*yield*/, sequelizeConn.transaction()];
             case 1:
+                transaction = _a.sent();
+                _a.label = 2;
+            case 2:
+                _a.trys.push([2, 8, , 10]);
+                return [4 /*yield*/, User.findByPk(userId)];
+            case 3:
                 object = _a.sent();
                 return [4 /*yield*/, Profile.findOne({ where: { id_user: userId } })];
-            case 2:
+            case 4:
                 profile = _a.sent();
-                if (!object || !profile) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "User not found",
-                        })];
-                }
-                else {
-                    return [2 /*return*/, res.status(200).json({
-                            error: false,
-                            message: "SUCCESS",
-                            user: object,
-                            profile: profile,
-                        })];
-                }
-                return [2 /*return*/];
+                return [4 /*yield*/, UserFriends.findAll({
+                        where: { id_user: userId },
+                        attributes: [["id_friend", "id"]],
+                    })
+                        .then(function (data) {
+                        return data.map(function (item) { return parseInt(item.id); });
+                    })
+                        .then(function (data) {
+                        return User.findAll({
+                            where: {
+                                id: data,
+                            },
+                        });
+                    })];
+            case 5:
+                friends = _a.sent();
+                return [4 /*yield*/, UserFollower.findAll({
+                        where: { id_followed: userId },
+                        attributes: [["id_follower", "id"]],
+                    })
+                        .then(function (data) {
+                        return data.map(function (item) { return parseInt(item.id); });
+                    })
+                        .then(function (data) {
+                        return User.findAll({
+                            where: {
+                                id: data,
+                            },
+                        });
+                    })];
+            case 6:
+                followers = _a.sent();
+                return [4 /*yield*/, transaction.commit()];
+            case 7:
+                _a.sent();
+                return [2 /*return*/, res.status(200).json({
+                        error: false,
+                        user: object,
+                        profile: profile,
+                        friends: friends,
+                        followers: followers,
+                    })];
+            case 8:
+                err_1 = _a.sent();
+                return [4 /*yield*/, transaction.rollback()];
+            case 9:
+                _a.sent();
+                console.log(err_1);
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "Ocorreu um erro inesperado",
+                    })];
+            case 10: return [2 /*return*/];
         }
     });
 }); };
