@@ -6,6 +6,7 @@ const deleteById = require("../controllers/Users/deleteById");
 const editById = require("../controllers/Users/editById");
 
 const addFollower = require("../controllers/Users/addFollower");
+const removeFollower = require("../controllers/Users/removeFollower");
 
 const auth = require("../middlewares/auth");
 
@@ -15,5 +16,6 @@ router.get("/getById", getUserById);
 router.delete("/deleteById", deleteById);
 router.put("/editById", editById);
 router.post("/addFollower", addFollower);
+router.delete("/removeFollower", removeFollower);
 
 module.exports = router;
