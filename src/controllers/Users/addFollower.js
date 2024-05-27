@@ -58,10 +58,10 @@ var addFollower = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             message: followerId,
                         })];
                 }
-                return [4 /*yield*/, User.findByPk(id_followed)];
+                return [4 /*yield*/, User.findByPk(followedId)];
             case 1:
                 followed = _b.sent();
-                return [4 /*yield*/, User.findByPk(id_follower)];
+                return [4 /*yield*/, User.findByPk(followerId)];
             case 2:
                 follower = _b.sent();
                 if (!followed) {

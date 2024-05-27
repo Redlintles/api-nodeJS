@@ -22,8 +22,8 @@ const addFollower = async (req: Request, res: Response) => {
     });
   }
 
-  const followed = await User.findByPk(id_followed);
-  const follower = await User.findByPk(id_follower);
+  const followed = await User.findByPk(followedId);
+  const follower = await User.findByPk(followerId);
 
   if (!followed) {
     return res.status(400).json({
