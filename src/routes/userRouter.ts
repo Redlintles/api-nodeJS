@@ -10,7 +10,7 @@ const removeFollower = require("../controllers/Users/removeFollower");
 const addFriend = require("../controllers/Users/addFriend");
 const removeFriend = require("../controllers/Users/removeFriend");
 const userAddTag = require("../controllers/Users/userAddTag");
-
+const userRemoveTag = require("../controllers/Users/userRemoveTag");
 const auth = require("../middlewares/auth");
 
 router.use(auth);
@@ -23,5 +23,6 @@ router.delete("/removeFollower", removeFollower);
 router.post("/addFriend", addFriend);
 router.delete("/removeFriend", removeFriend);
 router.post("/userAddTag", userAddTag);
+router.delete("/userRemoveTag", userRemoveTag);
 
 module.exports = router;
