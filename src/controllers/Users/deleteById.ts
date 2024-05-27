@@ -10,6 +10,7 @@ const {
   Post,
   PostLikes,
   sequelizeConn,
+  UserTag,
 } = require("../../utils/models");
 
 const validateId = require("../../utils/validateId");
@@ -70,6 +71,12 @@ const deleteById = async (req: Request, res: Response) => {
     });
 
     await Profile.destroy({
+      where: {
+        id_user: userId,
+      },
+    });
+
+    await UserTag.destroy({
       where: {
         id_user: userId,
       },

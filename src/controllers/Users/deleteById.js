@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _a = require("../../utils/models"), User = _a.User, Profile = _a.Profile, UserFriends = _a.UserFriends, UserFollower = _a.UserFollower, Group = _a.Group, UserGroup = _a.UserGroup, Comment = _a.Comment, Post = _a.Post, PostLikes = _a.PostLikes, sequelizeConn = _a.sequelizeConn;
+var _a = require("../../utils/models"), User = _a.User, Profile = _a.Profile, UserFriends = _a.UserFriends, UserFollower = _a.UserFollower, Group = _a.Group, UserGroup = _a.UserGroup, Comment = _a.Comment, Post = _a.Post, PostLikes = _a.PostLikes, sequelizeConn = _a.sequelizeConn, UserTag = _a.UserTag;
 var validateId = require("../../utils/validateId");
 var deleteById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var id, userId, transaction, err_1;
@@ -56,7 +56,7 @@ var deleteById = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 transaction = _a.sent();
                 _a.label = 2;
             case 2:
-                _a.trys.push([2, 13, , 15]);
+                _a.trys.push([2, 14, , 16]);
                 console.log(userId);
                 return [4 /*yield*/, UserFriends.destroy({
                         where: {
@@ -114,30 +114,37 @@ var deleteById = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                     })];
             case 10:
                 _a.sent();
+                return [4 /*yield*/, UserTag.destroy({
+                        where: {
+                            id_user: userId,
+                        },
+                    })];
+            case 11:
+                _a.sent();
                 return [4 /*yield*/, User.destroy({
                         where: {
                             id: userId,
                         },
                     })];
-            case 11:
+            case 12:
                 _a.sent();
                 return [4 /*yield*/, transaction.commit()];
-            case 12:
+            case 13:
                 _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "User deleted succesfully",
                     })];
-            case 13:
+            case 14:
                 err_1 = _a.sent();
                 return [4 /*yield*/, transaction.rollback()];
-            case 14:
+            case 15:
                 _a.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: true,
                         message: "User does not exists",
                     })];
-            case 15: return [2 /*return*/];
+            case 16: return [2 /*return*/];
         }
     });
 }); };
