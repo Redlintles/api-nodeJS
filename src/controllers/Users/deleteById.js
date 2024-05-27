@@ -36,12 +36,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _a = require("../../utils/models"), User = _a.User, Profile = _a.Profile, sequelizeConn = _a.sequelizeConn;
+var _a = require("../../utils/models"), User = _a.User, Profile = _a.Profile, UserFriends = _a.UserFriends, UserFollower = _a.UserFollower, Group = _a.Group, UserGroup = _a.UserGroup, Comment = _a.Comment, Post = _a.Post, PostLikes = _a.PostLikes, sequelizeConn = _a.sequelizeConn;
 var validateId = require("../../utils/validateId");
 var deleteById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, userId, transaction, object, profile, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var id, userId, transaction, err_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
                 id = req.query.id;
                 userId = validateId(id);
@@ -53,44 +53,91 @@ var deleteById = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 }
                 return [4 /*yield*/, sequelizeConn.transaction()];
             case 1:
-                transaction = _b.sent();
-                _b.label = 2;
+                transaction = _a.sent();
+                _a.label = 2;
             case 2:
-                _b.trys.push([2, 8, , 10]);
-                return [4 /*yield*/, User.findByPk(userId)];
-            case 3:
-                object = _b.sent();
-                return [4 /*yield*/, Profile.findOne({
+                _a.trys.push([2, 13, , 15]);
+                console.log(userId);
+                return [4 /*yield*/, UserFriends.destroy({
                         where: {
                             id_user: userId,
                         },
                     })];
+            case 3:
+                _a.sent();
+                return [4 /*yield*/, Comment.destroy({
+                        where: {
+                            id_author: userId,
+                        },
+                    })];
             case 4:
-                profile = _b.sent();
-                return [4 /*yield*/, profile.destroy()];
+                _a.sent();
+                return [4 /*yield*/, UserGroup.destroy({
+                        where: {
+                            id_member: userId,
+                        },
+                    })];
             case 5:
-                _b.sent();
-                return [4 /*yield*/, object.destroy()];
+                _a.sent();
+                return [4 /*yield*/, Group.destroy({
+                        where: {
+                            admin_id: userId,
+                        },
+                    })];
             case 6:
-                _b.sent();
-                return [4 /*yield*/, transaction.commit()];
+                _a.sent();
+                return [4 /*yield*/, PostLikes.destroy({
+                        where: {
+                            id_user: userId,
+                        },
+                    })];
             case 7:
-                _b.sent();
+                _a.sent();
+                return [4 /*yield*/, Post.destroy({
+                        where: {
+                            id_author: userId,
+                        },
+                    })];
+            case 8:
+                _a.sent();
+                return [4 /*yield*/, UserFollower.destroy({
+                        where: {
+                            id_followed: userId,
+                        },
+                    })];
+            case 9:
+                _a.sent();
+                return [4 /*yield*/, Profile.destroy({
+                        where: {
+                            id_user: userId,
+                        },
+                    })];
+            case 10:
+                _a.sent();
+                return [4 /*yield*/, User.destroy({
+                        where: {
+                            id: userId,
+                        },
+                    })];
+            case 11:
+                _a.sent();
+                return [4 /*yield*/, transaction.commit()];
+            case 12:
+                _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "User deleted succesfully",
-                        user: object,
                     })];
-            case 8:
-                _a = _b.sent();
+            case 13:
+                err_1 = _a.sent();
                 return [4 /*yield*/, transaction.rollback()];
-            case 9:
-                _b.sent();
-                return [2 /*return*/, res.status(400).json({
+            case 14:
+                _a.sent();
+                return [2 /*return*/, res.status(500).json({
                         error: true,
-                        message: "User Not Found",
+                        message: "User does not exists",
                     })];
-            case 10: return [2 /*return*/];
+            case 15: return [2 /*return*/];
         }
     });
 }); };
