@@ -5,6 +5,8 @@ const {
   UserFriends,
   UserFollower,
   sequelizeConn,
+  UserTag,
+  Tag,
 } = require("../../utils/models");
 
 const validateId = require("../../utils/validateId");
@@ -55,6 +57,23 @@ const getUserById = async (req: Request, res: Response) => {
         });
       });
 
+    const tags = await UserTag.findAll({
+      where: {
+        id_user: userId,
+      },
+      attributes: [["id_tag", "id"]],
+    })
+      .then((data: any[]) => data.map((item: any) => parseInt(item.id)))
+      .then((data: number[]) => {
+        return Tag.findAll({
+          where: {
+            id: data,
+          },
+          attributes: ["tag_name"],
+        });
+      })
+      .then((data: any[]) => data.map((item: any) => item.tag_name));
+
     await transaction.commit();
 
     return res.status(200).json({
@@ -63,6 +82,7 @@ const getUserById = async (req: Request, res: Response) => {
       profile,
       friends,
       followers,
+      tags,
     });
   } catch (err) {
     await transaction.rollback();
