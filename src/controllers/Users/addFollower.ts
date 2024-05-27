@@ -22,6 +22,13 @@ const addFollower = async (req: Request, res: Response) => {
     });
   }
 
+  if (followedId === followerId) {
+    return res.status(400).json({
+      error: true,
+      message: "Um Usuário não pode seguir a si mesmo",
+    });
+  }
+
   const followed = await User.findByPk(followedId);
   const follower = await User.findByPk(followerId);
 

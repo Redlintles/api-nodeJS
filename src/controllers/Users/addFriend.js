@@ -58,6 +58,12 @@ var addFriend = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             message: userId,
                         })];
                 }
+                if (userId === friendId) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Um Usuário não pode ser amigo de si mesmo",
+                        })];
+                }
                 return [4 /*yield*/, User.findByPk(userId)];
             case 1:
                 user = _b.sent();

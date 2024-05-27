@@ -58,6 +58,12 @@ var addFollower = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             message: followerId,
                         })];
                 }
+                if (followedId === followerId) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Um Usuário não pode seguir a si mesmo",
+                        })];
+                }
                 return [4 /*yield*/, User.findByPk(followedId)];
             case 1:
                 followed = _b.sent();

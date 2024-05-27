@@ -22,6 +22,13 @@ const addFriend = async (req: Request, res: Response) => {
     });
   }
 
+  if (userId === friendId) {
+    return res.status(400).json({
+      error: true,
+      message: "Um Usuário não pode ser amigo de si mesmo",
+    });
+  }
+
   const user = await User.findByPk(userId);
   const friend = await User.findByPk(friendId);
 
