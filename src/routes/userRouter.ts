@@ -8,6 +8,7 @@ const editById = require("../controllers/Users/editById");
 const addFollower = require("../controllers/Users/addFollower");
 const removeFollower = require("../controllers/Users/removeFollower");
 const addFriend = require("../controllers/Users/addFriend");
+const removeFriend = require("../controllers/Users/removeFriend");
 
 const auth = require("../middlewares/auth");
 
@@ -19,5 +20,6 @@ router.put("/editById", editById);
 router.post("/addFollower", addFollower);
 router.delete("/removeFollower", removeFollower);
 router.post("/addFriend", addFriend);
+router.delete("/removeFriend", removeFriend);
 
 module.exports = router;
