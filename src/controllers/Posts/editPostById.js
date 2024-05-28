@@ -48,20 +48,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Post = require("../../utils/models").Post;
-var validateId = require("../../utils/validateId");
 var editPostById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, postId, maxSize, post, old, obj2;
+    var id, maxSize, post, old, obj2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 id = req.query.id;
-                postId = validateId(id);
-                if (typeof postId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: postId,
-                        })];
-                }
                 maxSize = process.env.MAX_IMAGE_SIZE
                     ? parseInt(process.env.MAX_IMAGE_SIZE)
                     : 500000;
@@ -71,16 +63,9 @@ var editPostById = function (req, res) { return __awaiter(void 0, void 0, void 0
                         message: "Image is too big(max size is 500kb)",
                     });
                 }
-                return [4 /*yield*/, Post.findByPk(postId)];
+                return [4 /*yield*/, Post.findByPk(id)];
             case 1:
                 post = _a.sent();
-                if (!!post) return [3 /*break*/, 2];
-                res.status(400).json({
-                    error: true,
-                    message: "Post not found for edit",
-                });
-                return [3 /*break*/, 4];
-            case 2:
                 old = {
                     id_author: post.id_author,
                     title: post.title,
@@ -95,19 +80,17 @@ var editPostById = function (req, res) { return __awaiter(void 0, void 0, void 0
                 }
                 return [4 /*yield*/, Post.update(obj2, {
                         where: {
-                            id: postId,
+                            id: id,
                         },
                     })];
-            case 3:
+            case 2:
                 _a.sent();
-                res.status(200).json({
-                    error: false,
-                    message: "Post Updated Successfully",
-                    old: old,
-                    new: obj2,
-                });
-                _a.label = 4;
-            case 4: return [2 /*return*/];
+                return [2 /*return*/, res.status(200).json({
+                        error: false,
+                        message: "Post Updated Successfully",
+                        old: old,
+                        new: obj2,
+                    })];
         }
     });
 }); };
