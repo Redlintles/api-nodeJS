@@ -36,59 +36,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var validateId = require("../../utils/validateId");
-var _a = require("../../utils/models"), User = _a.User, UserFollower = _a.UserFollower;
+var UserFollower = require("../../utils/models").UserFollower;
 var addFollower = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_follower, id_followed, followerId, followedId, followed, follower, alreadyExists, relationship;
+    var _a, id_follower, id_followed, alreadyExists, relationship;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, id_follower = _a.id_follower, id_followed = _a.id_followed;
-                followerId = validateId(id_follower);
-                followedId = validateId(id_followed);
-                if (typeof followedId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: followedId,
-                        })];
-                }
-                if (typeof followerId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: followerId,
-                        })];
-                }
-                if (followedId === followerId) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Um Usuário não pode seguir a si mesmo",
-                        })];
-                }
-                return [4 /*yield*/, User.findByPk(followedId)];
-            case 1:
-                followed = _b.sent();
-                return [4 /*yield*/, User.findByPk(followerId)];
-            case 2:
-                follower = _b.sent();
-                if (!followed) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Followed user doesn't exists",
-                        })];
-                }
-                if (!follower) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Follower user doesn't exists",
-                        })];
-                }
                 return [4 /*yield*/, UserFollower.findOne({
                         where: {
-                            id_followed: followedId,
-                            id_follower: followerId,
+                            id_followed: id_followed,
+                            id_follower: id_follower,
                         },
                     })];
-            case 3:
+            case 1:
                 alreadyExists = _b.sent();
                 if (alreadyExists) {
                     return [2 /*return*/, res.status(400).json({
@@ -97,10 +58,10 @@ var addFollower = function (req, res) { return __awaiter(void 0, void 0, void 0,
                         })];
                 }
                 return [4 /*yield*/, UserFollower.create({
-                        id_followed: followedId,
-                        id_follower: followerId,
+                        id_followed: id_followed,
+                        id_follower: id_follower,
                     })];
-            case 4:
+            case 2:
                 relationship = _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
