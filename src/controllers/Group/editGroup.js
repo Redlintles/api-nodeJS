@@ -37,10 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var isInRange = require("../../utils/stringUtils").isInRange;
-var validateId = require("../../utils/validateId");
-var _a = require("../../utils/models"), User = _a.User, Group = _a.Group;
+var Group = require("../../utils/models").Group;
 var editGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, group_id, admin_id, group_name, group_desc, maxSize, userId, groupOwner, groupId, group, obj;
+    var _a, group_id, admin_id, group_name, group_desc, maxSize, group, obj;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -54,36 +53,13 @@ var editGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             message: "A Mensagem é muito grande",
                         })];
                 }
-                userId = validateId(admin_id);
-                if (typeof userId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: userId,
-                        })];
-                }
-                return [4 /*yield*/, User.findByPk(userId)];
-            case 1:
-                groupOwner = _b.sent();
-                if (!groupOwner) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Usuário Não Existe",
-                        })];
-                }
-                groupId = validateId(group_id);
-                if (typeof groupId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: groupId,
-                        })];
-                }
                 return [4 /*yield*/, Group.findOne({
                         where: {
-                            id: groupId,
-                            admin_id: userId,
+                            id: group_id,
+                            admin_id: admin_id,
                         },
                     })];
-            case 2:
+            case 1:
                 group = _b.sent();
                 if (!group) {
                     return [2 /*return*/, res.status(400).json({
@@ -110,11 +86,11 @@ var editGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 };
                 return [4 /*yield*/, Group.update(obj, {
                         where: {
-                            admin_id: userId,
-                            id: groupId,
+                            admin_id: admin_id,
+                            id: group_id,
                         },
                     })];
-            case 3:
+            case 2:
                 _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,

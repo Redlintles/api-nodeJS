@@ -9,8 +9,7 @@ interface ImageRequest extends Request {
 }
 
 const { isInRange } = require("../../utils/stringUtils");
-const validateId = require("../../utils/validateId");
-const { User, Group } = require("../../utils/models");
+const { Group } = require("../../utils/models");
 
 const editGroup = async (req: ImageRequest, res: Response) => {
   const { group_id, admin_id, group_name, group_desc } = req.body;
@@ -26,36 +25,10 @@ const editGroup = async (req: ImageRequest, res: Response) => {
     });
   }
 
-  let userId = validateId(admin_id);
-
-  if (typeof userId === "string") {
-    return res.status(400).json({
-      error: true,
-      message: userId,
-    });
-  }
-
-  const groupOwner = await User.findByPk(userId);
-
-  if (!groupOwner) {
-    return res.status(400).json({
-      error: true,
-      message: "Usuário Não Existe",
-    });
-  }
-
-  let groupId = validateId(group_id);
-
-  if (typeof groupId === "string") {
-    return res.status(400).json({
-      error: true,
-      message: groupId,
-    });
-  }
   const group = await Group.findOne({
     where: {
-      id: groupId,
-      admin_id: userId,
+      id: group_id,
+      admin_id: admin_id,
     },
   });
 
@@ -87,8 +60,8 @@ const editGroup = async (req: ImageRequest, res: Response) => {
 
   await Group.update(obj, {
     where: {
-      admin_id: userId,
-      id: groupId,
+      admin_id,
+      id: group_id,
     },
   });
 
