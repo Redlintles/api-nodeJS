@@ -37,31 +37,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Comment = require("../../utils/models").Comment;
-var validateId = require("../../utils/validateId");
 var isInRange = require("../../utils/stringUtils").isInRange;
 var editComment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, text, commentId, comment;
+    var id, text, comment;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 id = req.query.id;
                 text = req.body.comment;
-                commentId = validateId(id);
-                if (typeof commentId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: commentId,
-                        })];
-                }
-                return [4 /*yield*/, Comment.findByPk(commentId)];
+                return [4 /*yield*/, Comment.findByPk(id)];
             case 1:
                 comment = _a.sent();
-                if (!comment) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Comentário não existe",
-                        })];
-                }
                 if (!isInRange(text, 0, 200)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
@@ -72,7 +58,7 @@ var editComment = function (req, res) { return __awaiter(void 0, void 0, void 0,
                         comment: text,
                     }, {
                         where: {
-                            id: commentId,
+                            id: id,
                         },
                     })];
             case 2:

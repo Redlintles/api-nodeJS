@@ -1,30 +1,14 @@
 import { Request, Response } from "express";
 
 const { Comment } = require("../../utils/models");
-const validateId = require("../../utils/validateId");
 const { isInRange } = require("../../utils/stringUtils");
 
 const editComment = async (req: Request, res: Response) => {
   let { id } = req.query;
   let { comment: text } = req.body;
 
-  let commentId = validateId(id);
+  const comment = await Comment.findByPk(id);
 
-  if (typeof commentId === "string") {
-    return res.status(400).json({
-      error: true,
-      message: commentId,
-    });
-  }
-
-  const comment = await Comment.findByPk(commentId);
-
-  if (!comment) {
-    return res.status(400).json({
-      error: true,
-      message: "Comentário não existe",
-    });
-  }
   if (!isInRange(text, 0, 200)) {
     return res.status(400).json({
       error: true,
@@ -38,7 +22,7 @@ const editComment = async (req: Request, res: Response) => {
     },
     {
       where: {
-        id: commentId,
+        id,
       },
     }
   );
