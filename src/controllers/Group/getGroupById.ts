@@ -1,19 +1,10 @@
 import { Request, Response } from "express";
-const validateId = require("../../utils/validateId");
 const { Group, UserGroup, User } = require("../../utils/models");
 
 const getGroupById = async (req: Request, res: Response) => {
   const { id_group } = req.query;
 
-  const groupId = validateId(id_group);
-
-  if (typeof groupId === "string") {
-    return res.status(400).json({
-      error: true,
-      message: groupId,
-    });
-  }
-  const targetGroup = await Group.findByPk(groupId);
+  const targetGroup = await Group.findByPk(id_group);
 
   if (!targetGroup) {
     return res.status(400).json({
@@ -25,7 +16,7 @@ const getGroupById = async (req: Request, res: Response) => {
   // Get Details of every user in the specified group
   const userDetails = await UserGroup.findAll({
     where: {
-      id_group: groupId,
+      id_group,
     },
     attributes: [["id_member", "id"]],
   })

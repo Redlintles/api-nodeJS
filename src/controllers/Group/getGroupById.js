@@ -36,22 +36,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var validateId = require("../../utils/validateId");
 var _a = require("../../utils/models"), Group = _a.Group, UserGroup = _a.UserGroup, User = _a.User;
 var getGroupById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id_group, groupId, targetGroup, userDetails;
+    var id_group, targetGroup, userDetails;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 id_group = req.query.id_group;
-                groupId = validateId(id_group);
-                if (typeof groupId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: groupId,
-                        })];
-                }
-                return [4 /*yield*/, Group.findByPk(groupId)];
+                return [4 /*yield*/, Group.findByPk(id_group)];
             case 1:
                 targetGroup = _a.sent();
                 if (!targetGroup) {
@@ -62,7 +54,7 @@ var getGroupById = function (req, res) { return __awaiter(void 0, void 0, void 0
                 }
                 return [4 /*yield*/, UserGroup.findAll({
                         where: {
-                            id_group: groupId,
+                            id_group: id_group,
                         },
                         attributes: [["id_member", "id"]],
                     })
