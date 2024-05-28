@@ -37,29 +37,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var _a = require("../../utils/models"), Post = _a.Post, PostLikes = _a.PostLikes, Comment = _a.Comment, sequelizeConn = _a.sequelizeConn;
-var validateId = require("../../utils/validateId");
 var getPostById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id_post, postId, post, transaction, comments, likes, _a;
+    var id_post, post, transaction, comments, likes, _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 id_post = req.query.id_post;
-                postId = validateId(id_post);
-                if (typeof postId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: postId,
-                        })];
-                }
-                return [4 /*yield*/, Post.findByPk(postId)];
+                return [4 /*yield*/, Post.findByPk(id_post)];
             case 1:
                 post = _b.sent();
-                if (!post) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Post not found",
-                        })];
-                }
                 return [4 /*yield*/, sequelizeConn.transaction()];
             case 2:
                 transaction = _b.sent();
@@ -68,14 +54,14 @@ var getPostById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 _b.trys.push([3, 6, , 7]);
                 return [4 /*yield*/, Comment.findAll({
                         where: {
-                            id_post: postId,
+                            id_post: id_post,
                         },
                     })];
             case 4:
                 comments = _b.sent();
                 return [4 /*yield*/, PostLikes.findAll({
                         where: {
-                            id_post: postId,
+                            id_post: id_post,
                         },
                     })];
             case 5:
