@@ -15,12 +15,10 @@ router.post(
   idValidator([
     {
       fieldStr: "id_author",
-      tableField: "id",
       fieldObj: models.User,
     },
     {
       fieldStr: "id_post",
-      tableField: "id",
       fieldObj: models.Post,
     },
   ]),
@@ -32,7 +30,6 @@ router.delete(
     [
       {
         fieldStr: "id",
-        tableField: "id",
         fieldObj: models.Comment,
       },
     ],
@@ -47,7 +44,6 @@ router.get(
     [
       {
         fieldStr: "id",
-        tableField: "id",
         fieldObj: models.Comment,
       },
     ],
@@ -62,7 +58,6 @@ router.put(
     [
       {
         fieldStr: "id",
-        tableField: "id",
         fieldObj: models.Comment,
       },
     ],

@@ -12,33 +12,28 @@ router.use(auth);
 router.post("/add", idValidator([
     {
         fieldStr: "id_author",
-        tableField: "id",
         fieldObj: models.User,
     },
     {
         fieldStr: "id_post",
-        tableField: "id",
         fieldObj: models.Post,
     },
 ]), createComment);
 router.delete("/deleteById", idValidator([
     {
         fieldStr: "id",
-        tableField: "id",
         fieldObj: models.Comment,
     },
 ], false, true), deleteCommentById);
 router.get("/getById", idValidator([
     {
         fieldStr: "id",
-        tableField: "id",
         fieldObj: models.Comment,
     },
 ], false, true), getCommentById);
 router.put("/editById", idValidator([
     {
         fieldStr: "id",
-        tableField: "id",
         fieldObj: models.Comment,
     },
 ], false, true), editComment);
