@@ -13,78 +13,66 @@ const {
   UserTag,
 } = require("../../utils/models");
 
-const validateId = require("../../utils/validateId");
-
 const deleteById = async (req: Request, res: Response) => {
   const { id } = req.query;
-
-  let userId = validateId(id);
-
-  if (typeof userId === "string") {
-    return res.status(400).json({
-      error: true,
-      message: userId,
-    });
-  }
 
   const transaction = await sequelizeConn.transaction();
 
   try {
-    console.log(userId);
     await UserFriends.destroy({
       where: {
-        id_user: userId,
+        id_user: id,
       },
     });
 
     await Comment.destroy({
       where: {
-        id_author: userId,
+        id_author: id,
       },
     });
 
     await UserGroup.destroy({
       where: {
-        id_member: userId,
+        id_member: id,
       },
     });
     await Group.destroy({
       where: {
-        admin_id: userId,
+        admin_id: id,
       },
     });
     await PostLikes.destroy({
       where: {
-        id_user: userId,
+        id_user: id,
       },
     });
     await Post.destroy({
       where: {
-        id_author: userId,
+        id_author: id,
       },
     });
 
     await UserFollower.destroy({
       where: {
-        id_followed: userId,
+        id_followed: id,
       },
     });
 
     await Profile.destroy({
       where: {
-        id_user: userId,
+        id_user: id,
       },
     });
 
     await UserTag.destroy({
       where: {
-        id_user: userId,
+        id_user: id,
       },
     });
 
     await User.destroy({
       where: {
-        id: userId,
+        id: id,
       },
     });
 
