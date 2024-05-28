@@ -2,50 +2,38 @@ import { Request, Response } from "express";
 const { User } = require("../../utils/models");
 const validateEditObj = require("../../utils/validateEditObj");
 
-const validateId = require("../../utils/validateId");
 const editById = async (req: Request, res: Response) => {
   const { id } = req.query;
 
-  let userId = validateId(id);
+  const object = await User.findByPk(id);
 
-  if (typeof userId === "string") {
+  const old = {
+    username: object.username,
+    email: object.email,
+    password: object.password,
+    phone_number: object.phone_number,
+  };
+
+  const result = validateEditObj(old, req.body);
+
+  if (typeof result == "string") {
     return res.status(400).json({
       error: true,
-      message: userId,
+      message: result,
     });
-  }
+  } else {
+    await User.update(result, {
+      where: { id },
+    });
 
-  const object = await User.findByPk(userId);
+    const after = await User.findByPk(id);
 
-  if (object) {
-    const old = {
-      username: object.username,
-      email: object.email,
-      password: object.password,
-      phone_number: object.phone_number,
-    };
-
-    const result = validateEditObj(old, req.body);
-
-    if (typeof result == "string") {
-      return res.status(400).json({
-        error: true,
-        message: result,
-      });
-    } else {
-      await User.update(result, {
-        where: { id: userId },
-      });
-
-      const after = await User.findByPk(userId);
-
-      return res.status(200).json({
-        error: false,
-        message: "User Updated Successfully",
-        old: object,
-        after,
-      });
-    }
+    return res.status(200).json({
+      error: false,
+      message: "User Updated Successfully",
+      old: object,
+      after,
+    });
   }
 };
 

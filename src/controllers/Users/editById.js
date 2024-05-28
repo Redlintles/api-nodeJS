@@ -38,24 +38,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var User = require("../../utils/models").User;
 var validateEditObj = require("../../utils/validateEditObj");
-var validateId = require("../../utils/validateId");
 var editById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, userId, object, old, result, after;
+    var id, object, old, result, after;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 id = req.query.id;
-                userId = validateId(id);
-                if (typeof userId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: userId,
-                        })];
-                }
-                return [4 /*yield*/, User.findByPk(userId)];
+                return [4 /*yield*/, User.findByPk(id)];
             case 1:
                 object = _a.sent();
-                if (!object) return [3 /*break*/, 5];
                 old = {
                     username: object.username,
                     email: object.email,
@@ -69,11 +60,11 @@ var editById = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                         message: result,
                     })];
             case 2: return [4 /*yield*/, User.update(result, {
-                    where: { id: userId },
+                    where: { id: id },
                 })];
             case 3:
                 _a.sent();
-                return [4 /*yield*/, User.findByPk(userId)];
+                return [4 /*yield*/, User.findByPk(id)];
             case 4:
                 after = _a.sent();
                 return [2 /*return*/, res.status(200).json({
@@ -82,7 +73,6 @@ var editById = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                         old: object,
                         after: after,
                     })];
-            case 5: return [2 /*return*/];
         }
     });
 }); };
