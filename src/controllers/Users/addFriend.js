@@ -36,59 +36,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var validateId = require("../../utils/validateId");
-var _a = require("../../utils/models"), User = _a.User, UserFriends = _a.UserFriends;
+var UserFriends = require("../../utils/models").UserFriends;
 var addFriend = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_user, id_friend, userId, friendId, user, friend, alreadyExists, relationship;
+    var _a, id_user, id_friend, alreadyExists, relationship;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, id_user = _a.id_user, id_friend = _a.id_friend;
-                userId = validateId(id_user);
-                friendId = validateId(id_friend);
-                if (typeof friendId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: friendId,
-                        })];
-                }
-                if (typeof userId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: userId,
-                        })];
-                }
-                if (userId === friendId) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Um Usuário não pode ser amigo de si mesmo",
-                        })];
-                }
-                return [4 /*yield*/, User.findByPk(userId)];
-            case 1:
-                user = _b.sent();
-                return [4 /*yield*/, User.findByPk(friendId)];
-            case 2:
-                friend = _b.sent();
-                if (!user) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "user doesn't exists",
-                        })];
-                }
-                if (!friend) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "friend user doesn't exists",
-                        })];
-                }
                 return [4 /*yield*/, UserFriends.findOne({
                         where: {
-                            id_user: userId,
-                            id_friend: friendId,
+                            id_user: id_user,
+                            id_friend: id_friend,
                         },
                     })];
-            case 3:
+            case 1:
                 alreadyExists = _b.sent();
                 if (alreadyExists) {
                     return [2 /*return*/, res.status(400).json({
@@ -97,10 +58,10 @@ var addFriend = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                         })];
                 }
                 return [4 /*yield*/, UserFriends.create({
-                        id_friend: friendId,
-                        id_user: userId,
+                        id_friend: id_friend,
+                        id_user: id_user,
                     })];
-            case 4:
+            case 2:
                 relationship = _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
