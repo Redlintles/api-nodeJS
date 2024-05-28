@@ -36,32 +36,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var validateId = require("../../utils/validateId");
 var _a = require("../../utils/models"), Group = _a.Group, User = _a.User, UserGroup = _a.UserGroup;
 var deleteMember = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_member, id_group, userId, groupId, targetGroup, targetUser, groupMember;
+    var _a, id_member, id_group, targetGroup, targetUser, groupMember;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, id_member = _a.id_member, id_group = _a.id_group;
-                userId = validateId(id_member);
-                groupId = validateId(id_group);
-                if (typeof userId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: userId,
-                        })];
-                }
-                if (typeof groupId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: groupId,
-                        })];
-                }
-                return [4 /*yield*/, Group.findByPk(groupId)];
+                return [4 /*yield*/, Group.findByPk(id_group)];
             case 1:
                 targetGroup = _b.sent();
-                return [4 /*yield*/, User.findByPk(userId)];
+                return [4 /*yield*/, User.findByPk(id_member)];
             case 2:
                 targetUser = _b.sent();
                 if (targetGroup.admin_id === targetUser.id) {
@@ -70,22 +55,10 @@ var deleteMember = function (req, res) { return __awaiter(void 0, void 0, void 0
                             message: "O Dono não pode se excluir do grupo que criou",
                         })];
                 }
-                if (!targetUser) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Usuário não existe",
-                        })];
-                }
-                if (!targetGroup) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Grupo Não existe",
-                        })];
-                }
                 return [4 /*yield*/, UserGroup.findOne({
                         where: {
-                            id_member: userId,
-                            id_group: groupId,
+                            id_member: id_member,
+                            id_group: id_group,
                         },
                     })];
             case 3:
