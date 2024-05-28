@@ -36,53 +36,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var validateId = require("../../utils/validateId");
-var _a = require("../../utils/models"), User = _a.User, Tag = _a.Tag, UserTag = _a.UserTag;
+var UserTag = require("../../utils/models").UserTag;
 var userAddTag = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_tag, id_user, tagId, userId, targetUser, targetTag, alreadyExists;
+    var _a, id_tag, id_user, alreadyExists;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, id_tag = _a.id_tag, id_user = _a.id_user;
-                tagId = validateId(id_tag);
-                userId = validateId(id_user);
-                if (typeof tagId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: tagId,
-                        })];
-                }
-                if (typeof userId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: userId,
-                        })];
-                }
-                return [4 /*yield*/, User.findByPk(userId)];
-            case 1:
-                targetUser = _b.sent();
-                return [4 /*yield*/, Tag.findByPk(tagId)];
-            case 2:
-                targetTag = _b.sent();
-                if (!targetTag) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Tag Doesn't exists",
-                        })];
-                }
-                if (!targetUser) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "User Doesn't exists",
-                        })];
-                }
                 return [4 /*yield*/, UserTag.findOne({
                         where: {
-                            id_user: userId,
-                            id_tag: tagId,
+                            id_user: id_user,
+                            id_tag: id_tag,
                         },
                     })];
-            case 3:
+            case 1:
                 alreadyExists = _b.sent();
                 if (alreadyExists) {
                     return [2 /*return*/, res.status(400).json({
@@ -91,10 +58,10 @@ var userAddTag = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                         })];
                 }
                 return [4 /*yield*/, UserTag.create({
-                        id_tag: tagId,
-                        id_user: userId,
+                        id_tag: id_tag,
+                        id_user: id_user,
                     })];
-            case 4:
+            case 2:
                 _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
