@@ -36,7 +36,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var validateId = require("../../utils/validateId");
 var Comment = require("../../utils/models").Comment;
 var deleteCommentById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var commentId, register;
@@ -44,33 +43,20 @@ var deleteCommentById = function (req, res) { return __awaiter(void 0, void 0, v
         switch (_a.label) {
             case 0:
                 commentId = req.query.id;
-                commentId = validateId(commentId);
-                if (typeof commentId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: commentId,
-                        })];
-                }
                 return [4 /*yield*/, Comment.findByPk(commentId)];
             case 1:
                 register = _a.sent();
-                if (!!register) return [3 /*break*/, 2];
-                return [2 /*return*/, res.status(400).json({
-                        error: true,
-                        message: "Comentário não existe",
-                    })];
-            case 2:
-                if (!!register.belongs_to) return [3 /*break*/, 4];
+                if (!!register.belongs_to) return [3 /*break*/, 3];
                 return [4 /*yield*/, Comment.destroy({
                         where: {
                             belongs_to: register.id,
                         },
                     })];
-            case 3:
+            case 2:
                 _a.sent();
-                _a.label = 4;
-            case 4: return [4 /*yield*/, register.destroy()];
-            case 5:
+                _a.label = 3;
+            case 3: return [4 /*yield*/, register.destroy()];
+            case 4:
                 _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
