@@ -36,53 +36,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var validateId = require("../../utils/validateId");
-var _a = require("../../utils/models"), User = _a.User, Post = _a.Post, PostLikes = _a.PostLikes;
+var PostLikes = require("../../utils/models").PostLikes;
 var removePostLike = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_user, id_post, userId, postId, targetPost, targetUser, likeExists;
+    var _a, id_user, id_post, likeExists;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, id_user = _a.id_user, id_post = _a.id_post;
-                userId = validateId(id_user);
-                postId = validateId(id_post);
-                if (typeof userId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: userId,
-                        })];
-                }
-                if (typeof postId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: postId,
-                        })];
-                }
-                return [4 /*yield*/, Post.findByPk(postId)];
-            case 1:
-                targetPost = _b.sent();
-                return [4 /*yield*/, User.findByPk(userId)];
-            case 2:
-                targetUser = _b.sent();
-                if (!targetPost) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Post não existe",
-                        })];
-                }
-                if (!targetUser) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Usuário Não existe",
-                        })];
-                }
                 return [4 /*yield*/, PostLikes.findOne({
                         where: {
-                            id_post: postId,
-                            id_user: userId,
+                            id_post: id_post,
+                            id_user: id_user,
                         },
                     })];
-            case 3:
+            case 1:
                 likeExists = _b.sent();
                 if (!likeExists) {
                     return [2 /*return*/, res.status(400).json({
@@ -91,7 +58,7 @@ var removePostLike = function (req, res) { return __awaiter(void 0, void 0, void
                         })];
                 }
                 return [4 /*yield*/, likeExists.destroy()];
-            case 4:
+            case 2:
                 _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
