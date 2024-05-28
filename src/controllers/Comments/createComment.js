@@ -39,28 +39,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Comment = require("../../utils/models").Comment;
 var validateId = require("../../utils/validateId");
 var isInRange = require("../../utils/stringUtils").isInRange;
-var User = require("../../utils/models").User;
-var Post = require("../../utils/models").Post;
 var createComment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_author, id_post, belongs_to, comment, origin_1, author, post, register;
+    var _a, id_author, id_post, belongs_to, comment, origin_1, register;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, id_author = _a.id_author, id_post = _a.id_post, belongs_to = _a.belongs_to, comment = _a.comment;
-                id_post = validateId(id_post);
-                if (typeof id_post === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: id_post,
-                        })];
-                }
-                id_author = validateId(id_author);
-                if (typeof id_author === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: id_author,
-                        })];
-                }
                 if (belongs_to) {
                     belongs_to = validateId(belongs_to);
                     if (typeof belongs_to === "string") {
@@ -90,24 +74,7 @@ var createComment = function (req, res) { return __awaiter(void 0, void 0, void 
                         })];
                 }
                 _b.label = 2;
-            case 2: return [4 /*yield*/, User.findByPk(id_author)];
-            case 3:
-                author = _b.sent();
-                return [4 /*yield*/, Post.findByPk(id_post)];
-            case 4:
-                post = _b.sent();
-                if (!author) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Autor do post não existe",
-                        })];
-                }
-                if (!post) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Post Não existe",
-                        })];
-                }
+            case 2:
                 if (!isInRange(comment, 0, 200)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
@@ -120,7 +87,7 @@ var createComment = function (req, res) { return __awaiter(void 0, void 0, void 
                         comment: comment,
                         belongs_to: belongs_to,
                     })];
-            case 5:
+            case 3:
                 register = _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
