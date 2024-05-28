@@ -36,53 +36,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var validateId = require("../../utils/validateId");
-var _a = require("../../utils/models"), User = _a.User, UserFriends = _a.UserFriends;
+var UserFriends = require("../../utils/models").UserFriends;
 var removeFriend = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_user, id_friend, userId, friendId, friend, user, alreadyExists;
+    var _a, id_user, id_friend, alreadyExists;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, id_user = _a.id_user, id_friend = _a.id_friend;
-                userId = validateId(id_user);
-                friendId = validateId(id_friend);
-                if (typeof friendId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: friendId,
-                        })];
-                }
-                if (typeof userId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: userId,
-                        })];
-                }
-                return [4 /*yield*/, User.findByPk(friendId)];
-            case 1:
-                friend = _b.sent();
-                return [4 /*yield*/, User.findByPk(userId)];
-            case 2:
-                user = _b.sent();
-                if (!friend) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Friend user doesn't exists",
-                        })];
-                }
-                if (!user) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "User doesn't exists",
-                        })];
-                }
                 return [4 /*yield*/, UserFriends.findOne({
                         where: {
-                            id_friend: friendId,
-                            id_user: userId,
+                            id_friend: id_friend,
+                            id_user: id_user,
                         },
                     })];
-            case 3:
+            case 1:
                 alreadyExists = _b.sent();
                 if (!alreadyExists) {
                     return [2 /*return*/, res.status(400).json({
@@ -91,7 +58,7 @@ var removeFriend = function (req, res) { return __awaiter(void 0, void 0, void 0
                         })];
                 }
                 return [4 /*yield*/, alreadyExists.destroy()];
-            case 4:
+            case 2:
                 _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
