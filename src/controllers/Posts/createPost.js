@@ -62,12 +62,6 @@ var createPost = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 return [4 /*yield*/, User.findByPk(parseInt(obj.id_author))];
             case 1:
                 author = _a.sent();
-                if (!author) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Usuário não encontrado",
-                        })];
-                }
                 if (Object.values(obj).includes(undefined) && obj.image !== undefined) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,

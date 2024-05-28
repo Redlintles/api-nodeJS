@@ -32,13 +32,6 @@ const createPost = async (req: ImageRequest, res: Response) => {
 
   const author = await User.findByPk(parseInt(obj.id_author));
 
-  if (!author) {
-    return res.status(400).json({
-      error: true,
-      message: "Usuário não encontrado",
-    });
-  }
-
   if (Object.values(obj).includes(undefined) && obj.image !== undefined) {
     return res.status(400).json({
       error: true,
