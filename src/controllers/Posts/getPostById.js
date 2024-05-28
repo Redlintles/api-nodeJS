@@ -36,9 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _a = require("../../utils/models"), Post = _a.Post, PostLikes = _a.PostLikes, Comment = _a.Comment, sequelizeConn = _a.sequelizeConn;
+var _a = require("../../utils/models"), Post = _a.Post, PostLikes = _a.PostLikes, Comment = _a.Comment, User = _a.User, sequelizeConn = _a.sequelizeConn;
 var getPostById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id_post, post, transaction, comments, likes, _a;
+    var id_post, post, transaction, author, comments, likes, _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -51,32 +51,45 @@ var getPostById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 transaction = _b.sent();
                 _b.label = 3;
             case 3:
-                _b.trys.push([3, 6, , 7]);
+                _b.trys.push([3, 8, , 10]);
+                return [4 /*yield*/, User.findByPk(post.id_author)];
+            case 4:
+                author = _b.sent();
                 return [4 /*yield*/, Comment.findAll({
                         where: {
                             id_post: id_post,
                         },
                     })];
-            case 4:
+            case 5:
                 comments = _b.sent();
                 return [4 /*yield*/, PostLikes.findAll({
                         where: {
                             id_post: id_post,
                         },
                     })];
-            case 5:
+            case 6:
                 likes = _b.sent();
+                return [4 /*yield*/, transaction.commit()];
+            case 7:
+                _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Post found successfully",
                         obj: post,
+                        author: author,
                         comments: comments,
                         likes: likes.length,
                     })];
-            case 6:
+            case 8:
                 _a = _b.sent();
-                return [3 /*break*/, 7];
-            case 7: return [2 /*return*/];
+                return [4 /*yield*/, transaction.rollback()];
+            case 9:
+                _b.sent();
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "Um erro inesperado aconteceu, tente novamente mais tarde",
+                    })];
+            case 10: return [2 /*return*/];
         }
     });
 }); };

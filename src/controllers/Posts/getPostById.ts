@@ -4,6 +4,7 @@ const {
   Post,
   PostLikes,
   Comment,
+  User,
   sequelizeConn,
 } = require("../../utils/models");
 
@@ -14,6 +15,7 @@ const getPostById = async (req: Request, res: Response) => {
 
   const transaction = await sequelizeConn.transaction();
   try {
+    const author = await User.findByPk(post.id_author);
     const comments = await Comment.findAll({
       where: {
         id_post: id_post,
@@ -26,14 +28,23 @@ const getPostById = async (req: Request, res: Response) => {
       },
     });
 
+    await transaction.commit();
+
     return res.status(200).json({
       error: false,
       message: "Post found successfully",
       obj: post,
+      author,
       comments,
       likes: likes.length,
     });
-  } catch {}
+  } catch {
+    await transaction.rollback();
+    return res.status(500).json({
+      error: true,
+      message: "Um erro inesperado aconteceu, tente novamente mais tarde",
+    });
+  }
 };
 
 module.exports = getPostById;
