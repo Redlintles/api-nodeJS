@@ -37,34 +37,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var isInRange = require("../../utils/stringUtils").isInRange;
-var validateId = require("../../utils/validateId");
 var _a = require("../../utils/models"), User = _a.User, Group = _a.Group, UserGroup = _a.UserGroup, sequelizeConn = _a.sequelizeConn;
 var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, group_name, admin_id, userId, groupOwner, group, transaction, _b;
+    var _a, group_name, admin_id, group, transaction, _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
                 _a = req.body, group_name = _a.group_name, admin_id = _a.admin_id;
-                userId = validateId(admin_id);
-                if (typeof userId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: userId,
-                        })];
-                }
                 if (!isInRange(group_name, 0, 30)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
                             message: "Nome de grupo muito longo",
-                        })];
-                }
-                return [4 /*yield*/, User.findByPk(admin_id)];
-            case 1:
-                groupOwner = _c.sent();
-                if (!groupOwner) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Usuário não existe",
                         })];
                 }
                 return [4 /*yield*/, Group.findOne({
@@ -73,7 +56,7 @@ var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             group_name: group_name,
                         },
                     })];
-            case 2:
+            case 1:
                 group = _c.sent();
                 if (!group) {
                     return [2 /*return*/, res.status(400).json({
@@ -82,38 +65,38 @@ var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                         })];
                 }
                 return [4 /*yield*/, sequelizeConn.transaction()];
-            case 3:
+            case 2:
                 transaction = _c.sent();
-                _c.label = 4;
-            case 4:
-                _c.trys.push([4, 8, , 10]);
+                _c.label = 3;
+            case 3:
+                _c.trys.push([3, 7, , 9]);
                 return [4 /*yield*/, UserGroup.destroy({
                         where: {
                             id_group: group.id,
                         },
                     })];
-            case 5:
+            case 4:
                 _c.sent();
                 return [4 /*yield*/, group.destroy()];
-            case 6:
+            case 5:
                 _c.sent();
                 return [4 /*yield*/, transaction.commit()];
-            case 7:
+            case 6:
                 _c.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Grupo Excluído com sucesso",
                     })];
-            case 8:
+            case 7:
                 _b = _c.sent();
                 return [4 /*yield*/, transaction.rollback()];
-            case 9:
+            case 8:
                 _c.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: true,
                         message: "O Grupo não pode ser excluído por algum motivo desconhecido, tente novamente mais tarde",
                     })];
-            case 10: return [2 /*return*/];
+            case 9: return [2 /*return*/];
         }
     });
 }); };
