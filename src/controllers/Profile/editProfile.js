@@ -36,26 +36,18 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var validateId = require("../../utils/validateId");
 var isInRange = require("../../utils/stringUtils").isInRange;
 var Profile = require("../../utils/models").Profile;
 var editProfile = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var userId, bio, maxSize, validId, photo, banner, profilePhoto, profileBanner, userProfile, err_1;
+    var id_user, bio, maxSize, photo, banner, profilePhoto, profileBanner, userProfile, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                userId = req.query.userId;
+                id_user = req.query.id_user;
                 bio = req.body.bio;
                 maxSize = process.env.MAX_IMAGE_SIZE
                     ? parseInt(process.env.MAX_IMAGE_SIZE)
                     : 500000;
-                validId = validateId(userId);
-                if (typeof validId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: validId,
-                        })];
-                }
                 photo = req.files ? req.files["profilePhoto"] : null;
                 banner = req.files ? req.files["banner"] : null;
                 profilePhoto = photo ? photo[0] : null;
@@ -80,17 +72,11 @@ var editProfile = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 }
                 return [4 /*yield*/, Profile.findOne({
                         where: {
-                            id_user: validId,
+                            id_user: id_user,
                         },
                     })];
             case 1:
                 userProfile = _a.sent();
-                if (!userProfile) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Usuário Não existe",
-                        })];
-                }
                 _a.label = 2;
             case 2:
                 _a.trys.push([2, 4, , 5]);

@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 
-const validateId = require("../../utils/validateId");
 const { isInRange } = require("../../utils/stringUtils");
 
 const { Profile } = require("../../utils/models");
@@ -18,21 +17,12 @@ interface ImageRequest extends Request {
 }
 
 const editProfile = async (req: ImageRequest, res: Response) => {
-  const { userId } = req.query;
+  const { id_user } = req.query;
   const { bio } = req.body;
 
   const maxSize = process.env.MAX_IMAGE_SIZE
     ? parseInt(process.env.MAX_IMAGE_SIZE)
     : 500000;
-
-  const validId = validateId(userId);
-
-  if (typeof validId === "string") {
-    return res.status(400).json({
-      error: true,
-      message: validId,
-    });
-  }
 
   const photo = req.files ? req.files["profilePhoto"] : null;
   const banner = req.files ? req.files["banner"] : null;
@@ -61,16 +51,9 @@ const editProfile = async (req: ImageRequest, res: Response) => {
 
   const userProfile = await Profile.findOne({
     where: {
-      id_user: validId,
+      id_user,
     },
   });
-
-  if (!userProfile) {
-    return res.status(400).json({
-      error: true,
-      message: "Usuário Não existe",
-    });
-  }
 
   try {
     userProfile.set({
