@@ -40,7 +40,7 @@ var _a = require("../../utils/models"), User = _a.User, Group = _a.Group, sequel
 var validateId = require("../../utils/validateId");
 var isInRange = require("../../utils/stringUtils").isInRange;
 var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, admin_id, group_name, group_desc, max_size, userId, groupOwner, groups, transaction, newGroup, _b;
+    var _a, admin_id, group_name, group_desc, max_size, groups, transaction, newGroup, _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
@@ -52,22 +52,6 @@ var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                     return [2 /*return*/, res.status(400).json({
                             error: true,
                             message: "A imagem é muito grande",
-                        })];
-                }
-                userId = validateId(admin_id);
-                if (typeof userId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: userId,
-                        })];
-                }
-                return [4 /*yield*/, User.findByPk(userId)];
-            case 1:
-                groupOwner = _c.sent();
-                if (!groupOwner) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Usuário não existe",
                         })];
                 }
                 if (!isInRange(group_desc, 0, 30)) {
@@ -84,11 +68,11 @@ var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 }
                 return [4 /*yield*/, Group.findAll({
                         where: {
-                            admin_id: userId,
+                            admin_id: admin_id,
                         },
                         attributes: ["group_name"],
                     })];
-            case 2:
+            case 1:
                 groups = _c.sent();
                 if (groups.map(function (g) { return g.group_name; }).includes(group_name)) {
                     return [2 /*return*/, res.status(400).json({
@@ -97,40 +81,40 @@ var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                         })];
                 }
                 return [4 /*yield*/, sequelizeConn.transaction()];
-            case 3:
+            case 2:
                 transaction = _c.sent();
-                _c.label = 4;
-            case 4:
-                _c.trys.push([4, 8, , 10]);
+                _c.label = 3;
+            case 3:
+                _c.trys.push([3, 7, , 9]);
                 return [4 /*yield*/, Group.create({
-                        admin_id: userId,
+                        admin_id: admin_id,
                         group_name: group_name,
                         group_desc: group_desc,
                         group_banner: req.file ? req.file.buffer : undefined,
                     })];
-            case 5:
+            case 4:
                 newGroup = _c.sent();
                 return [4 /*yield*/, UserGroup.create({
                         id_group: newGroup.id,
-                        id_member: userId,
+                        id_member: admin_id,
                     })];
-            case 6:
+            case 5:
                 _c.sent();
                 return [4 /*yield*/, transaction.commit()];
-            case 7:
+            case 6:
                 _c.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Grupo criado com sucesso",
                         obj: newGroup,
                     })];
-            case 8:
+            case 7:
                 _b = _c.sent();
                 return [4 /*yield*/, transaction.rollback()];
-            case 9:
+            case 8:
                 _c.sent();
-                return [3 /*break*/, 10];
-            case 10: return [2 /*return*/];
+                return [3 /*break*/, 9];
+            case 9: return [2 /*return*/];
         }
     });
 }); };

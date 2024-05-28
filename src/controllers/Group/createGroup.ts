@@ -24,23 +24,6 @@ const createGroup = async (req: ImageRequest, res: Response) => {
       message: "A imagem é muito grande",
     });
   }
-
-  let userId = validateId(admin_id);
-
-  if (typeof userId === "string") {
-    return res.status(400).json({
-      error: true,
-      message: userId,
-    });
-  }
-  const groupOwner = await User.findByPk(userId);
-
-  if (!groupOwner) {
-    return res.status(400).json({
-      error: true,
-      message: "Usuário não existe",
-    });
-  }
   if (!isInRange(group_desc, 0, 30)) {
     return res.status(400).json({
       error: true,
@@ -56,12 +39,12 @@ const createGroup = async (req: ImageRequest, res: Response) => {
 
   const groups = await Group.findAll({
     where: {
-      admin_id: userId,
+      admin_id,
     },
     attributes: ["group_name"],
   });
 
-  if (groups.map((g) => g.group_name).includes(group_name)) {
+  if (groups.map((g: any) => g.group_name).includes(group_name)) {
     return res.status(400).json({
       error: true,
       message: "Você já criou um grupo com este nome",
@@ -72,7 +55,7 @@ const createGroup = async (req: ImageRequest, res: Response) => {
 
   try {
     const newGroup = await Group.create({
-      admin_id: userId,
+      admin_id,
       group_name,
       group_desc,
       group_banner: req.file ? req.file.buffer : undefined,
@@ -80,7 +63,7 @@ const createGroup = async (req: ImageRequest, res: Response) => {
 
     await UserGroup.create({
       id_group: newGroup.id,
-      id_member: userId,
+      id_member: admin_id,
     });
 
     await transaction.commit();
