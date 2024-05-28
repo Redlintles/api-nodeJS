@@ -37,29 +37,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Tag = require("../../utils/models").Tag;
-var validateId = require("../../utils/validateId");
 var deleteTag = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, tagId, tag;
+    var id_tag, tag;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                id = req.query.id;
-                tagId = validateId(id);
-                if (typeof tagId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: tagId,
-                        })];
-                }
-                return [4 /*yield*/, Tag.findByPk(tagId)];
+                id_tag = req.query.id_tag;
+                return [4 /*yield*/, Tag.findByPk(id_tag)];
             case 1:
                 tag = _a.sent();
-                if (!tag) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Tag Not Found",
-                        })];
-                }
                 return [4 /*yield*/, tag.destroy()];
             case 2:
                 _a.sent();

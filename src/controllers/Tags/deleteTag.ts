@@ -2,28 +2,10 @@ import { Request, Response } from "express";
 
 const { Tag } = require("../../utils/models");
 
-const validateId = require("../../utils/validateId");
-
 const deleteTag = async (req: Request, res: Response) => {
-  let { id } = req.query;
+  let { id_tag } = req.query;
 
-  let tagId = validateId(id);
-
-  if (typeof tagId === "string") {
-    return res.status(400).json({
-      error: true,
-      message: tagId,
-    });
-  }
-
-  const tag = await Tag.findByPk(tagId);
-
-  if (!tag) {
-    return res.status(400).json({
-      error: true,
-      message: "Tag Not Found",
-    });
-  }
+  const tag = await Tag.findByPk(id_tag);
 
   await tag.destroy();
 
