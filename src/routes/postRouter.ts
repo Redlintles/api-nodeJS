@@ -8,6 +8,10 @@ const editById = require("../controllers/Posts/editPostById");
 const deletePostById = require("../controllers/Posts/deletePostById");
 const addPostLike = require("../controllers/Posts/addPostLike");
 const removePostLike = require("../controllers/Posts/removePostLike");
+
+const idValidator = require("../middlewares/idValidator");
+const models = require("../utils/models");
+
 const multer = require("multer");
 const auth = require("../middlewares/auth");
 const upload = multer({
@@ -17,12 +21,93 @@ const upload = multer({
 
 router.use(auth);
 
-router.post("/add", upload.single("image"), createPost);
-router.put("/editById", upload.single("image"), editById);
-router.get("/getById", getPostById);
-router.get("/getPostsByUserId", getPostsByUserId);
-router.delete("/deleteById", deletePostById);
-router.post("/addPostLike", addPostLike);
-router.delete("/removePostLike", removePostLike);
+router.post(
+  "/add",
+  idValidator([
+    {
+      fieldStr: "id_author",
+      fieldObj: models.User,
+    },
+  ]),
+  upload.single("image"),
+  createPost
+);
+router.put(
+  "/editById",
+  idValidator(
+    [
+      {
+        fieldStr: "id",
+        fieldObj: models.Post,
+      },
+    ],
+    false,
+    true
+  ),
+  upload.single("image"),
+  editById
+);
+router.get(
+  "/getById",
+  idValidator([
+    {
+      fieldStr: "id_post",
+      fieldObj: models.Post,
+    },
+  ]),
+  getPostById
+);
+router.get(
+  "/getPostsByUserId",
+  idValidator([
+    {
+      fieldStr: "id",
+      fieldObj: models.User,
+    },
+  ]),
+  getPostsByUserId
+);
+router.delete(
+  "/deleteById",
+  idValidator(
+    [
+      {
+        fieldStr: "id",
+        fieldObj: models.Post,
+      },
+    ],
+    false,
+    true
+  ),
+  deletePostById
+);
+router.post(
+  "/addPostLike",
+  idValidator([
+    {
+      fieldStr: "id_post",
+      fieldObj: models.Post,
+    },
+    {
+      fieldStr: "id_user",
+      fieldObj: models.User,
+    },
+  ]),
+  addPostLike
+);
+router.delete(
+  "/removePostLike",
+  idValidator([
+    {
+      fieldStr: "id_post",
+      fieldObj: models.Post,
+    },
+    {
+      fieldStr: "id_user",
+      fieldObj: models.User,
+    },
+  ]),
+  removePostLike
+);
 
 module.exports = router;
