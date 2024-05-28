@@ -36,33 +36,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var validateId = require("../../utils/validateId");
 var _a = require("../../utils/models"), User = _a.User, UserGroup = _a.UserGroup, Group = _a.Group;
 var getGroupsWithUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id_user, userId, targetUser, groupDetails;
+    var id_user, targetUser, groupDetails;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 id_user = req.query.id_user;
-                userId = validateId(id_user);
-                if (typeof userId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: userId,
-                        })];
-                }
-                return [4 /*yield*/, User.findByPk(userId)];
+                return [4 /*yield*/, User.findByPk(id_user)];
             case 1:
                 targetUser = _a.sent();
-                if (!targetUser) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Usuário não existe",
-                        })];
-                }
                 return [4 /*yield*/, UserGroup.findAll({
                         where: {
-                            id_member: userId,
+                            id_member: id_user,
                         },
                         attributes: [["id_group", "id"]],
                     })

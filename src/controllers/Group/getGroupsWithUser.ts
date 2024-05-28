@@ -1,33 +1,16 @@
 import { Request, Response } from "express";
 
-const validateId = require("../../utils/validateId");
-
 const { User, UserGroup, Group } = require("../../utils/models");
 
 const getGroupsWithUser = async (req: Request, res: Response) => {
   const { id_user } = req.query;
 
-  const userId = validateId(id_user);
+  const targetUser = await User.findByPk(id_user);
 
-  if (typeof userId === "string") {
-    return res.status(400).json({
-      error: true,
-      message: userId,
-    });
-  }
-
-  const targetUser = await User.findByPk(userId);
-
-  if (!targetUser) {
-    return res.status(400).json({
-      error: true,
-      message: "Usuário não existe",
-    });
-  }
   // Recebe os detalhes de todos os grupos em que um determinado usuário está
   const groupDetails = await UserGroup.findAll({
     where: {
-      id_member: userId,
+      id_member: id_user,
     },
     attributes: [["id_group", "id"]],
   })
