@@ -36,53 +36,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _a = require("../../utils/models"), UserGroup = _a.UserGroup, Group = _a.Group, User = _a.User;
-var validateId = require("../../utils/validateId");
+var UserGroup = require("../../utils/models").UserGroup;
 var addMember = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_user, id_group, userId, groupId, userToAdd, groupToBelong, isInGroup, obj;
+    var _a, id_user, id_group, isInGroup, obj;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, id_user = _a.id_user, id_group = _a.id_group;
-                userId = validateId(id_user);
-                groupId = validateId(id_group);
-                if (typeof userId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: userId,
-                        })];
-                }
-                if (typeof groupId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: groupId,
-                        })];
-                }
-                return [4 /*yield*/, User.findByPk(userId)];
-            case 1:
-                userToAdd = _b.sent();
-                return [4 /*yield*/, Group.findByPk(groupId)];
-            case 2:
-                groupToBelong = _b.sent();
-                if (!userToAdd) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Usuário não existe",
-                        })];
-                }
-                if (!groupToBelong) {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: "Grupo não existe",
-                        })];
-                }
                 return [4 /*yield*/, UserGroup.findOne({
                         where: {
-                            id_member: userId,
-                            id_group: groupId,
+                            id_member: id_user,
+                            id_group: id_group,
                         },
                     })];
-            case 3:
+            case 1:
                 isInGroup = _b.sent();
                 if (isInGroup) {
                     return [2 /*return*/, res.status(400).json({
@@ -91,10 +58,10 @@ var addMember = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                         })];
                 }
                 return [4 /*yield*/, UserGroup.create({
-                        id_member: userId,
-                        id_group: groupId,
+                        id_member: id_user,
+                        id_group: id_group,
                     })];
-            case 4:
+            case 2:
                 obj = _b.sent();
                 if (!obj) {
                     return [2 /*return*/, res.status(500).json({

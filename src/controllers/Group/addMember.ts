@@ -1,48 +1,14 @@
 import { Request, Response } from "express";
 
-const { UserGroup, Group, User } = require("../../utils/models");
-const validateId = require("../../utils/validateId");
+const { UserGroup } = require("../../utils/models");
 
 const addMember = async (req: Request, res: Response) => {
   const { id_user, id_group } = req.body;
 
-  const userId = validateId(id_user);
-  const groupId = validateId(id_group);
-
-  if (typeof userId === "string") {
-    return res.status(400).json({
-      error: true,
-      message: userId,
-    });
-  }
-
-  if (typeof groupId === "string") {
-    return res.status(400).json({
-      error: true,
-      message: groupId,
-    });
-  }
-
-  const userToAdd = await User.findByPk(userId);
-  const groupToBelong = await Group.findByPk(groupId);
-
-  if (!userToAdd) {
-    return res.status(400).json({
-      error: true,
-      message: "Usuário não existe",
-    });
-  }
-  if (!groupToBelong) {
-    return res.status(400).json({
-      error: true,
-      message: "Grupo não existe",
-    });
-  }
-
   const isInGroup = await UserGroup.findOne({
     where: {
-      id_member: userId,
-      id_group: groupId,
+      id_member: id_user,
+      id_group: id_group,
     },
   });
 
@@ -54,8 +20,8 @@ const addMember = async (req: Request, res: Response) => {
   }
 
   const obj = await UserGroup.create({
-    id_member: userId,
-    id_group: groupId,
+    id_member: id_user,
+    id_group: id_group,
   });
 
   if (!obj) {
