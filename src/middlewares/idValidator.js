@@ -42,7 +42,7 @@ function idValidator(fields, equal, queryParams) {
     if (equal === void 0) { equal = false; }
     if (queryParams === void 0) { queryParams = false; }
     return function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
-        var arr, _i, fields_1, field, fieldStr, tableField, fieldObj, value, isValid, whereClause, exists, toCompare, set;
+        var arr, _i, fields_1, field, fieldStr, fieldObj, value, isValid, exists, toCompare, set;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -52,7 +52,7 @@ function idValidator(fields, equal, queryParams) {
                 case 1:
                     if (!(_i < fields_1.length)) return [3 /*break*/, 4];
                     field = fields_1[_i];
-                    fieldStr = field.fieldStr, tableField = field.tableField, fieldObj = field.fieldObj;
+                    fieldStr = field.fieldStr, fieldObj = field.fieldObj;
                     value = queryParams ? req.query[fieldStr] : req.body[fieldStr];
                     isValid = validateId(value);
                     if (typeof isValid === "string") {
@@ -61,9 +61,7 @@ function idValidator(fields, equal, queryParams) {
                                 message: isValid,
                             })];
                     }
-                    whereClause = {};
-                    whereClause[tableField] = value;
-                    return [4 /*yield*/, fieldObj.findOne({ where: whereClause })];
+                    return [4 /*yield*/, fieldObj.findByPk(value)];
                 case 2:
                     exists = _a.sent();
                     if (!exists) {

@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 
 interface field {
   fieldStr: string;
-  tableField: string;
   fieldObj: any;
 }
 
@@ -17,7 +16,7 @@ function idValidator(
     const arr = [];
 
     for (let field of fields) {
-      const { fieldStr, tableField, fieldObj } = field;
+      const { fieldStr, fieldObj } = field;
       const value = queryParams ? req.query[fieldStr] : req.body[fieldStr];
       const isValid = validateId(value);
 
@@ -28,10 +27,7 @@ function idValidator(
         });
       }
 
-      let whereClause: any = {};
-      whereClause[tableField] = value;
-
-      const exists = await fieldObj.findOne({ where: whereClause });
+      const exists = await fieldObj.findByPk(value);
 
       if (!exists) {
         return res.status(400).json({
