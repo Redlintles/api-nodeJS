@@ -37,9 +37,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var validateId = require("../utils/validateId");
-function idValidator(fields, equal) {
+function idValidator(fields, equal, queryParams) {
     var _this = this;
     if (equal === void 0) { equal = false; }
+    if (queryParams === void 0) { queryParams = false; }
     return function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
         var arr, _i, fields_1, field, fieldStr, tableField, fieldObj, value, isValid, whereClause, exists, toCompare, set;
         return __generator(this, function (_a) {
@@ -52,7 +53,7 @@ function idValidator(fields, equal) {
                     if (!(_i < fields_1.length)) return [3 /*break*/, 4];
                     field = fields_1[_i];
                     fieldStr = field.fieldStr, tableField = field.tableField, fieldObj = field.fieldObj;
-                    value = req.body[fieldStr];
+                    value = queryParams ? req.query[fieldStr] : req.body[fieldStr];
                     isValid = validateId(value);
                     if (typeof isValid === "string") {
                         return [2 /*return*/, res.status(400).json({

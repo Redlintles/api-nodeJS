@@ -8,13 +8,17 @@ interface field {
 
 const validateId = require("../utils/validateId");
 
-function idValidator(fields: Array<field>, equal: boolean = false) {
+function idValidator(
+  fields: Array<field>,
+  equal: boolean = false,
+  queryParams = false
+) {
   return async (req: Request, res: Response, next: NextFunction) => {
     const arr = [];
 
     for (let field of fields) {
       const { fieldStr, tableField, fieldObj } = field;
-      const value = req.body[fieldStr];
+      const value = queryParams ? req.query[fieldStr] : req.body[fieldStr];
       const isValid = validateId(value);
 
       if (typeof isValid === "string") {
