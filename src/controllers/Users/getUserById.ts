@@ -9,27 +9,16 @@ const {
   Tag,
 } = require("../../utils/models");
 
-const validateId = require("../../utils/validateId");
-
 const getUserById = async (req: Request, res: Response) => {
   const { id } = req.query;
-
-  let userId = validateId(id);
-
-  if (typeof userId === "string") {
-    return res.status(400).json({
-      error: true,
-      message: userId,
-    });
-  }
 
   const transaction = await sequelizeConn.transaction();
 
   try {
-    const object = await User.findByPk(userId);
-    const profile = await Profile.findOne({ where: { id_user: userId } });
+    const object = await User.findByPk(id);
+    const profile = await Profile.findOne({ where: { id_user: id } });
     const friends = await UserFriends.findAll({
-      where: { id_user: userId },
+      where: { id_user: id },
       attributes: [["id_friend", "id"]],
     })
       .then((data: any[]) => {
@@ -43,7 +32,7 @@ const getUserById = async (req: Request, res: Response) => {
         });
       });
     const followers = await UserFollower.findAll({
-      where: { id_followed: userId },
+      where: { id_followed: id },
       attributes: [["id_follower", "id"]],
     })
       .then((data: any[]) => {
@@ -59,7 +48,7 @@ const getUserById = async (req: Request, res: Response) => {
 
     const tags = await UserTag.findAll({
       where: {
-        id_user: userId,
+        id_user: id,
       },
       attributes: [["id_tag", "id"]],
     })
