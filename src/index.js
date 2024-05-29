@@ -39,6 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv").config();
 var express = require("express");
 var app = express();
+var path = require("path");
 var userRouter = require("./routes/userRouter");
 var postRouter = require("./routes/postRouter");
 var commentsRouter = require("./routes/CommentsRouter");
@@ -49,6 +50,9 @@ var groupRouter = require("./routes/groupRouter");
 var bodyParser = require("body-parser");
 var profileRouter = require("./routes/profileRouter");
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "..", "public")));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 app.use("/post", postRouter);
 app.use("/user", userRouter);
 app.use("/comments", commentsRouter);
@@ -58,7 +62,7 @@ app.use("/group", groupRouter);
 app.use("/profile", profileRouter);
 app.get("/", function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        return [2 /*return*/, res.send("Hello World!")];
+        return [2 /*return*/, res.render("index")];
     });
 }); });
 sequelize
