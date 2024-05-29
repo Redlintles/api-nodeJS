@@ -7,6 +7,158 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
-    <h1>Hello World!</h1>
+    <header class="header">
+      <div class="header__left">
+        <h1>Social Media API</h1>
+      </div>
+      <nav class="header__right">
+        <a href="#" class="header__link">Resumo</a>
+        <a href="#" class="header__link">Rotas</a>
+        <a href="#" class="header__link">Créditos</a>
+      </nav>
+    </header>
+    <main>
+      <section id="resume">
+        <div class="resume__left">
+          <h2>Resumo da API</h2>
+          <p>
+            Esta API foi criada para ser usada num contexto de rede
+            social(resumido). As tecnologias utilizadas para a construção dessa
+            API foram HTML,CSS, Javascript, Node.js, Express, Sequelize e MySQL
+            como banco de dados.
+          </p>
+          <p>
+            Essa API foi construída ao longo de pouco mais de um mês e seu
+            repositório no github pode ser acessado através do link
+            <a href="https://github.com/Redlintles/api-nodeJS"
+              >https://github.com/Redlintles/api-nodeJS</a
+            >
+          </p>
+          <p>
+            É uma API super simples e enxuta, que manipula 12 tabelas no banco
+            de dados, com o uso de poucas bibliotecas, basicamente o multer e o
+            UUID.
+          </p>
+          <p>
+            Abaixo estão listadas As rotas da API, como elas devem ser chamadas,
+            e os parâmetros que cada uma recebe
+          </p>
+        </div>
+        <div class="resume__right">
+          <div class="resume__img"></div>
+        </div>
+      </section>
+      <section id="routes">
+        <h2 class="section__title">Rotas da API</h2>
+        <div class="route">
+          <div class="route__left">
+            <h3>Route Title</h3>
+            <ul>
+              <li>
+                <a href="#">Create</a>
+              </li>
+              <li>
+                <a href="#">Read</a>
+              </li>
+              <li>
+                <a href="#">Update</a>
+              </li>
+              <li>
+                <a href="#">Delete</a>
+              </li>
+            </ul>
+          </div>
+          <div class="route__right">
+            <div>
+              <h4 class="route__path"></h4>
+              <p class="route_desc"></p>
+            </div>
+            <div>
+              <p class="route_desc"></p>
+              <div class="route__params"></div>
+            </div>
+            <div>
+              <h4 class="route__path"></h4>
+              <p class="route_desc"></p>
+              <div class="route__params"></div>
+            </div>
+          </div>
+        </div>
+        <div class="route">
+          <div class="route__left">
+            <h3>Route Title</h3>
+            <ul>
+              <li>
+                <a href="#">Create</a>
+              </li>
+              <li>
+                <a href="#">Read</a>
+              </li>
+              <li>
+                <a href="#">Update</a>
+              </li>
+              <li>
+                <a href="#">Delete</a>
+              </li>
+            </ul>
+          </div>
+          <div class="route__right">
+            <div>
+              <h4 class="route__path">/post/add</h4>
+              <p class="route__desc">Adiciona Um Post</p>
+              <p></p>
+            </div>
+            <div>
+              <p class="route__desc">/post/getById</p>
+              <div class="route__params">
+                <p><span>id_post: </span>O id do post</p>
+              </div>
+            </div>
+            <div>
+              <h4 class="route__path">/post/deleteById</h4>
+              <p class="route__desc">Deleta um post</p>
+              <div class="route__params">
+                <p><span>id_post</span> o id do post(query)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="route">
+          <div class="route__left">
+            <h3>Route Title</h3>
+            <ul>
+              <li>
+                <a href="#">Create</a>
+              </li>
+              <li>
+                <a href="#">Read</a>
+              </li>
+              <li>
+                <a href="#">Update</a>
+              </li>
+              <li>
+                <a href="#">Delete</a>
+              </li>
+            </ul>
+          </div>
+          <div class="route__right">
+            <div>
+              <h4 class="route__path"></h4>
+              <p class="route_desc"></p>
+            </div>
+            <div>
+              <p class="route_desc"></p>
+              <div class="route__params"></div>
+            </div>
+            <div>
+              <h4 class="route__path"></h4>
+              <p class="route_desc"></p>
+              <div class="route__params"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer></footer>
   </body>
 </html>
