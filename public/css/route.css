@@ -1,0 +1,96 @@
+#routes {
+  width: var(--container-width);
+  background-color: var(--section-color);
+}
+
+.route {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  border: 2px solid var(--stroke-color);
+
+}
+
+.route > * {
+  grid-column: span 1;
+  padding: 1rem;
+  height: 20rem;
+  overflow-y: auto;
+}
+
+.route > *::-webkit-scrollbar {
+  background-color: var(--bg-color);
+  border-left: 1px solid var(--stroke-color);
+  width: 10px;
+}
+
+.route > *::-webkit-scrollbar-thumb {
+  background-color: var(--stroke-color);
+  width: 5px;
+
+}
+
+.route__links > li {
+  padding: .75rem 1rem;
+  background-color: var(--bg-color);
+  border: 1px solid var(--stroke-color);
+  margin: 1rem 0;
+}
+
+.route__link {
+
+
+}
+
+.route__link--selected {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.route__right {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color);
+  border-left: 1px solid var(--stroke-color)
+}
+
+.route__explain {
+  display: none;
+}
+
+.route__path {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  align-self: center;
+}
+
+.route__path::before {
+  content: "Caminho para a rota: ";
+}
+.route__explain--visible {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.route__params {
+  display: flex;
+  flex-direction: column;
+}
+
+.route__params > h5 {
+  font-size: 1.2rem;
+}
+.route__params > h6 {
+  font-size: 1rem;
+  margin: .5rem 0;
+  margin-left: 1rem;
+}
+
+.route__parameter {
+  margin-left: 2rem;
+}
+
+.route__parameter > span {
+  font-weight: bold;
+  margin-right: .5rem;
+}

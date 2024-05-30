@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/route.css" />
+    <script src="/js/script.js" defer></script>
   </head>
   <body>
     <header class="header">
@@ -52,73 +54,163 @@
         <h2 class="section__title">Rotas da API</h2>
         <div class="route">
           <div class="route__left">
-            <h3>Route Title</h3>
-            <ul>
+            <h3>Post</h3>
+            <ul class="route__links">
               <li>
-                <a href="#">Create</a>
+                <a
+                  href="#"
+                  class="route__link route__link--selected"
+                  data-target="post-add"
+                  >Create</a
+                >
               </li>
               <li>
-                <a href="#">Read</a>
+                <a href="#" class="route__link" data-target="post-read">Read</a>
               </li>
               <li>
-                <a href="#">Update</a>
+                <a href="#" class="route__link" data-target="post-edit"
+                  >Update</a
+                >
               </li>
               <li>
-                <a href="#">Delete</a>
-              </li>
-            </ul>
-          </div>
-          <div class="route__right">
-            <div>
-              <h4 class="route__path"></h4>
-              <p class="route_desc"></p>
-            </div>
-            <div>
-              <p class="route_desc"></p>
-              <div class="route__params"></div>
-            </div>
-            <div>
-              <h4 class="route__path"></h4>
-              <p class="route_desc"></p>
-              <div class="route__params"></div>
-            </div>
-          </div>
-        </div>
-        <div class="route">
-          <div class="route__left">
-            <h3>Route Title</h3>
-            <ul>
-              <li>
-                <a href="#">Create</a>
+                <a href="#" class="route__link" data-target="post-delete"
+                  >Delete</a
+                >
               </li>
               <li>
-                <a href="#">Read</a>
+                <a href="#" class="route__link" data-target="post-addlike"
+                  >Add like</a
+                >
               </li>
               <li>
-                <a href="#">Update</a>
+                <a href="#" class="route__link" data-target="post-getalluser"
+                  >Get all posts by user id</a
+                >
               </li>
               <li>
-                <a href="#">Delete</a>
+                <a href="#" class="route__link" data-target="post-rmlike"
+                  >Remove Like</a
+                >
               </li>
             </ul>
           </div>
           <div class="route__right">
-            <div>
+            <div
+              class="route__explain route__explain--visible"
+              data-identifier="post-add"
+            >
               <h4 class="route__path">/post/add</h4>
-              <p class="route__desc">Adiciona Um Post</p>
-              <p></p>
-            </div>
-            <div>
-              <p class="route__desc">/post/getById</p>
+              <p class="route_desc">
+                Essa rota cria um post associado a um usuário, Este post deve
+                conter obrigatoriamente o id do autor, um título, um conteúdo e
+                opcionalmente uma imagem de até 500kb.
+              </p>
               <div class="route__params">
-                <p><span>id_post: </span>O id do post</p>
+                <h5>Parâmetros da rota:</h5>
+                <h6>Body:</h6>
+                <p class="route__parameter">
+                  <span>id_author: </span>&lt;number&gt;
+                </p>
+                <p class="route__parameter">
+                  <span>title: </span>&lt;string&gt;
+                </p>
+                <p class="route__parameter">
+                  <span>content: </span>&lt;string&gt;
+                </p>
+                <p class="route__parameter"><span>image: </span>&lt;blob&gt;</p>
               </div>
             </div>
-            <div>
-              <h4 class="route__path">/post/deleteById</h4>
-              <p class="route__desc">Deleta um post</p>
+            <div class="route__explain" data-identifier="post-read">
+              <h4 class="route__path">/post/getById</h4>
+              <p class="route_desc">
+                Recupera um post através do seu id, as informações obtidas são,
+                respectivamente: as informações do post,do autor,os comentários
+                e a quantidade de likes.
+              </p>
               <div class="route__params">
-                <p><span>id_post</span> o id do post(query)</p>
+                <h5>Parâmetros da rota:</h5>
+                <h6>Query:</h6>
+                <p class="route__parameter">
+                  <span>id_post: </span>&lt;number&gt;
+                </p>
+              </div>
+            </div>
+            <div class="route__explain" data-identifier="post-edit">
+              <h4 class="route__path">/post/editById</h4>
+              <p class="route_desc">
+                Permite a edição de um post através de seu ID, você pode mudar o
+                título, o conteúdo e a imagem
+              </p>
+              <div class="route__params">
+                <h5>Parâmetros da rota:</h5>
+                <h6>Query:</h6>
+                <p class="route__parameter"><span>id</span>&lt;number&gt;</p>
+                <h6>Body:</h6>
+                <p class="route__parameter">
+                  <span>title: </span>&lt;string&gt;
+                </p>
+                <p class="route__parameter">
+                  <span>content: </span>&lt;string&gt;
+                </p>
+                <p class="route__parameter"><span>image: </span>&lt;blob&gt;</p>
+              </div>
+            </div>
+            <div class="route__explain" data-identifier="post-delete">
+              <h4 class="route__path">/post/deleteById</h4>
+              <p class="route_desc">
+                Permite a exclusão de um post através do seu ID
+              </p>
+              <div class="route__params">
+                <h5>Parâmetros da rota:</h5>
+                <h6>Query</h6>
+                <p class="route__parameter">
+                  <span>id_post: </span>&lt;number&gt;
+                </p>
+              </div>
+            </div>
+            <div class="route__explain" data-identifier="post-addlike">
+              <h4 class="route__path">/post/addPostLike</h4>
+              <p class="route_desc">
+                Permite adicionar um like a um post, é necesssário o Id do post
+                e o Id do usuário que o curtiu.
+              </p>
+              <div class="route__params">
+                <h5>Parâmetros da rota:</h5>
+                <h6>Body:</h6>
+                <p class="route__parameter">
+                  <span>id_post: </span>&lt;number&gt;
+                </p>
+                <p class="route__parameter">
+                  <span>id_user: </span>&lt;number&gt;
+                </p>
+              </div>
+            </div>
+            <div class="route__explain" data-identifier="post-rmlike">
+              <h4 class="route__path">/post/deleteById</h4>
+              <p class="route_desc">
+                Permite a exclusão de um like através do id do post e o id do
+                usuário que o curtiu
+              </p>
+              <div class="route__params">
+                <h5>Parâmetros da rota:</h5>
+                <h6>Query:</h6>
+                <p class="route__parameter">
+                  <span>id_post: </span>&lt;number&gt;
+                </p>
+                <p class="route__parameter">
+                  <span>id_user: </span>&lt;number&gt;
+                </p>
+              </div>
+            </div>
+            <div class="route__explain" data-identifier="post-getalluser">
+              <h4 class="route__path">/post/getPostsByUserId</h4>
+              <p class="route_desc">
+                Permite recuperar todos os posts que um determinado usuário fez.
+              </p>
+              <div class="route__params">
+                <h5>Parâmetros da rota:</h5>
+                <h6>Query:</h6>
+                <p class="route__parameter"><span>id: </span>&lt;number&gt;</p>
               </div>
             </div>
           </div>
@@ -126,34 +218,84 @@
         <div class="route">
           <div class="route__left">
             <h3>Route Title</h3>
-            <ul>
+            <ul class="route__links">
               <li>
-                <a href="#">Create</a>
+                <a href="#" class="route__link" data-target="">Create</a>
               </li>
               <li>
-                <a href="#">Read</a>
+                <a href="#" class="route__link" data-target="">Read</a>
               </li>
               <li>
-                <a href="#">Update</a>
+                <a href="#" class="route__link" data-target="">Update</a>
               </li>
               <li>
-                <a href="#">Delete</a>
+                <a href="#" class="route__link" data-target="">Delete</a>
               </li>
             </ul>
           </div>
           <div class="route__right">
-            <div>
-              <h4 class="route__path"></h4>
-              <p class="route_desc"></p>
+            <div class="route__explain">
+              <h4 class="route__path">/post/add</h4>
+              <p class="route_desc">Lorem ipsum dolor sit amet.</p>
+              <div class="route_params">
+                <p><span>Username: </span>&lt;string&gt;</p>
+              </div>
             </div>
-            <div>
-              <p class="route_desc"></p>
-              <div class="route__params"></div>
+            <div class="route__explain">
+              <h4 class="route__path">/post/deleteById</h4>
+              <p class="route_desc">Lorem ipsum dolor sit amet.</p>
+              <div class="route__params">
+                <p><span>Id: </span>&lt;number&gt;</p>
+              </div>
             </div>
-            <div>
-              <h4 class="route__path"></h4>
-              <p class="route_desc"></p>
-              <div class="route__params"></div>
+            <div class="route__explain">
+              <h4 class="route__path">/post/getById</h4>
+              <p class="route_desc">Lorem ipsum dolor sit amet.</p>
+              <div class="route__params">
+                <p><span>Id: </span>&lt;number&gt;</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="route">
+          <div class="route__left">
+            <h3>Route Title</h3>
+            <ul class="route__links">
+              <li>
+                <a href="#" class="route__link" data-target="">Create</a>
+              </li>
+              <li>
+                <a href="#" class="route__link" data-target="">Read</a>
+              </li>
+              <li>
+                <a href="#" class="route__link" data-target="">Update</a>
+              </li>
+              <li>
+                <a href="#" class="route__link" data-target="">Delete</a>
+              </li>
+            </ul>
+          </div>
+          <div class="route__right">
+            <div class="route__explain">
+              <h4 class="route__path">/post/add</h4>
+              <p class="route_desc">Lorem ipsum dolor sit amet.</p>
+              <div class="route_params">
+                <p><span>Username: </span>&lt;string&gt;</p>
+              </div>
+            </div>
+            <div class="route__explain">
+              <h4 class="route__path">/post/deleteById</h4>
+              <p class="route_desc">Lorem ipsum dolor sit amet.</p>
+              <div class="route__params">
+                <p><span>Id: </span>&lt;number&gt;</p>
+              </div>
+            </div>
+            <div class="route__explain">
+              <h4 class="route__path">/post/getById</h4>
+              <p class="route_desc">Lorem ipsum dolor sit amet.</p>
+              <div class="route__params">
+                <p><span>Id: </span>&lt;number&gt;</p>
+              </div>
             </div>
           </div>
         </div>

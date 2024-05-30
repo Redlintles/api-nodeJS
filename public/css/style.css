@@ -18,6 +18,10 @@ a {
   text-decoration: none;
 }
 
+ul {
+  list-style: none;
+}
+
 body {
   background-color: var(--bg-color);
 }
@@ -103,6 +107,5 @@ main {
   background-repeat: no-repeat;
   background-image: url("/img/logo.svg");
 }
-
 
 
