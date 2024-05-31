@@ -38,12 +38,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _a = require("../../utils/models"), Post = _a.Post, PostLikes = _a.PostLikes, sequelizeConn = _a.sequelizeConn, Comment = _a.Comment;
 var deletePostById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, post, transaction, _a;
+    var id_post, post, transaction, _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                id = req.query.id;
-                return [4 /*yield*/, Post.findByPk(id)];
+                id_post = req.query.id_post;
+                return [4 /*yield*/, Post.findByPk(id_post)];
             case 1:
                 post = _b.sent();
                 return [4 /*yield*/, sequelizeConn.transaction()];
@@ -54,21 +54,21 @@ var deletePostById = function (req, res) { return __awaiter(void 0, void 0, void
                 _b.trys.push([3, 8, , 10]);
                 return [4 /*yield*/, Comment.destroy({
                         where: {
-                            id_post: id,
+                            id_post: id_post,
                         },
                     })];
             case 4:
                 _b.sent();
                 return [4 /*yield*/, PostLikes.destroy({
                         where: {
-                            id_post: id,
+                            id_post: id_post,
                         },
                     })];
             case 5:
                 _b.sent();
                 return [4 /*yield*/, Post.destroy({
                         where: {
-                            id: id,
+                            id: id_post,
                         },
                     })];
             case 6:
@@ -78,6 +78,7 @@ var deletePostById = function (req, res) { return __awaiter(void 0, void 0, void
                 _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
+                        message: "Post deleted successfully",
                         post: post,
                     })];
             case 8:
@@ -87,7 +88,7 @@ var deletePostById = function (req, res) { return __awaiter(void 0, void 0, void
                 _b.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: true,
-                        message: "O Post não pode ser exclúido por algum motivo desconhecido",
+                        message: "An unexpected error ocurred, try again later",
                     })];
             case 10: return [2 /*return*/];
         }

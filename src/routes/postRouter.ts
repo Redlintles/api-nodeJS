@@ -76,7 +76,7 @@ router.delete(
   idValidator(
     [
       {
-        fieldStr: "id",
+        fieldStr: "id_post",
         fieldObj: models.Post,
       },
     ],

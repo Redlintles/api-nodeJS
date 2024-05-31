@@ -7,40 +7,41 @@ const {
 } = require("../../utils/models");
 
 const deletePostById = async (req: Request, res: Response) => {
-  const { id } = req.query;
+  const { id_post } = req.query;
 
-  const post = await Post.findByPk(id);
+  const post = await Post.findByPk(id_post);
 
   const transaction = await sequelizeConn.transaction();
 
   try {
     await Comment.destroy({
       where: {
-        id_post: id,
+        id_post,
       },
     });
 
     await PostLikes.destroy({
       where: {
-        id_post: id,
+        id_post,
       },
     });
     await Post.destroy({
       where: {
-        id: id,
+        id: id_post,
       },
     });
 
     await transaction.commit();
     return res.status(200).json({
       error: false,
+      message: "Post deleted successfully",
       post,
     });
   } catch {
     await transaction.rollback();
     return res.status(500).json({
       error: true,
-      message: "O Post não pode ser exclúido por algum motivo desconhecido",
+      message: "An unexpected error ocurred, try again later",
     });
   }
 };
