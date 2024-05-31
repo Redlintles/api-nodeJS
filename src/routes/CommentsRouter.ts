@@ -61,7 +61,7 @@ router.put(
   idValidator(
     [
       {
-        fieldStr: "id",
+        fieldStr: "id_comment",
         fieldObj: models.Comment,
       },
     ],

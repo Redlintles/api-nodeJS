@@ -39,26 +39,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Comment = require("../../utils/models").Comment;
 var isInRange = require("../../utils/stringUtils").isInRange;
 var editComment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, text, comment;
+    var id_comment, text, comment;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                id = req.query.id;
+                id_comment = req.query.id_comment;
                 text = req.body.comment;
-                return [4 /*yield*/, Comment.findByPk(id)];
+                return [4 /*yield*/, Comment.findByPk(id_comment)];
             case 1:
                 comment = _a.sent();
                 if (!isInRange(text, 0, 200)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Comentário muito grande(máximo 200 caracteres)",
+                            message: "Comment is too big(max 200 characters)",
                         })];
                 }
                 return [4 /*yield*/, Comment.update({
                         comment: text,
                     }, {
                         where: {
-                            id: id,
+                            id: id_comment,
                         },
                     })];
             case 2:

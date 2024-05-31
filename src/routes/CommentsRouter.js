@@ -33,7 +33,7 @@ router.get("/getById", idValidator([
 ], false, true), getCommentById);
 router.put("/editById", idValidator([
     {
-        fieldStr: "id",
+        fieldStr: "id_comment",
         fieldObj: models.Comment,
     },
 ], false, true), editComment);

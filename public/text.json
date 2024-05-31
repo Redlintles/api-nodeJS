@@ -627,7 +627,7 @@
               "desc": "Allows updating a comment by it's ID.",
               "query": [
                 {
-                  "field": "id",
+                  "field": "id_comment",
                   "value": "number"
                 }
               ],
@@ -1414,7 +1414,7 @@
               "desc": "Permite editar um comentário com base em seu ID.",
               "query": [
                 {
-                  "field": "id",
+                  "field": "id_comment",
                   "value": "number"
                 }
               ],

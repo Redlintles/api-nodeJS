@@ -4,15 +4,15 @@ const { Comment } = require("../../utils/models");
 const { isInRange } = require("../../utils/stringUtils");
 
 const editComment = async (req: Request, res: Response) => {
-  let { id } = req.query;
+  let { id_comment } = req.query;
   let { comment: text } = req.body;
 
-  const comment = await Comment.findByPk(id);
+  const comment = await Comment.findByPk(id_comment);
 
   if (!isInRange(text, 0, 200)) {
     return res.status(400).json({
       error: true,
-      message: "Comentário muito grande(máximo 200 caracteres)",
+      message: "Comment is too big(max 200 characters)",
     });
   }
 
@@ -22,7 +22,7 @@ const editComment = async (req: Request, res: Response) => {
     },
     {
       where: {
-        id,
+        id: id_comment,
       },
     }
   );
