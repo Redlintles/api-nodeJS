@@ -42,7 +42,7 @@ var addPostLike = function (req, res) { return __awaiter(void 0, void 0, void 0,
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _a = req.body, id_post = _a.id_post, id_user = _a.id_user;
+                _a = req.query, id_post = _a.id_post, id_user = _a.id_user;
                 return [4 /*yield*/, PostLikes.findOne({
                         where: {
                             id_post: id_post,
@@ -54,7 +54,7 @@ var addPostLike = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 if (hasAlreadyLiked) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "O Usuário já curtiu o post especificado",
+                            message: "The specified user has already liked this post",
                         })];
                 }
                 return [4 /*yield*/, PostLikes.create({
@@ -65,7 +65,7 @@ var addPostLike = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 like = _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
-                        message: "Like Adicionado com sucesso",
+                        message: "Like Added successfully",
                         obj: like,
                     })];
         }

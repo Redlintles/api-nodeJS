@@ -341,7 +341,7 @@
               "path": "/post/addPostLike",
               "identifier": "post-add-like",
               "desc": "Allows adding a like to a specific post.",
-              "body": [
+              "query": [
                 {
                   "field": "id_post",
                   "value": "number"
@@ -1134,7 +1134,7 @@
               "path": "/post/addPostLike",
               "identifier": "post-add-like",
               "desc": "Permite adicionar um like a um post, é necesssário o Id do post e o Id do usuário que o curtiu.",
-              "body": [
+              "query": [
                 {
                   "field": "id_post",
                   "value": "number"

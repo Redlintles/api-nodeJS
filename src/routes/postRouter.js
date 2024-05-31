@@ -56,7 +56,7 @@ router.post("/addPostLike", idValidator([
         fieldStr: "id_user",
         fieldObj: models.User,
     },
-]), addPostLike);
+], false, true), addPostLike);
 router.delete("/removePostLike", idValidator([
     {
         fieldStr: "id_post",

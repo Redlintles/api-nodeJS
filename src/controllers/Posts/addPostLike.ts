@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 const { PostLikes } = require("../../utils/models");
 
 const addPostLike = async (req: Request, res: Response) => {
-  const { id_post, id_user } = req.body;
+  const { id_post, id_user } = req.query;
 
   const hasAlreadyLiked = await PostLikes.findOne({
     where: {
@@ -15,7 +15,7 @@ const addPostLike = async (req: Request, res: Response) => {
   if (hasAlreadyLiked) {
     return res.status(400).json({
       error: true,
-      message: "O Usuário já curtiu o post especificado",
+      message: "The specified user has already liked this post",
     });
   }
 
@@ -26,7 +26,7 @@ const addPostLike = async (req: Request, res: Response) => {
 
   return res.status(200).json({
     error: false,
-    message: "Like Adicionado com sucesso",
+    message: "Like Added successfully",
     obj: like,
   });
 };
