@@ -25,13 +25,13 @@ const createGroup = async (req: ImageRequest, res: Response) => {
       message: "Image is too big(max 500kb)",
     });
   }
-  if (!isInRange(group_desc, 0, 30)) {
+  if (!isInRange(group_name, 0, 30)) {
     return res.status(400).json({
       error: true,
       message: "Group name must have max 30 character length",
     });
   }
-  if (!isInRange(group_name, 0, 200)) {
+  if (!isInRange(group_desc, 0, 200)) {
     return res.status(400).json({
       error: true,
       message: "Group description must have max 200 character length",
