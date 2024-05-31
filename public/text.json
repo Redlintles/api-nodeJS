@@ -717,11 +717,17 @@
             {
               "path": "/tag/delete",
               "identifier": "tag-delete",
-              "desc": "Allows a tag deletion",
-              "body": [
+              "desc": "Allows a tag deletion through it's id or it's name",
+              "query": [
                 {
                   "field": "id_tag",
-                  "value": "number"
+                  "value": "number",
+                  "optional": true
+                },
+                {
+                  "field": "tag_name",
+                  "value": "string",
+                  "optional": true
                 }
               ]
                
@@ -1487,12 +1493,18 @@
             },
             {
               "path": "/tag/delete",
-              "identifier": "tag-add",
+              "identifier": "tag-delete",
               "desc": "Permite remover uma tag.",
-              "body": [
+              "query": [
                 {
                   "field": "id_tag",
-                  "value": "number"
+                  "value": "number",
+                  "optional": true
+                },
+                {
+                  "field": "tag_name",
+                  "value": "string",
+                  "optional": true
                 }
               ]
                

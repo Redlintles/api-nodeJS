@@ -3,9 +3,26 @@ import { Request, Response } from "express";
 const { Tag } = require("../../utils/models");
 
 const deleteTag = async (req: Request, res: Response) => {
-  let { id_tag } = req.query;
+  let { id_tag, tag_name } = req.query;
 
-  const tag = await Tag.findByPk(id_tag);
+  let tag;
+  if (id_tag) {
+    tag = await Tag.findByPk(id_tag);
+  } else if (tag_name) {
+    tag = await Tag.findOne({ where: { tag_name } });
+  } else {
+    return res.status(400).json({
+      error: true,
+      message: "id_tag and tag_name not defined",
+    });
+  }
+
+  if (!tag) {
+    return res.status(400).json({
+      error: true,
+      message: "Tag not found for deletion",
+    });
+  }
 
   await tag.destroy();
 

@@ -38,17 +38,36 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Tag = require("../../utils/models").Tag;
 var deleteTag = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id_tag, tag;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a, id_tag, tag_name, tag;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                id_tag = req.query.id_tag;
+                _a = req.query, id_tag = _a.id_tag, tag_name = _a.tag_name;
+                if (!id_tag) return [3 /*break*/, 2];
                 return [4 /*yield*/, Tag.findByPk(id_tag)];
             case 1:
-                tag = _a.sent();
-                return [4 /*yield*/, tag.destroy()];
+                tag = _b.sent();
+                return [3 /*break*/, 5];
             case 2:
-                _a.sent();
+                if (!tag_name) return [3 /*break*/, 4];
+                return [4 /*yield*/, Tag.findOne({ where: { tag_name: tag_name } })];
+            case 3:
+                tag = _b.sent();
+                return [3 /*break*/, 5];
+            case 4: return [2 /*return*/, res.status(400).json({
+                    error: true,
+                    message: "id_tag and tag_name not defined",
+                })];
+            case 5:
+                if (!tag) {
+                    return [2 /*return*/, res.status(400).json({
+                            error: true,
+                            message: "Tag not found for deletion",
+                        })];
+                }
+                return [4 /*yield*/, tag.destroy()];
+            case 6:
+                _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Tag deleted successfully",
