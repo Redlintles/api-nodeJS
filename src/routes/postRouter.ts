@@ -53,12 +53,16 @@ router.put(
 );
 router.get(
   "/getById",
-  idValidator([
-    {
-      fieldStr: "id_post",
-      fieldObj: models.Post,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "id_post",
+        fieldObj: models.Post,
+      },
+    ],
+    false,
+    true
+  ),
   getPostById
 );
 router.get(

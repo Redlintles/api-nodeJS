@@ -34,7 +34,7 @@ router.get("/getById", idValidator([
         fieldStr: "id_post",
         fieldObj: models.Post,
     },
-]), getPostById);
+], false, true), getPostById);
 router.get("/getPostsByUserId", idValidator([
     {
         fieldStr: "id",
