@@ -40,30 +40,31 @@ var _a = require("../../utils/models"), User = _a.User, Group = _a.Group, sequel
 var validateId = require("../../utils/validateId");
 var isInRange = require("../../utils/stringUtils").isInRange;
 var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, admin_id, group_name, group_desc, max_size, groups, transaction, newGroup, _b;
+    var admin_id, _a, group_name, group_desc, max_size, groups, transaction, newGroup, _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
-                _a = req.body, admin_id = _a.admin_id, group_name = _a.group_name, group_desc = _a.group_desc;
+                admin_id = req.query.admin_id;
+                _a = req.body, group_name = _a.group_name, group_desc = _a.group_desc;
                 max_size = process.env.MAX_FILE_SIZE
                     ? parseInt(process.env.MAX_FILE_SIZE)
                     : 500000;
                 if (req.file && req.file.size > max_size) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "A imagem é muito grande",
+                            message: "Image is too big(max 500kb)",
                         })];
                 }
                 if (!isInRange(group_desc, 0, 30)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Nome do grupo deve ter no máximo 30 caracteres",
+                            message: "Group name must have max 30 character length",
                         })];
                 }
                 if (!isInRange(group_name, 0, 200)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Descrição do grupo deve ter no máximo 200 caracteres",
+                            message: "Group description must have max 200 character length",
                         })];
                 }
                 return [4 /*yield*/, Group.findAll({
@@ -77,7 +78,7 @@ var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 if (groups.map(function (g) { return g.group_name; }).includes(group_name)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Você já criou um grupo com este nome",
+                            message: "The user has already created a group with that name",
                         })];
                 }
                 return [4 /*yield*/, sequelizeConn.transaction()];
@@ -105,7 +106,7 @@ var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 _c.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
-                        message: "Grupo criado com sucesso",
+                        message: "Grupo created successfully",
                         obj: newGroup,
                     })];
             case 7:
@@ -113,7 +114,10 @@ var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [4 /*yield*/, transaction.rollback()];
             case 8:
                 _c.sent();
-                return [3 /*break*/, 9];
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "An unexpected error occurred, try again later",
+                    })];
             case 9: return [2 /*return*/];
         }
     });

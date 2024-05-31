@@ -426,11 +426,13 @@
               "path": "/group/add",
               "identifier": "group-add",
               "desc": "This route creates a group associated with a user.",
-              "body": [
+              "query": [
                 {
                   "field": "admin_id",
                   "value": "number"
-                },
+                }
+              ],
+              "body": [
                 {
                   "field": "group_name",
                   "value": "string"
@@ -1211,11 +1213,13 @@
               "path": "/group/add",
               "identifier": "group-add",
               "desc": "Essa rota cria um grupo associado a um usuário",
-              "body": [
+              "query": [
                 {
                   "field": "admin_id",
                   "value": "number"
-                },
+                }
+              ],
+              "body": [
                 {
                   "field": "group_name",
                   "value": "string"

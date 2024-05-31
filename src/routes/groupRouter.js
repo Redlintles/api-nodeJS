@@ -29,7 +29,7 @@ router.post("/add", idValidator([
         fieldStr: "admin_id",
         fieldObj: models.User,
     },
-]), upload.single("banner"), createGroup);
+], false, true), upload.single("banner"), createGroup);
 router.get("/getUserGroups", idValidator([
     {
         fieldStr: "id_user",

@@ -13,7 +13,8 @@ interface ImageRequest extends Request {
 }
 
 const createGroup = async (req: ImageRequest, res: Response) => {
-  const { admin_id, group_name, group_desc } = req.body;
+  const { admin_id } = req.query;
+  const { group_name, group_desc } = req.body;
   const max_size = process.env.MAX_FILE_SIZE
     ? parseInt(process.env.MAX_FILE_SIZE)
     : 500000;
@@ -21,19 +22,19 @@ const createGroup = async (req: ImageRequest, res: Response) => {
   if (req.file && req.file.size > max_size) {
     return res.status(400).json({
       error: true,
-      message: "A imagem é muito grande",
+      message: "Image is too big(max 500kb)",
     });
   }
   if (!isInRange(group_desc, 0, 30)) {
     return res.status(400).json({
       error: true,
-      message: "Nome do grupo deve ter no máximo 30 caracteres",
+      message: "Group name must have max 30 character length",
     });
   }
   if (!isInRange(group_name, 0, 200)) {
     return res.status(400).json({
       error: true,
-      message: "Descrição do grupo deve ter no máximo 200 caracteres",
+      message: "Group description must have max 200 character length",
     });
   }
 
@@ -47,7 +48,7 @@ const createGroup = async (req: ImageRequest, res: Response) => {
   if (groups.map((g: any) => g.group_name).includes(group_name)) {
     return res.status(400).json({
       error: true,
-      message: "Você já criou um grupo com este nome",
+      message: "The user has already created a group with that name",
     });
   }
 
@@ -70,11 +71,15 @@ const createGroup = async (req: ImageRequest, res: Response) => {
 
     return res.status(200).json({
       error: false,
-      message: "Grupo criado com sucesso",
+      message: "Grupo created successfully",
       obj: newGroup,
     });
   } catch {
     await transaction.rollback();
+    return res.status(500).json({
+      error: true,
+      message: "An unexpected error occurred, try again later",
+    });
   }
 };
 
