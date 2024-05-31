@@ -3,6 +3,9 @@ require("dotenv").config();
 
 const express = require("express");
 const app = express();
+const path = require("path");
+const pageText = require("../public/text.json");
+
 const userRouter = require("./routes/userRouter");
 const postRouter = require("./routes/postRouter");
 const commentsRouter = require("./routes/CommentsRouter");
@@ -14,6 +17,11 @@ const bodyParser = require("body-parser");
 const profileRouter = require("./routes/profileRouter");
 
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "..", "public")));
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 app.use("/post", postRouter);
 app.use("/user", userRouter);
 app.use("/comments", commentsRouter);
@@ -22,8 +30,25 @@ app.use("/admin", adminRouter);
 app.use("/group", groupRouter);
 app.use("/profile", profileRouter);
 
-app.get("/", async (_: Request, res: Response) => {
-  return res.send("Hello World!");
+app.get("/:language", (req: Request, res: Response) => {
+  const { language } = req.params;
+  const supportedLanguages = ["en", "pt"];
+
+  if (!supportedLanguages.includes(language)) {
+    return res.status(400).json({
+      error: true,
+      message: "Language is not supported",
+    });
+  } else {
+    return res.status(200).render("index", {
+      pageText,
+      language,
+    });
+  }
+});
+
+app.get("/", (_: Request, res: Response) => {
+  return res.redirect("/pt");
 });
 
 sequelize

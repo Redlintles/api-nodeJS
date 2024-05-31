@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageText[language].pageTitle %>></title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/route.css" />
+    <script src="/js/script.js" defer></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header__left">
+        <h1>Social Media API</h1>
+      </div>
+      <nav class="header__right">
+        <%for(let link of pageText[language].headerLinks) { %>
+        <a href="#" class="header__link"><%= link %></a>
+        <% } %>
+      </nav>
+    </header>
+    <main>
+      <section id="resume">
+        <div class="resume__left">
+          <h2><%= pageText[language].resume.title %></h2>
+          <% for(let text of pageText[language].resume.text) { %>
+          <p><%= text %></p>
+
+          <% } %>
+          <a href="https://github.com/Redlintles/api-nodeJS" target="_blank"
+            ><%= pageText[language].resume.linkText %>
+          </a>
+        </div>
+        <div class="resume__right">
+          <div class="resume__img"></div>
+        </div>
+      </section>
+      <section id="routes">
+        <h2 class="section__title">
+          <%= pageText[language].routes.sectionTitle %>
+        </h2>
+
+        <% for(let route of pageText[language].routes.models) { %>
+        <div class="route">
+          <div class="route__left">
+            <h3><%= route.name %></h3>
+            <ul class="route__links">
+              <% for(let link of route.links) { %>
+              <li>
+                <% if(link === route.links[0]) { %>
+                <a
+                  href="#"
+                  class="route__link route__link--selected"
+                  data-target="<%= link.dataTarget %>"
+                >
+                  <%= link.link %>
+                </a>
+                <% } else { %>
+                <a
+                  href="#"
+                  class="route__link"
+                  data-target="<%= link.dataTarget %>"
+                >
+                  <%= link.link %>
+                </a>
+
+                <% } %>
+              </li>
+              <% } %>
+            </ul>
+          </div>
+          <div class="route__right">
+            <% for(let data of route.explain) { %>
+            <div
+              class="route__explain <%= data === route.explain[0] ? 'route__explain--visible' : '' %>"
+              data-identifier="<%= data.identifier %>"
+            >
+              <h4 class="route__path">
+                <%= pageText[language].routes.routePath %><%= data.path %>
+              </h4>
+              <p class="route__desc"><%= data.desc %></p>
+              <div class="route__params">
+                <h5><%= pageText[language].routes.paramsTitle %></h5>
+                <% if(Object.keys(data).includes("query")) { %>
+                <h6>Query:</h6>
+                <% for (let param of data.query) { %>
+                <p
+                  class="route__parameter <%= param.optional ? 'optional' : '' %>"
+                >
+                  <span><%= param.field %>: </span>
+                  &lt; <%= param.value %>&gt;
+                </p>
+                <% } %> <% } %> <% if(Object.keys(data).includes("body")) { %>
+                <h6>Body:</h6>
+                <% for (let param of data.body) { %>
+                <p
+                  class="route__parameter <%= param.optional ? 'optional' : '' %>"
+                >
+                  <span><%= param.field %>: </span>
+                  &lt; <%= param.value %>&gt;
+                </p>
+                <% } %> <% } %>
+              </div>
+            </div>
+            <% } %>
+          </div>
+        </div>
+
+        <% } %>
+      </section>
+    </main>
+    <footer></footer>
+  </body>
+</html>
