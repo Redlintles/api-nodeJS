@@ -78,7 +78,7 @@ var editPostById = function (req, res) { return __awaiter(void 0, void 0, void 0
                 if (req.file) {
                     obj2["image"] = req.file.buffer;
                 }
-                return [4 /*yield*/, Post.update(obj2, {
+                return [4 /*yield*/, Post.update(__assign(__assign({}, obj2), { id_author: old.id_author }), {
                         where: {
                             id: id,
                         },

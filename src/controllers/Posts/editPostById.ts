@@ -42,11 +42,17 @@ const editPostById = async (req: ImageRequest, res: Response) => {
   if (req.file) {
     obj2["image"] = req.file.buffer;
   }
-  await Post.update(obj2, {
-    where: {
-      id,
+  await Post.update(
+    {
+      ...obj2,
+      id_author: old.id_author,
     },
-  });
+    {
+      where: {
+        id,
+      },
+    }
+  );
 
   return res.status(200).json({
     error: false,
