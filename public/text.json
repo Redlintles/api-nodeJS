@@ -356,11 +356,11 @@
             },
             {
               "path": "/post/getPostsByUserId",
-              "identifier": "post-add-friend",
+              "identifier": "post-get-by-user-id",
               "desc": "Allows fetching all posts from an specific user.",
               "query": [
                 {
-                "field": "id",
+                "field": "id_author",
                 "value": "number"
                 }
               ]     
@@ -1149,11 +1149,11 @@
             },
             {
               "path": "/post/getPostsByUserId",
-              "identifier": "post-add-friend",
+              "identifier": "post-get-by-user-id",
               "desc": "Permite recuperar todos os posts que um determinado usuário fez.",
               "query": [
                 {
-                "field": "id",
+                "field": "id_author",
                 "value": "number"
                 }
               ]     

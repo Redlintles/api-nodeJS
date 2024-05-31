@@ -67,12 +67,16 @@ router.get(
 );
 router.get(
   "/getPostsByUserId",
-  idValidator([
-    {
-      fieldStr: "id",
-      fieldObj: models.User,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "id_author",
+        fieldObj: models.User,
+      },
+    ],
+    false,
+    true
+  ),
   getPostsByUserId
 );
 router.delete(

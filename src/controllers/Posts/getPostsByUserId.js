@@ -38,23 +38,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Post = require("../../utils/models").Post;
 var getPostsByUserId = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, posts;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var id_author, posts, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                id = req.query.id;
+                id_author = req.query.id_author;
+                _b.label = 1;
+            case 1:
+                _b.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, Post.findAll({
                         where: {
-                            id_author: id,
+                            id_author: id_author,
                         },
                     })];
-            case 1:
-                posts = _a.sent();
+            case 2:
+                posts = _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
-                        message: "Posts Encontrados com sucesso",
+                        message: "Posts founds successfully",
                         posts: posts,
                     })];
+            case 3:
+                _a = _b.sent();
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "An unexpected error ocurred, try again later",
+                    })];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
