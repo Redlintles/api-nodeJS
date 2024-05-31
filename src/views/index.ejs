@@ -28,7 +28,7 @@
 
           <% } %>
           <a href="https://github.com/Redlintles/api-nodeJS" target="_blank"
-            >Repositório Github
+            ><%= pageText[language].resume.linkText %>
           </a>
         </div>
         <div class="resume__right">
@@ -75,7 +75,9 @@
               class="route__explain <%= data === route.explain[0] ? 'route__explain--visible' : '' %>"
               data-identifier="<%= data.identifier %>"
             >
-              <h4 class="route__path"><%= data.path %></h4>
+              <h4 class="route__path">
+                <%= pageText[language].routes.routePath %><%= data.path %>
+              </h4>
               <p class="route__desc"><%= data.desc %></p>
               <div class="route__params">
                 <h5><%= pageText[language].routes.paramsTitle %></h5>

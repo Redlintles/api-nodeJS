@@ -71,10 +71,6 @@
   margin-bottom: 1rem;
   align-self: center;
 }
-
-.route__path::before {
-  content: "Caminho para a rota: ";
-}
 .route__explain--visible {
   display: flex !important;
   flex-direction: column;
