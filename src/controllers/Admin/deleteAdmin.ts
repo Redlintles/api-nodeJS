@@ -1,22 +1,10 @@
-import { error } from "console";
 import { Request, Response } from "express";
 
 const { Admin } = require("../../utils/models");
 
-const validateId = require("../../utils/validateId");
-
 const deleteAdmin = async (req: Request, res: Response) => {
   const apiKey = req.headers["x-api-key"];
-  const { admin_id } = req.query;
-
-  let adminId = validateId(admin_id);
-
-  if (typeof adminId === "string") {
-    return res.status(400).json({
-      error: true,
-      message: adminId,
-    });
-  }
+  const { admin_id: adminId } = req.query;
 
   const root = await Admin.findOne({
     where: {
@@ -31,7 +19,7 @@ const deleteAdmin = async (req: Request, res: Response) => {
     });
   }
 
-  if (adminId === 1) {
+  if (parseInt(adminId as string) === 1) {
     return res.status(400).json({
       error: true,
       message: "Cannot delete root",

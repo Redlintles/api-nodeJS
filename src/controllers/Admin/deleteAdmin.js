@@ -37,21 +37,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Admin = require("../../utils/models").Admin;
-var validateId = require("../../utils/validateId");
 var deleteAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var apiKey, admin_id, adminId, root, admin;
+    var apiKey, adminId, root, admin;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 apiKey = req.headers["x-api-key"];
-                admin_id = req.query.admin_id;
-                adminId = validateId(admin_id);
-                if (typeof adminId === "string") {
-                    return [2 /*return*/, res.status(400).json({
-                            error: true,
-                            message: adminId,
-                        })];
-                }
+                adminId = req.query.admin_id;
                 return [4 /*yield*/, Admin.findOne({
                         where: {
                             "api-key": apiKey,
@@ -65,7 +57,7 @@ var deleteAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             message: "Unauthorized",
                         })];
                 }
-                if (adminId === 1) {
+                if (parseInt(adminId) === 1) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
                             message: "Cannot delete root",

@@ -764,7 +764,7 @@
               "desc": "Allows removing an admin.",
               "query": [
                 {
-                  "field": "id",
+                  "field": "admin_id",
                   "value": "number"
                 }
               ]
@@ -1535,7 +1535,7 @@
               "desc": "Permite remover um admin.",
               "query": [
                 {
-                  "field": "id",
+                  "field": "admin_id",
                   "value": "number"
                 }
               ]
