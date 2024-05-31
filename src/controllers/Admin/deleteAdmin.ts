@@ -7,9 +7,9 @@ const validateId = require("../../utils/validateId");
 
 const deleteAdmin = async (req: Request, res: Response) => {
   const apiKey = req.headers["x-api-key"];
-  const { id } = req.query;
+  const { admin_id } = req.query;
 
-  let adminId = validateId(id);
+  let adminId = validateId(admin_id);
 
   if (typeof adminId === "string") {
     return res.status(400).json({
