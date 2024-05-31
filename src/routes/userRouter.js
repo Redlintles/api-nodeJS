@@ -43,7 +43,7 @@ router.post("/addFollower", idValidator([
         fieldStr: "id_followed",
         fieldObj: models.User,
     },
-], true), addFollower);
+], true, true), addFollower);
 router.delete("/removeFollower", idValidator([
     {
         fieldStr: "id_follower",

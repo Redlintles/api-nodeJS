@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 const { UserFollower } = require("../../utils/models");
 
 const addFollower = async (req: Request, res: Response) => {
-  const { id_follower, id_followed } = req.body;
+  const { id_follower, id_followed } = req.query;
 
   const alreadyExists = await UserFollower.findOne({
     where: {
@@ -19,16 +19,23 @@ const addFollower = async (req: Request, res: Response) => {
     });
   }
 
-  const relationship = await UserFollower.create({
-    id_followed,
-    id_follower,
-  });
+  try {
+    const relationship = await UserFollower.create({
+      id_followed,
+      id_follower,
+    });
 
-  return res.status(200).json({
-    error: false,
-    message: "follower added successfully",
-    obj: relationship,
-  });
+    return res.status(200).json({
+      error: false,
+      message: "follower added successfully",
+      obj: relationship,
+    });
+  } catch {
+    return res.status(500).json({
+      error: true,
+      message: "An unexpected error ocurred, try again later",
+    });
+  }
 };
 
 module.exports = addFollower;

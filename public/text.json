@@ -143,7 +143,7 @@
               "path": "/user/addFollower",
               "identifier": "user-add-follower",
               "desc": "Allows adding a follower to an user, just give the id's of both.",
-              "body": [
+              "query": [
                 {
                   "field": "id_follower",
                   "value": "number"
@@ -938,7 +938,7 @@
               "path": "/user/addFollower",
               "identifier": "user-add-follower",
               "desc": "Permite adicionar um seguidor a um usuário, basta prover o id do seguidor e o usuário a ser seguido",
-              "body": [
+              "query": [
                 {
                   "field": "id_follower",
                   "value": "number"

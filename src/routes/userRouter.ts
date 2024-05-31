@@ -73,6 +73,7 @@ router.post(
         fieldObj: models.User,
       },
     ],
+    true,
     true
   ),
   addFollower

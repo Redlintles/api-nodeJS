@@ -38,11 +38,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var UserFollower = require("../../utils/models").UserFollower;
 var addFollower = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_follower, id_followed, alreadyExists, relationship;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var _a, id_follower, id_followed, alreadyExists, relationship, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
-                _a = req.body, id_follower = _a.id_follower, id_followed = _a.id_followed;
+                _a = req.query, id_follower = _a.id_follower, id_followed = _a.id_followed;
                 return [4 /*yield*/, UserFollower.findOne({
                         where: {
                             id_followed: id_followed,
@@ -50,24 +50,34 @@ var addFollower = function (req, res) { return __awaiter(void 0, void 0, void 0,
                         },
                     })];
             case 1:
-                alreadyExists = _b.sent();
+                alreadyExists = _c.sent();
                 if (alreadyExists) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
                             message: "relationship already exists",
                         })];
                 }
+                _c.label = 2;
+            case 2:
+                _c.trys.push([2, 4, , 5]);
                 return [4 /*yield*/, UserFollower.create({
                         id_followed: id_followed,
                         id_follower: id_follower,
                     })];
-            case 2:
-                relationship = _b.sent();
+            case 3:
+                relationship = _c.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "follower added successfully",
                         obj: relationship,
                     })];
+            case 4:
+                _b = _c.sent();
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "An unexpected error ocurred, try again later",
+                    })];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
