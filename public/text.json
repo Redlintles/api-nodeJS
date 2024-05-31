@@ -1,6 +1,7 @@
 {
   "en": {
     "headerLinks": ["Resume","Routes","Credits"],
+    "pageTitle": "API node.js express sequelize",
     "resume": {
       "title": "API Resume",
       "text": [
@@ -777,6 +778,7 @@
 
   "pt": {
     "headerLinks": ["Resumo","Rotas","Créditos"],
+    "pageTitle": "API node.js express sequelize",
     "resume": {
       "title": "Resumo da API",
       "text": [
