@@ -18,7 +18,7 @@ router.post("/add", idValidator([
         fieldStr: "id_post",
         fieldObj: models.Post,
     },
-]), createComment);
+], false, true), createComment);
 router.delete("/deleteById", idValidator([
     {
         fieldStr: "id",

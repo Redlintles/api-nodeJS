@@ -40,11 +40,12 @@ var Comment = require("../../utils/models").Comment;
 var validateId = require("../../utils/validateId");
 var isInRange = require("../../utils/stringUtils").isInRange;
 var createComment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_author, id_post, belongs_to, comment, origin_1, register;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var _a, id_author, id_post, _b, comment, belongs_to, origin_1, register;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
-                _a = req.body, id_author = _a.id_author, id_post = _a.id_post, belongs_to = _a.belongs_to, comment = _a.comment;
+                _a = req.query, id_author = _a.id_author, id_post = _a.id_post;
+                _b = req.body, comment = _b.comment, belongs_to = _b.belongs_to;
                 if (belongs_to) {
                     belongs_to = validateId(belongs_to);
                     if (typeof belongs_to === "string") {
@@ -60,7 +61,7 @@ var createComment = function (req, res) { return __awaiter(void 0, void 0, void 
                 if (!belongs_to) return [3 /*break*/, 2];
                 return [4 /*yield*/, Comment.findByPk(belongs_to)];
             case 1:
-                origin_1 = _b.sent();
+                origin_1 = _c.sent();
                 if (!origin_1) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
@@ -73,12 +74,12 @@ var createComment = function (req, res) { return __awaiter(void 0, void 0, void 
                             message: "An answer cannot belong to another answer",
                         })];
                 }
-                _b.label = 2;
+                _c.label = 2;
             case 2:
                 if (!isInRange(comment, 0, 200)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Tamanho máximo para um comentário é de 200 caracteres",
+                            message: "Max size for comment is 200 characters",
                         })];
                 }
                 return [4 /*yield*/, Comment.create({
@@ -88,7 +89,7 @@ var createComment = function (req, res) { return __awaiter(void 0, void 0, void 
                         belongs_to: belongs_to,
                     })];
             case 3:
-                register = _b.sent();
+                register = _c.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Comment Created Successfully",

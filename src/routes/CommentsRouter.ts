@@ -12,16 +12,20 @@ const editComment = require("../controllers/Comments/editComment");
 router.use(auth);
 router.post(
   "/add",
-  idValidator([
-    {
-      fieldStr: "id_author",
-      fieldObj: models.User,
-    },
-    {
-      fieldStr: "id_post",
-      fieldObj: models.Post,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "id_author",
+        fieldObj: models.User,
+      },
+      {
+        fieldStr: "id_post",
+        fieldObj: models.Post,
+      },
+    ],
+    false,
+    true
+  ),
   createComment
 );
 router.delete(

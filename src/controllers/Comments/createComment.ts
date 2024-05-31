@@ -4,7 +4,8 @@ const validateId = require("../../utils/validateId");
 const { isInRange } = require("../../utils/stringUtils");
 
 const createComment = async (req: Request, res: Response) => {
-  let { id_author, id_post, belongs_to, comment } = req.body;
+  let { id_author, id_post } = req.query;
+  let { comment, belongs_to } = req.body;
 
   if (belongs_to) {
     belongs_to = validateId(belongs_to);
@@ -39,7 +40,7 @@ const createComment = async (req: Request, res: Response) => {
   if (!isInRange(comment, 0, 200)) {
     return res.status(400).json({
       error: true,
-      message: "Tamanho máximo para um comentário é de 200 caracteres",
+      message: "Max size for comment is 200 characters",
     });
   }
 
