@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 interface field {
   fieldStr: string;
   fieldObj: any;
+  optional: boolean;
 }
 
 const validateId = require("../utils/validateId");
@@ -19,6 +20,10 @@ function idValidator(
       const { fieldStr, fieldObj } = field;
       const value = queryParams ? req.query[fieldStr] : req.body[fieldStr];
       const isValid = validateId(value);
+
+      if (value === undefined && field.optional) {
+        continue;
+      }
 
       if (typeof isValid === "string") {
         return res.status(400).json({

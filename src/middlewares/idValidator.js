@@ -55,6 +55,9 @@ function idValidator(fields, equal, queryParams) {
                     fieldStr = field.fieldStr, fieldObj = field.fieldObj;
                     value = queryParams ? req.query[fieldStr] : req.body[fieldStr];
                     isValid = validateId(value);
+                    if (value === undefined && field.optional) {
+                        return [3 /*break*/, 3];
+                    }
                     if (typeof isValid === "string") {
                         return [2 /*return*/, res.status(400).json({
                                 error: true,
