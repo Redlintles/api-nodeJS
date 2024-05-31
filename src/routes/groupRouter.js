@@ -83,5 +83,5 @@ router.delete("/deleteMember", idValidator([
         fieldStr: "id_group",
         fieldObj: models.Group,
     },
-]), deleteMember);
+], false, true), deleteMember);
 module.exports = router;

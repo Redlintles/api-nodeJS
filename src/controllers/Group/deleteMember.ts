@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 const { Group, User, UserGroup } = require("../../utils/models");
 
 const deleteMember = async (req: Request, res: Response) => {
-  const { id_member, id_group } = req.body;
+  const { id_member, id_group } = req.query;
 
   const targetGroup = await Group.findByPk(id_group);
   const targetUser = await User.findByPk(id_member);
@@ -11,7 +11,7 @@ const deleteMember = async (req: Request, res: Response) => {
   if (targetGroup.admin_id === targetUser.id) {
     return res.status(400).json({
       error: true,
-      message: "O Dono não pode se excluir do grupo que criou",
+      message: "The admin cannot delete himself from the group he created",
     });
   }
 
@@ -25,7 +25,7 @@ const deleteMember = async (req: Request, res: Response) => {
   if (!groupMember) {
     return res.status(400).json({
       error: true,
-      message: "O Grupo não contém o usuário especificado",
+      message: "The group does not contain the specified user",
     });
   }
 
@@ -33,7 +33,7 @@ const deleteMember = async (req: Request, res: Response) => {
 
   return res.status(200).json({
     error: false,
-    message: "Usuário excluído com sucesso",
+    message: "User deleted successfully",
   });
 };
 

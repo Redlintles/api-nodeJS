@@ -42,7 +42,7 @@ var deleteMember = function (req, res) { return __awaiter(void 0, void 0, void 0
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _a = req.body, id_member = _a.id_member, id_group = _a.id_group;
+                _a = req.query, id_member = _a.id_member, id_group = _a.id_group;
                 return [4 /*yield*/, Group.findByPk(id_group)];
             case 1:
                 targetGroup = _b.sent();
@@ -52,7 +52,7 @@ var deleteMember = function (req, res) { return __awaiter(void 0, void 0, void 0
                 if (targetGroup.admin_id === targetUser.id) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "O Dono não pode se excluir do grupo que criou",
+                            message: "The admin cannot delete himself from the group he created",
                         })];
                 }
                 return [4 /*yield*/, UserGroup.findOne({
@@ -66,7 +66,7 @@ var deleteMember = function (req, res) { return __awaiter(void 0, void 0, void 0
                 if (!groupMember) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "O Grupo não contém o usuário especificado",
+                            message: "The group does not contain the specified user",
                         })];
                 }
                 return [4 /*yield*/, groupMember.destroy()];
@@ -74,7 +74,7 @@ var deleteMember = function (req, res) { return __awaiter(void 0, void 0, void 0
                 _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
-                        message: "Usuário excluído com sucesso",
+                        message: "User deleted successfully",
                     })];
         }
     });

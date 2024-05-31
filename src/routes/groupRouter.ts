@@ -125,16 +125,20 @@ router.post(
 );
 router.delete(
   "/deleteMember",
-  idValidator([
-    {
-      fieldStr: "id_member",
-      fieldObj: models.User,
-    },
-    {
-      fieldStr: "id_group",
-      fieldObj: models.Group,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "id_member",
+        fieldObj: models.User,
+      },
+      {
+        fieldStr: "id_group",
+        fieldObj: models.Group,
+      },
+    ],
+    false,
+    true
+  ),
   deleteMember
 );
 
