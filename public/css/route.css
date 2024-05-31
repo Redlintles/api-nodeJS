@@ -28,16 +28,24 @@
   width: 5px;
 
 }
-
+.route__links {
+  display: grid;
+  grid-template-columns: repeat(1,1fr);
+}
 .route__links > li {
+  grid-column: span 1;
   padding: .75rem 1rem;
   background-color: var(--bg-color);
   border: 1px solid var(--stroke-color);
-  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .route__link {
-
+  font-size: 1.2rem;
+  color: inherit;
 
 }
 

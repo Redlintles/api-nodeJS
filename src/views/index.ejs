@@ -14,291 +14,97 @@
         <h1>Social Media API</h1>
       </div>
       <nav class="header__right">
-        <a href="#" class="header__link">Resumo</a>
-        <a href="#" class="header__link">Rotas</a>
-        <a href="#" class="header__link">Créditos</a>
+        <%for(let link of pageText[language].headerLinks) { %>
+        <a href="#" class="header__link"><%= link %></a>
+        <% } %>
       </nav>
     </header>
     <main>
       <section id="resume">
         <div class="resume__left">
-          <h2>Resumo da API</h2>
-          <p>
-            Esta API foi criada para ser usada num contexto de rede
-            social(resumido). As tecnologias utilizadas para a construção dessa
-            API foram HTML,CSS, Javascript, Node.js, Express, Sequelize e MySQL
-            como banco de dados.
-          </p>
-          <p>
-            Essa API foi construída ao longo de pouco mais de um mês e seu
-            repositório no github pode ser acessado através do link
-            <a href="https://github.com/Redlintles/api-nodeJS"
-              >https://github.com/Redlintles/api-nodeJS</a
-            >
-          </p>
-          <p>
-            É uma API super simples e enxuta, que manipula 12 tabelas no banco
-            de dados, com o uso de poucas bibliotecas, basicamente o multer e o
-            UUID.
-          </p>
-          <p>
-            Abaixo estão listadas As rotas da API, como elas devem ser chamadas,
-            e os parâmetros que cada uma recebe
-          </p>
+          <h2><%= pageText[language].resume.title %></h2>
+          <% for(let text of pageText[language].resume.text) { %>
+          <p><%= text %></p>
+
+          <% } %>
+          <a href="https://github.com/Redlintles/api-nodeJS" target="_blank"
+            >Repositório Github
+          </a>
         </div>
         <div class="resume__right">
           <div class="resume__img"></div>
         </div>
       </section>
       <section id="routes">
-        <h2 class="section__title">Rotas da API</h2>
+        <h2 class="section__title">
+          <%= pageText[language].routes.sectionTitle %>
+        </h2>
+
+        <% for(let route of pageText[language].routes.models) { %>
         <div class="route">
           <div class="route__left">
-            <h3>Post</h3>
+            <h3><%= route.name %></h3>
             <ul class="route__links">
+              <% for(let link of route.links) { %>
               <li>
+                <% if(link === route.links[0]) { %>
                 <a
                   href="#"
                   class="route__link route__link--selected"
-                  data-target="post-add"
-                  >Create</a
+                  data-target="<%= link.dataTarget %>"
                 >
-              </li>
-              <li>
-                <a href="#" class="route__link" data-target="post-read">Read</a>
-              </li>
-              <li>
-                <a href="#" class="route__link" data-target="post-edit"
-                  >Update</a
+                  <%= link.link %>
+                </a>
+                <% } else { %>
+                <a
+                  href="#"
+                  class="route__link"
+                  data-target="<%= link.dataTarget %>"
                 >
+                  <%= link.link %>
+                </a>
+
+                <% } %>
               </li>
-              <li>
-                <a href="#" class="route__link" data-target="post-delete"
-                  >Delete</a
-                >
-              </li>
-              <li>
-                <a href="#" class="route__link" data-target="post-addlike"
-                  >Add like</a
-                >
-              </li>
-              <li>
-                <a href="#" class="route__link" data-target="post-getalluser"
-                  >Get all posts by user id</a
-                >
-              </li>
-              <li>
-                <a href="#" class="route__link" data-target="post-rmlike"
-                  >Remove Like</a
-                >
-              </li>
+              <% } %>
             </ul>
           </div>
           <div class="route__right">
+            <% for(let data of route.explain) { %>
             <div
-              class="route__explain route__explain--visible"
-              data-identifier="post-add"
+              class="route__explain <%= data === route.explain[0] ? 'route__explain--visible' : '' %>"
+              data-identifier="<%= data.identifier %>"
             >
-              <h4 class="route__path">/post/add</h4>
-              <p class="route_desc">
-                Essa rota cria um post associado a um usuário, Este post deve
-                conter obrigatoriamente o id do autor, um título, um conteúdo e
-                opcionalmente uma imagem de até 500kb.
-              </p>
+              <h4 class="route__path"><%= data.path %></h4>
+              <p class="route__desc"><%= data.desc %></p>
               <div class="route__params">
-                <h5>Parâmetros da rota:</h5>
+                <h5><%= pageText[language].routes.paramsTitle %></h5>
+                <% if(Object.keys(data).includes("query")) { %>
+                <h6>Query:</h6>
+                <% for (let param of data.query) { %>
+                <p
+                  class="route__parameter <%= param.optional ? 'optional' : '' %>"
+                >
+                  <span><%= param.field %>: </span>
+                  &lt; <%= param.value %>&gt;
+                </p>
+                <% } %> <% } %> <% if(Object.keys(data).includes("body")) { %>
                 <h6>Body:</h6>
-                <p class="route__parameter">
-                  <span>id_author: </span>&lt;number&gt;
+                <% for (let param of data.body) { %>
+                <p
+                  class="route__parameter <%= param.optional ? 'optional' : '' %>"
+                >
+                  <span><%= param.field %>: </span>
+                  &lt; <%= param.value %>&gt;
                 </p>
-                <p class="route__parameter">
-                  <span>title: </span>&lt;string&gt;
-                </p>
-                <p class="route__parameter">
-                  <span>content: </span>&lt;string&gt;
-                </p>
-                <p class="route__parameter"><span>image: </span>&lt;blob&gt;</p>
+                <% } %> <% } %>
               </div>
             </div>
-            <div class="route__explain" data-identifier="post-read">
-              <h4 class="route__path">/post/getById</h4>
-              <p class="route_desc">
-                Recupera um post através do seu id, as informações obtidas são,
-                respectivamente: as informações do post,do autor,os comentários
-                e a quantidade de likes.
-              </p>
-              <div class="route__params">
-                <h5>Parâmetros da rota:</h5>
-                <h6>Query:</h6>
-                <p class="route__parameter">
-                  <span>id_post: </span>&lt;number&gt;
-                </p>
-              </div>
-            </div>
-            <div class="route__explain" data-identifier="post-edit">
-              <h4 class="route__path">/post/editById</h4>
-              <p class="route_desc">
-                Permite a edição de um post através de seu ID, você pode mudar o
-                título, o conteúdo e a imagem
-              </p>
-              <div class="route__params">
-                <h5>Parâmetros da rota:</h5>
-                <h6>Query:</h6>
-                <p class="route__parameter"><span>id</span>&lt;number&gt;</p>
-                <h6>Body:</h6>
-                <p class="route__parameter">
-                  <span>title: </span>&lt;string&gt;
-                </p>
-                <p class="route__parameter">
-                  <span>content: </span>&lt;string&gt;
-                </p>
-                <p class="route__parameter"><span>image: </span>&lt;blob&gt;</p>
-              </div>
-            </div>
-            <div class="route__explain" data-identifier="post-delete">
-              <h4 class="route__path">/post/deleteById</h4>
-              <p class="route_desc">
-                Permite a exclusão de um post através do seu ID
-              </p>
-              <div class="route__params">
-                <h5>Parâmetros da rota:</h5>
-                <h6>Query</h6>
-                <p class="route__parameter">
-                  <span>id_post: </span>&lt;number&gt;
-                </p>
-              </div>
-            </div>
-            <div class="route__explain" data-identifier="post-addlike">
-              <h4 class="route__path">/post/addPostLike</h4>
-              <p class="route_desc">
-                Permite adicionar um like a um post, é necesssário o Id do post
-                e o Id do usuário que o curtiu.
-              </p>
-              <div class="route__params">
-                <h5>Parâmetros da rota:</h5>
-                <h6>Body:</h6>
-                <p class="route__parameter">
-                  <span>id_post: </span>&lt;number&gt;
-                </p>
-                <p class="route__parameter">
-                  <span>id_user: </span>&lt;number&gt;
-                </p>
-              </div>
-            </div>
-            <div class="route__explain" data-identifier="post-rmlike">
-              <h4 class="route__path">/post/deleteById</h4>
-              <p class="route_desc">
-                Permite a exclusão de um like através do id do post e o id do
-                usuário que o curtiu
-              </p>
-              <div class="route__params">
-                <h5>Parâmetros da rota:</h5>
-                <h6>Query:</h6>
-                <p class="route__parameter">
-                  <span>id_post: </span>&lt;number&gt;
-                </p>
-                <p class="route__parameter">
-                  <span>id_user: </span>&lt;number&gt;
-                </p>
-              </div>
-            </div>
-            <div class="route__explain" data-identifier="post-getalluser">
-              <h4 class="route__path">/post/getPostsByUserId</h4>
-              <p class="route_desc">
-                Permite recuperar todos os posts que um determinado usuário fez.
-              </p>
-              <div class="route__params">
-                <h5>Parâmetros da rota:</h5>
-                <h6>Query:</h6>
-                <p class="route__parameter"><span>id: </span>&lt;number&gt;</p>
-              </div>
-            </div>
+            <% } %>
           </div>
         </div>
-        <div class="route">
-          <div class="route__left">
-            <h3>Route Title</h3>
-            <ul class="route__links">
-              <li>
-                <a href="#" class="route__link" data-target="">Create</a>
-              </li>
-              <li>
-                <a href="#" class="route__link" data-target="">Read</a>
-              </li>
-              <li>
-                <a href="#" class="route__link" data-target="">Update</a>
-              </li>
-              <li>
-                <a href="#" class="route__link" data-target="">Delete</a>
-              </li>
-            </ul>
-          </div>
-          <div class="route__right">
-            <div class="route__explain">
-              <h4 class="route__path">/post/add</h4>
-              <p class="route_desc">Lorem ipsum dolor sit amet.</p>
-              <div class="route_params">
-                <p><span>Username: </span>&lt;string&gt;</p>
-              </div>
-            </div>
-            <div class="route__explain">
-              <h4 class="route__path">/post/deleteById</h4>
-              <p class="route_desc">Lorem ipsum dolor sit amet.</p>
-              <div class="route__params">
-                <p><span>Id: </span>&lt;number&gt;</p>
-              </div>
-            </div>
-            <div class="route__explain">
-              <h4 class="route__path">/post/getById</h4>
-              <p class="route_desc">Lorem ipsum dolor sit amet.</p>
-              <div class="route__params">
-                <p><span>Id: </span>&lt;number&gt;</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="route">
-          <div class="route__left">
-            <h3>Route Title</h3>
-            <ul class="route__links">
-              <li>
-                <a href="#" class="route__link" data-target="">Create</a>
-              </li>
-              <li>
-                <a href="#" class="route__link" data-target="">Read</a>
-              </li>
-              <li>
-                <a href="#" class="route__link" data-target="">Update</a>
-              </li>
-              <li>
-                <a href="#" class="route__link" data-target="">Delete</a>
-              </li>
-            </ul>
-          </div>
-          <div class="route__right">
-            <div class="route__explain">
-              <h4 class="route__path">/post/add</h4>
-              <p class="route_desc">Lorem ipsum dolor sit amet.</p>
-              <div class="route_params">
-                <p><span>Username: </span>&lt;string&gt;</p>
-              </div>
-            </div>
-            <div class="route__explain">
-              <h4 class="route__path">/post/deleteById</h4>
-              <p class="route_desc">Lorem ipsum dolor sit amet.</p>
-              <div class="route__params">
-                <p><span>Id: </span>&lt;number&gt;</p>
-              </div>
-            </div>
-            <div class="route__explain">
-              <h4 class="route__path">/post/getById</h4>
-              <p class="route_desc">Lorem ipsum dolor sit amet.</p>
-              <div class="route__params">
-                <p><span>Id: </span>&lt;number&gt;</p>
-              </div>
-            </div>
-          </div>
-        </div>
+
+        <% } %>
       </section>
     </main>
     <footer></footer>

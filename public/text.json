@@ -1,0 +1,768 @@
+{
+  "en": {
+    "headerLinks": ["Resume","Routes","Credits"]
+  },
+
+  "pt": {
+    "headerLinks": ["Resumo","Rotas","Créditos"],
+    "resume": {
+      "title": "Resumo da API",
+      "text": [
+        "Esta API foi criada para ser usada num contexto de rede social(resumido). As tecnologias utilizadas para a construção dessa API foram HTML,CSS, Javascript, Node.js, Express, Sequelize e MySQL como banco de dados.",
+        "Essa API foi construída ao longo de pouco mais de um mês e seu repositório no github pode ser acessado através do link ao final deste resumo.",
+        "É uma API super simples e enxuta, que manipula 12 tabelas no banco de dados, com o uso de poucas bibliotecas, basicamente o multer e o UUID.",
+        "Abaixo estão listadas As rotas da API, como elas devem ser chamadas,e os parâmetros que cada uma recebe."
+      ]
+    },
+
+    "routes": {
+      "sectionTitle": "Rotas da API",
+      "paramsTitle": "Parâmetros da rota",
+      "models": [
+        {
+          "name" : "User",
+          "links": [
+            {
+            "link": "Create",
+            "dataTarget": "user-add"
+            },
+            {
+            "link": "Read",
+            "dataTarget": "user-read"
+            },
+            {
+            "link": "Update",
+            "dataTarget": "user-edit"
+            },
+            {
+            "link": "Delete",
+            "dataTarget": "user-delete"
+            },
+            {
+            "link": "Add Follower",
+            "dataTarget": "user-add-follower"
+            },
+            {
+            "link": "Remove Follower",
+            "dataTarget": "user-remove-follower"
+            },
+            {
+            "link": "Add Friend",
+            "dataTarget": "user-add-friend"
+            },
+            {
+            "link": "Remove Friend",
+            "dataTarget": "user-remove-friend"
+            },
+            {
+            "link": "Add Tag",
+            "dataTarget": "user-add-tag"
+            },
+            {
+            "link": "Remove Tag",
+            "dataTarget": "user-remove-tag"
+            }
+          ],
+          "explain": [
+            {
+              "path": "/user/add",
+              "identifier": "user-add",
+              "desc": "Essa rota cria um usuário, que será o responsável pelas principais interações subsequentes com a api, além disso, essa rota também cria um registro na tabela profile(um perfil), que poderá ser editado mais adiante a fim de incluir informações adicionais sobre o usuário.",
+              "body": [
+                {
+                  "field": "username",
+                  "value": "string"
+                },
+                {
+                  "field": "password",
+                  "value": "string"
+                },
+                {
+                  "field": "email",
+                  "value": "string"
+                },
+                {
+                  "field": "phone_number",
+                  "value": "string"
+                }
+              ]     
+            },
+            {
+              "path": "/user/getById",
+              "identifier": "user-read",
+              "desc": "Permite recuperar os dados de um usuário através de seu ID, ela retorna o usuário,o perfil, informações sobre os amigos e seguidores e as tags associadas aquele determinado usuário.",
+              "query": [
+                {
+                  "field": "id",
+                  "value": "number"
+                }
+              ] 
+            },
+            {
+              "path": "/user/editById",
+              "identifier": "user-edit",
+              "desc": "Permite editar um usuário com base em seu ID, você pode mudar o número de telefone, nome de usuário, senha e email",
+              "query": [{
+                "field": "id",
+                "value": "number"
+              }],
+              "body": [
+                {
+                  "field": "username",
+                  "value": "string",
+                  "optional": true
+                },
+                {
+                  "field": "password",
+                  "value": "string",
+                  "optional": true
+                },
+                {
+                  "field": "email",
+                  "value": "string",
+                  "optional": true
+                },
+                {
+                  "field": "phone_number",
+                  "value": "string",
+                  "optional": true
+                }
+              ]   
+            },
+            {
+              "path": "/user/deleteById",
+              "identifier": "user-delete",
+              "desc": "Permite a exclusão de um usuário, basta prover seu id.",
+              "query": [
+                {
+                  "field": "id",
+                  "value": "number"
+                }
+              ]   
+            },
+            {
+              "path": "/user/addFollower",
+              "identifier": "user-add-follower",
+              "desc": "Permite adicionar um seguidor a um usuário, basta prover o id do seguidor e o usuário a ser seguido",
+              "body": [
+                {
+                  "field": "id_follower",
+                  "value": "number"
+                },
+                {
+                  "field": "id_followed",
+                  "value": "number"
+                }
+              ]     
+            },
+            {
+              "path": "/user/addFriend",
+              "identifier": "user-add-friend",
+              "desc": "Permite adicionar um amigo a um usuário, basta prover o id de ambos",
+              "body": [
+                {
+                "field": "id_friend",
+                "value": "number"
+                },
+                {
+                "field": "id_user",
+                "value": "number"
+                }
+              ]     
+            },
+            {
+              "path": "/user/userAddTag",
+              "identifier": "user-add-tag",
+              "desc": "Permite adicionar uma tag a um usuário, basta prover o id dos ambos",
+              "body": [
+                {
+                  "field": "id_tag",
+                  "value": "number"
+                },
+                {
+                  "field": "id_user",
+                  "value": "number"
+                }
+                
+              ]     
+            },
+            {
+              "path": "/user/userRemoveFollower",
+              "identifier": "user-remove-follower",
+              "desc": "Permite a remoção de um seguidor",
+              "body": [
+                {
+                  "field": "id_follower",
+                  "value": "number"
+                },
+                {
+                  "field": "id_followed",
+                  "value": "number"
+                }
+              ]     
+            },
+            {
+              "path": "/user/userRemoveFriend",
+              "identifier": "user-remove-friend",
+              "desc": "Permite Remover um amigo, basta prover o id de ambos",
+              "body": [
+                {
+                  "field": "id_friend",
+                  "value": "number"
+                },
+                {
+                  "field": "id_user",
+                  "value": "number"
+                }
+              ]     
+            },
+            {
+              "path": "/user/userRemoveTag",
+              "identifier": "user-remove-tag",
+              "desc": "Permite a remoção de uma tag do usuário",
+              "body": [
+                {
+                  "field": "id_tag",
+                  "value": "number"
+                },
+                {
+                  "field": "id_user",
+                  "value": "number"
+                }
+              ]     
+            }
+          ]
+        },
+        {
+          "name": "Post",
+          "links": [
+            {
+              "link": "Create",
+              "dataTarget": "post-add"
+            },
+            {
+              "link": "Read",
+              "dataTarget": "post-read"
+            },
+            {
+              "link": "Update",
+              "dataTarget": "post-edit"
+            },
+            {
+              "link": "Delete",
+              "dataTarget": "post-remove"
+            },
+            {
+              "link": "Add like",
+              "dataTarget": "post-add-like"
+            },
+            {
+              "link": "Remove like",
+              "dataTarget": "post-remove-like"
+            },
+            {
+              "link": "Get posts by user ID",
+              "dataTarget": "post-get-by-user-id"
+            }
+
+          ],
+          "explain": [
+            {
+              "path": "/post/add",
+              "identifier": "post-add",
+              "desc": "Essa rota cria um post associado a um usuário, Este post deve conter obrigatoriamente o id do autor, um título, um conteúdo e opcionalmente uma imagem de até 500kb.",
+              "body": [
+                {
+                  "field": "id_author",
+                  "value": "number"
+                },
+                {
+                  "field": "title",
+                  "value": "string"
+                },
+                {
+                  "field": "content",
+                  "value": "string"
+                },
+                {
+                  "field": "image",
+                  "value": "blob"
+                }
+              ]     
+            },
+            {
+              "path": "/post/getById",
+              "identifier": "post-read",
+              "desc": "Recupera um post através do seu id, as informações obtidas são, respectivamente: as informações do post,do autor,os comentários e a quantidade de likes.",
+              "query": [
+                {
+                  "field": "id_post",
+                  "value": "number"
+                }
+              ] 
+            },
+            {
+              "path": "/post/editById",
+              "identifier": "post-edit",
+              "desc": "Permite editar um usuário com base em seu ID, você pode mudar o número de telefone, nome de usuário, senha e email",
+              "query": [{
+                "field": "id",
+                "value": "number"
+              }],
+              "body": [
+                {
+                  "field": "title",
+                  "value": "string",
+                  "optional": true
+                },
+                {
+                  "field": "content",
+                  "value": "string",
+                  "optional": true
+                },
+                {
+                  "field": "image",
+                  "value": "blob",
+                  "optional": true
+                }
+              ]   
+            },
+            {
+              "path": "/post/deleteById",
+              "identifier": "post-delete",
+              "desc": "Permite a exclusão de um post através do seu ID",
+              "query": [
+                {
+                  "field": "id_post",
+                  "value": "number"
+                }
+              ]   
+            },
+            {
+              "path": "/post/addPostLike",
+              "identifier": "post-add-like",
+              "desc": "Permite adicionar um like a um post, é necesssário o Id do post e o Id do usuário que o curtiu.",
+              "body": [
+                {
+                  "field": "id_post",
+                  "value": "number"
+                },
+                {
+                  "field": "id_user",
+                  "value": "number"
+                }
+              ]     
+            },
+            {
+              "path": "/post/getPostsByUserId",
+              "identifier": "post-add-friend",
+              "desc": "Permite recuperar todos os posts que um determinado usuário fez.",
+              "query": [
+                {
+                "field": "id",
+                "value": "number"
+                }
+              ]     
+            },
+            {
+              "path": "/post/userRemovePostLike",
+              "identifier": "post-remove-like",
+              "desc": "Permite adicionar uma tag a um usuário, basta prover o id dos ambos",
+              "body": [
+                {
+                  "field": "id_tag",
+                  "value": "number"
+                },
+                {
+                  "field": "id_user",
+                  "value": "number"
+                }
+              ]     
+            }
+          ]
+        },
+        {
+          "name": "Group",
+          "links": [
+            {
+              "link": "Create",
+              "dataTarget": "group-add"
+            },
+            {
+              "link": "Read",
+              "dataTarget": "group-read"
+            },
+            {
+              "link": "Update",
+              "dataTarget": "group-edit"
+            },
+            {
+              "link": "Delete",
+              "dataTarget": "group-remove"
+            },
+            {
+              "link": "Add member",
+              "dataTarget": "group-add-member"
+            },
+            {
+              "link": "Remove member",
+              "dataTarget": "group-remove-member"
+            },
+            {
+              "link": "Get all groups",
+              "dataTarget": "group-all"
+            },
+            {
+              "link": "Get groups with user",
+              "dataTarget": "group-with-user"
+            },
+            {
+              "link": "Get user groups",
+              "dataTarget": "group-user-groups"
+            }
+
+          ],
+          "explain": [
+            {
+              "path": "/group/add",
+              "identifier": "group-add",
+              "desc": "Essa rota cria um grupo associado a um usuário",
+              "body": [
+                {
+                  "field": "admin_id",
+                  "value": "number"
+                },
+                {
+                  "field": "group_name",
+                  "value": "string"
+                },
+                {
+                  "field": "group_banner",
+                  "value": "blob"
+                },
+                {
+                  "field": "group_desc",
+                  "value": "string"
+                }
+              ]     
+            },
+            {
+              "path": "/group/getGroupById",
+              "identifier": "post-read",
+              "desc": "Recupera um grupo através do seu id, as informações obtidas são, respectivamente: as informações do grupo e seus membros",
+              "query": [
+                {
+                  "field": "id_group",
+                  "value": "number"
+                }
+              ] 
+            },
+            {
+              "path": "/group/editGroup",
+              "identifier": "group-edit",
+              "desc": "Permite editar um grupo com base em seu ID, você pode mudar o nome, o banner e a descrição do grupo",
+              "body": [
+                {
+                  "field": "group_id",
+                  "value": "number",
+                  "optional": true
+                },
+                {
+                  "field": "group_name",
+                  "value": "number",
+                  "optional": true
+                },
+                {
+                  "field": "group_desc",
+                  "value": "string",
+                  "optional": true
+                },
+                {
+                  "field": "group_banner",
+                  "value": "blob",
+                  "optional": true
+                }
+              ]   
+            },
+            {
+              "path": "/group/delete",
+              "identifier": "group-delete",
+              "desc": "Permite a exclusão de um grupo através do seu nome e id do admin",
+              "query": [
+                {
+                  "field": "group_name",
+                  "value": "string"
+                },
+                {
+                  "field": "admin_id",
+                  "value": "number"
+                }
+              ]   
+            },
+            {
+              "path": "/group/addMember",
+              "identifier": "group-add-member",
+              "desc": "Permite adicionar um membro a um grupo, é necesssário o Id do membro e o Id do grupo",
+              "body": [
+                {
+                  "field": "id_user",
+                  "value": "number"
+                },
+                {
+                  "field": "id_group",
+                  "value": "number"
+                }
+              ]     
+            },
+            {
+              "path": "/group/removeMember",
+              "identifier": "group-remove-member",
+              "desc": "Permite remover um membro de um grupo",
+              "body": [
+                {
+                  "field": "id_user",
+                  "value": "number"
+                },
+                {
+                  "field": "id_group",
+                  "value": "number"
+                }
+              ]     
+            },
+            {
+              "path": "/group/getGroupsWithUser",
+              "identifier": "group-with-user",
+              "desc": "Permite recuperar todos os grupos que contenham um determinado usuário",
+              "body": [
+                {
+                  "field": "id_user",
+                  "value": "number"
+                }
+              ]     
+            },
+            {
+              "path": "/group/getUserGroups",
+              "identifier": "group-user-groups",
+              "desc": "Permite recuperar todos os grupos criados por um determinado usuário",
+              "body": [
+                {
+                  "field": "id_user",
+                  "value": "number"
+                }
+              ]     
+            }
+          ]
+        },
+        {
+          "name": "Comment",
+          "links": [
+            {
+              "link": "Create",
+              "dataTarget": "comment-add"
+            },
+            {
+              "link": "Read",
+              "dataTarget": "comment-read"
+            },
+            {
+              "link": "Update",
+              "dataTarget": "comment-edit"
+            },
+            {
+              "link": "Delete",
+              "dataTarget": "comment-remove"
+            }
+          ],
+          "explain": [
+            {
+              "path": "/comment/add",
+              "identifier": "comment-add",
+              "desc": "Essa rota cria um comentário associado a um usuário, se belongs_to for definido, o comentário será associado a outro comentário(uma resposta).",
+              "body": [
+                {
+                  "field": "id_author",
+                  "value": "number"
+                },
+                {
+                  "field": "id_post",
+                  "value": "string"
+                },
+                {
+                  "field": "belongs_to",
+                  "value": "number",
+                  "optional": true
+                },
+                {
+                  "field": "comment",
+                  "value": "string"
+                }
+              ]     
+            },
+            {
+              "path": "/comment/getById",
+              "identifier": "comment-read",
+              "desc": "Recupera um Comentário através do seu Id, e se possuir, suas respostas",
+              "query": [
+                {
+                  "field": "id",
+                  "value": "number"
+                }
+              ] 
+            },
+            {
+              "path": "/comment/editById",
+              "identifier": "comment-edit",
+              "desc": "Permite editar um comentário com base em seu ID.",
+              "query": [
+                {
+                  "field": "id",
+                  "value": "number"
+                }
+              ],
+              "body": [
+                {
+                  "field": "comment",
+                  "value": "string"
+                }
+              ]
+               
+            },
+            {
+              "path": "/comment/deleteById",
+              "identifier": "comment-delete",
+              "desc": "Permite a exclusão de um comentário através do seu id.",
+              "query": [
+                {
+                  "field": "id",
+                  "value": "number"
+                }
+              ]   
+            }
+          ]
+        },
+        {
+          "name": "Profile",
+          "links": [
+            {
+              "link": "Update",
+              "dataTarget": "profile-edit"
+            }
+
+          ],
+          "explain": [
+            {
+              "path": "/profile/edit",
+              "identifier": "profile-edit",
+              "desc": "Permite editar um perfil com base em seu ID, perfis estão diretamente atrelados a um usuário, logo as operações de criação, consulta e remoção são feitas em conjunto com o respectivo usuário, apenas a edição é feita separadamente.",
+              "query": [
+                {
+                  "field": "id_user",
+                  "value": "number"
+                }
+              ],
+              "body": [
+                {
+                  "field": "bio",
+                  "value": "string"
+                },
+                {
+                  "field": "banner",
+                  "value": "blob"
+                },
+                {
+                  "field": "profile_photo",
+                  "value": "blob"
+                }
+              ]
+               
+            }
+          ]
+        },
+        {
+          "name": "Tag",
+          "links": [
+            {
+              "link": "Create",
+              "dataTarget": "tag-add"
+            },
+            {
+              "link": "Delete",
+              "dataTarget": "tag-remove"
+            }
+
+          ],
+          "explain": [
+            {
+              "path": "/tag/add",
+              "identifier": "tag-add",
+              "desc": "Permite criar uma tag que então será associada a um usuário no futuro",
+              "body": [
+                {
+                  "field": "tag_name",
+                  "value": "string"
+                }
+              ]
+               
+            },
+            {
+              "path": "/tag/delete",
+              "identifier": "tag-add",
+              "desc": "Permite remover uma tag.",
+              "body": [
+                {
+                  "field": "id_tag",
+                  "value": "number"
+                }
+              ]
+               
+            }
+          ]
+        },
+        {
+          "name": "Admin",
+          "links": [
+            {
+              "link": "Create",
+              "dataTarget": "admin-add"
+            },
+            {
+              "link": "Delete",
+              "dataTarget": "admin-remove"
+            }
+
+          ],
+          "explain": [
+            {
+              "path": "/admin/add",
+              "identifier": "admin-add",
+              "desc": "Permite criar um admin",
+              "body": [
+                {
+                  "field": "username",
+                  "value": "string"
+                },
+                {
+                  "field": "password",
+                  "value": "string"
+                }
+              ]
+               
+            },
+            {
+              "path": "/admin/delete",
+              "identifier": "admin-remove",
+              "desc": "Permite remover um admin.",
+              "query": [
+                {
+                  "field": "id",
+                  "value": "number"
+                }
+              ]
+               
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

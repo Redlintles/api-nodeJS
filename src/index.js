@@ -40,6 +40,7 @@ require("dotenv").config();
 var express = require("express");
 var app = express();
 var path = require("path");
+var pageText = require("../public/text.json");
 var userRouter = require("./routes/userRouter");
 var postRouter = require("./routes/postRouter");
 var commentsRouter = require("./routes/CommentsRouter");
@@ -62,7 +63,10 @@ app.use("/group", groupRouter);
 app.use("/profile", profileRouter);
 app.get("/", function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        return [2 /*return*/, res.render("index")];
+        return [2 /*return*/, res.render("index", {
+                pageText: pageText,
+                language: "pt",
+            })];
     });
 }); });
 sequelize

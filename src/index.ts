@@ -4,6 +4,8 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const path = require("path");
+const pageText = require("../public/text.json");
+
 const userRouter = require("./routes/userRouter");
 const postRouter = require("./routes/postRouter");
 const commentsRouter = require("./routes/CommentsRouter");
@@ -29,7 +31,10 @@ app.use("/group", groupRouter);
 app.use("/profile", profileRouter);
 
 app.get("/", async (_: Request, res: Response) => {
-  return res.render("index");
+  return res.render("index", {
+    pageText,
+    language: "pt",
+  });
 });
 
 sequelize
