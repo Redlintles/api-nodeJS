@@ -54,7 +54,7 @@ var addMember = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 if (isInGroup) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "O Usuário já está no grupo",
+                            message: "The user is already in the group",
                         })];
                 }
                 return [4 /*yield*/, UserGroup.create({
@@ -66,12 +66,12 @@ var addMember = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 if (!obj) {
                     return [2 /*return*/, res.status(500).json({
                             error: true,
-                            message: "Ocorreu um erro inesperado",
+                            message: "An unexpected error ocurred, try again later",
                         })];
                 }
                 return [2 /*return*/, res.status(200).json({
                         error: false,
-                        message: "Usuário adicionado ao grupo com sucesso",
+                        message: "Group user added successfully",
                         obj: obj,
                     })];
         }

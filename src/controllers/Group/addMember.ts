@@ -15,7 +15,7 @@ const addMember = async (req: Request, res: Response) => {
   if (isInGroup) {
     return res.status(400).json({
       error: true,
-      message: "O Usuário já está no grupo",
+      message: "The user is already in the group",
     });
   }
 
@@ -27,13 +27,13 @@ const addMember = async (req: Request, res: Response) => {
   if (!obj) {
     return res.status(500).json({
       error: true,
-      message: "Ocorreu um erro inesperado",
+      message: "An unexpected error ocurred, try again later",
     });
   }
 
   return res.status(200).json({
     error: false,
-    message: "Usuário adicionado ao grupo com sucesso",
+    message: "Group user added successfully",
     obj,
   });
 };
