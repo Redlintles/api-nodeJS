@@ -30,11 +30,25 @@ app.use("/admin", adminRouter);
 app.use("/group", groupRouter);
 app.use("/profile", profileRouter);
 
-app.get("/", async (_: Request, res: Response) => {
-  return res.render("index", {
-    pageText,
-    language: "pt",
-  });
+app.get("/:language", (req: Request, res: Response) => {
+  const { language } = req.params;
+  const supportedLanguages = ["en", "pt"];
+
+  if (!supportedLanguages.includes(language)) {
+    return res.status(400).json({
+      error: true,
+      message: "Language is not supported",
+    });
+  } else {
+    return res.status(200).render("index", {
+      pageText,
+      language,
+    });
+  }
+});
+
+app.get("/", (_: Request, res: Response) => {
+  return res.redirect("/pt");
 });
 
 sequelize
