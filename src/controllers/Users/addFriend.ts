@@ -3,12 +3,12 @@ import { Request, Response } from "express";
 const { UserFriends } = require("../../utils/models");
 
 const addFriend = async (req: Request, res: Response) => {
-  const { id_user, id_friend } = req.body;
+  const { id_user, id_friend } = req.query;
 
   const alreadyExists = await UserFriends.findOne({
     where: {
-      id_user: id_user,
-      id_friend: id_friend,
+      id_user,
+      id_friend,
     },
   });
 
@@ -20,8 +20,8 @@ const addFriend = async (req: Request, res: Response) => {
   }
 
   const relationship = await UserFriends.create({
-    id_friend: id_friend,
-    id_user: id_user,
+    id_friend,
+    id_user,
   });
 
   return res.status(200).json({

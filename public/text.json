@@ -158,7 +158,7 @@
               "path": "/user/addFriend",
               "identifier": "user-add-friend",
               "desc": "Allows adding a friend to an user, just give the id's of both.",
-              "body": [
+              "query": [
                 {
                 "field": "id_friend",
                 "value": "number"
@@ -953,7 +953,7 @@
               "path": "/user/addFriend",
               "identifier": "user-add-friend",
               "desc": "Permite adicionar um amigo a um usuário, basta prover o id de ambos",
-              "body": [
+              "query": [
                 {
                 "field": "id_friend",
                 "value": "number"

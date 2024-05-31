@@ -42,7 +42,7 @@ var addFriend = function (req, res) { return __awaiter(void 0, void 0, void 0, f
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _a = req.body, id_user = _a.id_user, id_friend = _a.id_friend;
+                _a = req.query, id_user = _a.id_user, id_friend = _a.id_friend;
                 return [4 /*yield*/, UserFriends.findOne({
                         where: {
                             id_user: id_user,

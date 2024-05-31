@@ -108,6 +108,7 @@ router.post(
         fieldObj: models.User,
       },
     ],
+    true,
     true
   ),
   addFriend

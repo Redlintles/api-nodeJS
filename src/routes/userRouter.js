@@ -63,7 +63,7 @@ router.post("/addFriend", idValidator([
         fieldStr: "id_friend",
         fieldObj: models.User,
     },
-], true), addFriend);
+], true, true), addFriend);
 router.delete("/removeFriend", idValidator([
     {
         fieldStr: "id_user",
