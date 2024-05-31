@@ -39,18 +39,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var isInRange = require("../../utils/stringUtils").isInRange;
 var Group = require("../../utils/models").Group;
 var editGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, group_id, admin_id, group_name, group_desc, maxSize, group, obj;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var _a, group_id, admin_id, _b, group_name, group_desc, maxSize, group, obj;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
-                _a = req.body, group_id = _a.group_id, admin_id = _a.admin_id, group_name = _a.group_name, group_desc = _a.group_desc;
+                _a = req.query, group_id = _a.group_id, admin_id = _a.admin_id;
+                _b = req.body, group_name = _b.group_name, group_desc = _b.group_desc;
                 maxSize = process.env.MAX_IMAGE_SIZE
                     ? parseInt(process.env.MAX_IMAGE_SIZE)
                     : 500000;
                 if (req.file && req.file.size > maxSize) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "A Mensagem é muito grande",
+                            message: "The image is too big(max 500kb)",
                         })];
                 }
                 return [4 /*yield*/, Group.findOne({
@@ -60,23 +61,23 @@ var editGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                         },
                     })];
             case 1:
-                group = _b.sent();
+                group = _c.sent();
                 if (!group) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Grupo Não existe",
+                            message: "Group does not exists",
                         })];
                 }
                 if (group_name && !isInRange(group_name, 0, 30)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Nome de grupo muito longo",
+                            message: "Group name is too long",
                         })];
                 }
-                if (group_desc && !isInRange(group_desc, 0, 30)) {
+                if (group_desc && !isInRange(group_desc, 0, 200)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Nome de grupo muito longo",
+                            message: "Group desc is too long",
                         })];
                 }
                 obj = {
@@ -91,10 +92,10 @@ var editGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                         },
                     })];
             case 2:
-                _b.sent();
+                _c.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
-                        message: "Grupo atualizado com sucesso",
+                        message: "Grupo updated successfully",
                         old: group,
                         new: obj,
                     })];

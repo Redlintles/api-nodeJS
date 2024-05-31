@@ -77,16 +77,20 @@ router.get(
 );
 router.put(
   "/editGroup",
-  idValidator([
-    {
-      fieldStr: "group_id",
-      fieldObj: models.Group,
-    },
-    {
-      fieldStr: "admin_id",
-      fieldObj: models.User,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "group_id",
+        fieldObj: models.Group,
+      },
+      {
+        fieldStr: "admin_id",
+        fieldObj: models.User,
+      },
+    ],
+    false,
+    true
+  ),
   upload.single("banner"),
   editGroup
 );

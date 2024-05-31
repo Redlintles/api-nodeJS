@@ -57,7 +57,7 @@ router.put("/editGroup", idValidator([
         fieldStr: "admin_id",
         fieldObj: models.User,
     },
-]), upload.single("banner"), editGroup);
+], false, true), upload.single("banner"), editGroup);
 router.delete("/delete", idValidator([
     {
         fieldStr: "admin_id",
