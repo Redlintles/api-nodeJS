@@ -42,7 +42,7 @@ const getPostById = async (req: Request, res: Response) => {
     await transaction.rollback();
     return res.status(500).json({
       error: true,
-      message: "Um erro inesperado aconteceu, tente novamente mais tarde",
+      message: "An unexpected error ocurred, try again later",
     });
   }
 };

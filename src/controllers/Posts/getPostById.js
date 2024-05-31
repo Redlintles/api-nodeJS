@@ -87,7 +87,7 @@ var getPostById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 _b.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: true,
-                        message: "Um erro inesperado aconteceu, tente novamente mais tarde",
+                        message: "An unexpected error ocurred, try again later",
                     })];
             case 10: return [2 /*return*/];
         }
