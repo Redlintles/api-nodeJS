@@ -502,9 +502,9 @@
               "path": "/group/addMember",
               "identifier": "group-add-member",
               "desc": "Allows adding a member to a group, just give the IDs of both.",
-              "body": [
+              "query": [
                 {
-                  "field": "id_user",
+                  "field": "id_member",
                   "value": "number"
                 },
                 {
@@ -1287,9 +1287,9 @@
               "path": "/group/addMember",
               "identifier": "group-add-member",
               "desc": "Permite adicionar um membro a um grupo, é necesssário o Id do membro e o Id do grupo",
-              "body": [
+              "query": [
                 {
-                  "field": "id_user",
+                  "field": "id_member",
                   "value": "number"
                 },
                 {

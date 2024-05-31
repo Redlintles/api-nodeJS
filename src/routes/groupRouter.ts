@@ -99,16 +99,20 @@ router.delete(
 
 router.post(
   "/addMember",
-  idValidator([
-    {
-      fieldStr: "id_user",
-      fieldObj: models.User,
-    },
-    {
-      fieldStr: "id_group",
-      fieldObj: models.Group,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "id_member",
+        fieldObj: models.User,
+      },
+      {
+        fieldStr: "id_group",
+        fieldObj: models.Group,
+      },
+    ],
+    false,
+    true
+  ),
   addMember
 );
 router.delete(

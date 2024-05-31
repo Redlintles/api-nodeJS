@@ -38,14 +38,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var UserGroup = require("../../utils/models").UserGroup;
 var addMember = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_user, id_group, isInGroup, obj;
+    var _a, id_member, id_group, isInGroup, obj;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _a = req.body, id_user = _a.id_user, id_group = _a.id_group;
+                _a = req.query, id_member = _a.id_member, id_group = _a.id_group;
                 return [4 /*yield*/, UserGroup.findOne({
                         where: {
-                            id_member: id_user,
+                            id_member: id_member,
                             id_group: id_group,
                         },
                     })];
@@ -58,7 +58,7 @@ var addMember = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                         })];
                 }
                 return [4 /*yield*/, UserGroup.create({
-                        id_member: id_user,
+                        id_member: id_member,
                         id_group: id_group,
                     })];
             case 2:

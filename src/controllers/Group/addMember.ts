@@ -3,11 +3,11 @@ import { Request, Response } from "express";
 const { UserGroup } = require("../../utils/models");
 
 const addMember = async (req: Request, res: Response) => {
-  const { id_user, id_group } = req.body;
+  const { id_member, id_group } = req.query;
 
   const isInGroup = await UserGroup.findOne({
     where: {
-      id_member: id_user,
+      id_member,
       id_group: id_group,
     },
   });
@@ -20,7 +20,7 @@ const addMember = async (req: Request, res: Response) => {
   }
 
   const obj = await UserGroup.create({
-    id_member: id_user,
+    id_member: id_member,
     id_group: id_group,
   });
 
