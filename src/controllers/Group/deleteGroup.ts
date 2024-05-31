@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 
 const { isInRange } = require("../../utils/stringUtils");
 
-const { User, Group, UserGroup, sequelizeConn } = require("../../utils/models");
+const { Group, UserGroup, sequelizeConn } = require("../../utils/models");
 const deleteGroup = async (req: Request, res: Response) => {
-  const { group_name, admin_id } = req.body;
+  const { group_name, admin_id } = req.query;
 
   if (!isInRange(group_name, 0, 30)) {
     return res.status(400).json({

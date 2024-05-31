@@ -63,7 +63,7 @@ router.delete("/delete", idValidator([
         fieldStr: "admin_id",
         fieldObj: models.User,
     },
-]), deleteGroup);
+], false, true), deleteGroup);
 router.post("/addMember", idValidator([
     {
         fieldStr: "id_member",

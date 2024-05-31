@@ -92,12 +92,16 @@ router.put(
 );
 router.delete(
   "/delete",
-  idValidator([
-    {
-      fieldStr: "admin_id",
-      fieldObj: models.User,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "admin_id",
+        fieldObj: models.User,
+      },
+    ],
+    false,
+    true
+  ),
   deleteGroup
 );
 

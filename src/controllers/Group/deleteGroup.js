@@ -37,13 +37,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var isInRange = require("../../utils/stringUtils").isInRange;
-var _a = require("../../utils/models"), User = _a.User, Group = _a.Group, UserGroup = _a.UserGroup, sequelizeConn = _a.sequelizeConn;
+var _a = require("../../utils/models"), Group = _a.Group, UserGroup = _a.UserGroup, sequelizeConn = _a.sequelizeConn;
 var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, group_name, admin_id, group, transaction, _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
-                _a = req.body, group_name = _a.group_name, admin_id = _a.admin_id;
+                _a = req.query, group_name = _a.group_name, admin_id = _a.admin_id;
                 if (!isInRange(group_name, 0, 30)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
