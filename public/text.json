@@ -307,7 +307,7 @@
               "identifier": "post-edit",
               "desc": "Allow's the update of a post through it's ID, you can change it's title, image and content.",
               "query": [{
-                "field": "id",
+                "field": "id_post",
                 "value": "number"
               }],
               "body": [
@@ -1100,7 +1100,7 @@
               "identifier": "post-edit",
               "desc": "Permite editar um usuário com base em seu ID, você pode mudar o número de telefone, nome de usuário, senha e email",
               "query": [{
-                "field": "id",
+                "field": "id_post",
                 "value": "number"
               }],
               "body": [

@@ -25,7 +25,7 @@ router.post("/add", idValidator([
 ], false, true), upload.single("image"), createPost);
 router.put("/editById", idValidator([
     {
-        fieldStr: "id",
+        fieldStr: "id_post",
         fieldObj: models.Post,
     },
 ], false, true), upload.single("image"), editById);

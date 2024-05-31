@@ -49,11 +49,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Post = require("../../utils/models").Post;
 var editPostById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, maxSize, post, old, obj2;
+    var id_post, maxSize, post, old, obj2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                id = req.query.id;
+                id_post = req.query.id_post;
                 maxSize = process.env.MAX_IMAGE_SIZE
                     ? parseInt(process.env.MAX_IMAGE_SIZE)
                     : 500000;
@@ -63,7 +63,7 @@ var editPostById = function (req, res) { return __awaiter(void 0, void 0, void 0
                         message: "Image is too big(max size is 500kb)",
                     });
                 }
-                return [4 /*yield*/, Post.findByPk(id)];
+                return [4 /*yield*/, Post.findByPk(id_post)];
             case 1:
                 post = _a.sent();
                 old = {
@@ -80,7 +80,7 @@ var editPostById = function (req, res) { return __awaiter(void 0, void 0, void 0
                 }
                 return [4 /*yield*/, Post.update(__assign(__assign({}, obj2), { id_author: old.id_author }), {
                         where: {
-                            id: id,
+                            id: id_post,
                         },
                     })];
             case 2:

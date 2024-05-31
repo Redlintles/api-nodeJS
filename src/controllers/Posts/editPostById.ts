@@ -11,7 +11,7 @@ interface ImageRequest extends Request {
 }
 
 const editPostById = async (req: ImageRequest, res: Response) => {
-  const { id } = req.query;
+  const { id_post } = req.query;
 
   const maxSize: number = process.env.MAX_IMAGE_SIZE
     ? parseInt(process.env.MAX_IMAGE_SIZE)
@@ -24,7 +24,7 @@ const editPostById = async (req: ImageRequest, res: Response) => {
     });
   }
 
-  const post = await Post.findByPk(id);
+  const post = await Post.findByPk(id_post);
 
   const old = {
     id_author: post.id_author,
@@ -49,7 +49,7 @@ const editPostById = async (req: ImageRequest, res: Response) => {
     },
     {
       where: {
-        id,
+        id: id_post,
       },
     }
   );
