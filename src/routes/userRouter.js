@@ -24,7 +24,7 @@ router.get("/getById", idValidator([
 ], false, true), getUserById);
 router.delete("/deleteById", idValidator([
     {
-        fieldStr: "id",
+        fieldStr: "id_user",
         fieldObj: models.User,
     },
 ], false, true), deleteById);

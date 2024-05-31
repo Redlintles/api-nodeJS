@@ -14,65 +14,65 @@ const {
 } = require("../../utils/models");
 
 const deleteById = async (req: Request, res: Response) => {
-  const { id } = req.query;
+  const { id_user } = req.query;
 
   const transaction = await sequelizeConn.transaction();
 
   try {
     await UserFriends.destroy({
       where: {
-        id_user: id,
+        id_user: id_user,
       },
     });
 
     await Comment.destroy({
       where: {
-        id_author: id,
+        id_author: id_user,
       },
     });
 
     await UserGroup.destroy({
       where: {
-        id_member: id,
+        id_member: id_user,
       },
     });
     await Group.destroy({
       where: {
-        admin_id: id,
+        admin_id: id_user,
       },
     });
     await PostLikes.destroy({
       where: {
-        id_user: id,
+        id_user: id_user,
       },
     });
     await Post.destroy({
       where: {
-        id_author: id,
+        id_author: id_user,
       },
     });
 
     await UserFollower.destroy({
       where: {
-        id_followed: id,
+        id_followed: id_user,
       },
     });
 
     await Profile.destroy({
       where: {
-        id_user: id,
+        id_user: id_user,
       },
     });
 
     await UserTag.destroy({
       where: {
-        id_user: id,
+        id_user: id_user,
       },
     });
 
     await User.destroy({
       where: {
-        id: id,
+        id: id_user,
       },
     });
 
@@ -86,7 +86,7 @@ const deleteById = async (req: Request, res: Response) => {
     await transaction.rollback();
     return res.status(500).json({
       error: true,
-      message: "User does not exists",
+      message: "An unexpected error ocurred, try again later",
     });
   }
 };

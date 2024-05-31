@@ -134,7 +134,7 @@
               "desc": "Allow's a user deletion through it's ID",
               "query": [
                 {
-                  "field": "id",
+                  "field": "id_user",
                   "value": "number"
                 }
               ]   
@@ -929,7 +929,7 @@
               "desc": "Permite a exclusão de um usuário, basta prover seu id.",
               "query": [
                 {
-                  "field": "id",
+                  "field": "id_user",
                   "value": "number"
                 }
               ]   

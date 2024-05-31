@@ -38,11 +38,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _a = require("../../utils/models"), User = _a.User, Profile = _a.Profile, UserFriends = _a.UserFriends, UserFollower = _a.UserFollower, Group = _a.Group, UserGroup = _a.UserGroup, Comment = _a.Comment, Post = _a.Post, PostLikes = _a.PostLikes, sequelizeConn = _a.sequelizeConn, UserTag = _a.UserTag;
 var deleteById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, transaction, err_1;
+    var id_user, transaction, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                id = req.query.id;
+                id_user = req.query.id_user;
                 return [4 /*yield*/, sequelizeConn.transaction()];
             case 1:
                 transaction = _a.sent();
@@ -51,70 +51,70 @@ var deleteById = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 _a.trys.push([2, 14, , 16]);
                 return [4 /*yield*/, UserFriends.destroy({
                         where: {
-                            id_user: id,
+                            id_user: id_user,
                         },
                     })];
             case 3:
                 _a.sent();
                 return [4 /*yield*/, Comment.destroy({
                         where: {
-                            id_author: id,
+                            id_author: id_user,
                         },
                     })];
             case 4:
                 _a.sent();
                 return [4 /*yield*/, UserGroup.destroy({
                         where: {
-                            id_member: id,
+                            id_member: id_user,
                         },
                     })];
             case 5:
                 _a.sent();
                 return [4 /*yield*/, Group.destroy({
                         where: {
-                            admin_id: id,
+                            admin_id: id_user,
                         },
                     })];
             case 6:
                 _a.sent();
                 return [4 /*yield*/, PostLikes.destroy({
                         where: {
-                            id_user: id,
+                            id_user: id_user,
                         },
                     })];
             case 7:
                 _a.sent();
                 return [4 /*yield*/, Post.destroy({
                         where: {
-                            id_author: id,
+                            id_author: id_user,
                         },
                     })];
             case 8:
                 _a.sent();
                 return [4 /*yield*/, UserFollower.destroy({
                         where: {
-                            id_followed: id,
+                            id_followed: id_user,
                         },
                     })];
             case 9:
                 _a.sent();
                 return [4 /*yield*/, Profile.destroy({
                         where: {
-                            id_user: id,
+                            id_user: id_user,
                         },
                     })];
             case 10:
                 _a.sent();
                 return [4 /*yield*/, UserTag.destroy({
                         where: {
-                            id_user: id,
+                            id_user: id_user,
                         },
                     })];
             case 11:
                 _a.sent();
                 return [4 /*yield*/, User.destroy({
                         where: {
-                            id: id,
+                            id: id_user,
                         },
                     })];
             case 12:
@@ -133,7 +133,7 @@ var deleteById = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 _a.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: true,
-                        message: "User does not exists",
+                        message: "An unexpected error ocurred, try again later",
                     })];
             case 16: return [2 /*return*/];
         }
