@@ -588,7 +588,7 @@
               "path": "/comment/add",
               "identifier": "comment-add",
               "desc": "This route creates a comment associated with a user, if belongs_to is defined(it should be the id of another comment) the comment will be associated with that comment as a response.",
-              "body": [
+              "query": [
                 {
                   "field": "id_author",
                   "value": "number"
@@ -596,7 +596,9 @@
                 {
                   "field": "id_post",
                   "value": "string"
-                },
+                }
+              ],
+              "body": [
                 {
                   "field": "belongs_to",
                   "value": "number",
@@ -1365,6 +1367,16 @@
               "path": "/comment/add",
               "identifier": "comment-add",
               "desc": "Essa rota cria um comentário associado a um usuário, se belongs_to for definido, o comentário será associado a outro comentário(uma resposta).",
+              "query": [
+                {
+                  "field": "id_author",
+                  "value": "number"
+                },
+                {
+                  "field": "id_post",
+                  "value": "string"
+                }
+              ],
               "body": [
                 {
                   "field": "id_author",
