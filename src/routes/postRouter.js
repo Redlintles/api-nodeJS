@@ -66,5 +66,5 @@ router.delete("/removePostLike", idValidator([
         fieldStr: "id_user",
         fieldObj: models.User,
     },
-]), removePostLike);
+], false, true), removePostLike);
 module.exports = router;

@@ -113,16 +113,20 @@ router.post(
 );
 router.delete(
   "/removePostLike",
-  idValidator([
-    {
-      fieldStr: "id_post",
-      fieldObj: models.Post,
-    },
-    {
-      fieldStr: "id_user",
-      fieldObj: models.User,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "id_post",
+        fieldObj: models.Post,
+      },
+      {
+        fieldStr: "id_user",
+        fieldObj: models.User,
+      },
+    ],
+    false,
+    true
+  ),
   removePostLike
 );
 

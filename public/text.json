@@ -369,7 +369,7 @@
               "path": "/post/userRemovePostLike",
               "identifier": "post-delete-like",
               "desc": "Allows removing a like from a specific post.",
-              "body": [
+              "query": [
                 {
                   "field": "id_tag",
                   "value": "number"
@@ -1162,7 +1162,7 @@
               "path": "/post/userRemovePostLike",
               "identifier": "post-delete-like",
               "desc": "Permite adicionar uma tag a um usuário, basta prover o id dos ambos",
-              "body": [
+              "query": [
                 {
                   "field": "id_tag",
                   "value": "number"
