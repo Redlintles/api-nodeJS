@@ -9,7 +9,7 @@ const deleteGroup = async (req: Request, res: Response) => {
   if (!isInRange(group_name, 0, 30)) {
     return res.status(400).json({
       error: true,
-      message: "Nome de grupo muito longo",
+      message: "Group name is too long(max 30 characters)",
     });
   }
 
@@ -23,7 +23,7 @@ const deleteGroup = async (req: Request, res: Response) => {
   if (!group) {
     return res.status(400).json({
       error: true,
-      message: "Grupo não existe",
+      message: "Group does not exists",
     });
   }
 
@@ -41,14 +41,13 @@ const deleteGroup = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       error: false,
-      message: "Grupo Excluído com sucesso",
+      message: "Group deleted successfully",
     });
   } catch {
     await transaction.rollback();
     return res.status(500).json({
       error: true,
-      message:
-        "O Grupo não pode ser excluído por algum motivo desconhecido, tente novamente mais tarde",
+      message: "An unexpected error ocurred, try again later",
     });
   }
 };

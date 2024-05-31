@@ -47,7 +47,7 @@ var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 if (!isInRange(group_name, 0, 30)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Nome de grupo muito longo",
+                            message: "Group name is too long(max 30 characters)",
                         })];
                 }
                 return [4 /*yield*/, Group.findOne({
@@ -61,7 +61,7 @@ var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 if (!group) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "Grupo não existe",
+                            message: "Group does not exists",
                         })];
                 }
                 return [4 /*yield*/, sequelizeConn.transaction()];
@@ -85,7 +85,7 @@ var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 _c.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
-                        message: "Grupo Excluído com sucesso",
+                        message: "Group deleted successfully",
                     })];
             case 7:
                 _b = _c.sent();
@@ -94,7 +94,7 @@ var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 _c.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: true,
-                        message: "O Grupo não pode ser excluído por algum motivo desconhecido, tente novamente mais tarde",
+                        message: "An unexpected error ocurred, try again later",
                     })];
             case 9: return [2 /*return*/];
         }
