@@ -12,12 +12,17 @@ router.use(auth);
 router.post("/add", createTag);
 router.delete(
   "/delete",
-  idValidator([
-    {
-      fieldStr: "id_tag",
-      fieldObj: models.Tag,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "id_tag",
+        fieldObj: models.Tag,
+        optional: true,
+      },
+    ],
+    false,
+    true
+  ),
   deleteTag
 );
 
