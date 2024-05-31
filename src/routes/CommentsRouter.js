@@ -27,7 +27,7 @@ router.delete("/deleteById", idValidator([
 ], false, true), deleteCommentById);
 router.get("/getById", idValidator([
     {
-        fieldStr: "id",
+        fieldStr: "id_comment",
         fieldObj: models.Comment,
     },
 ], false, true), getCommentById);

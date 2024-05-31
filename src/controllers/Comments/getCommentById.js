@@ -38,12 +38,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Comment = require("../../utils/models").Comment;
 var getCommentById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, comment, answers;
+    var id_comment, comment, answers;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                id = req.query.id;
-                return [4 /*yield*/, Comment.findByPk(id)];
+                id_comment = req.query.id_comment;
+                return [4 /*yield*/, Comment.findByPk(id_comment)];
             case 1:
                 comment = _a.sent();
                 return [4 /*yield*/, Comment.findAll({

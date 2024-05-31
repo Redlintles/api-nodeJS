@@ -616,7 +616,7 @@
               "desc": "Allows fetching a comment by it's id, along with it's replies, if any.",
               "query": [
                 {
-                  "field": "id",
+                  "field": "id_comment",
                   "value": "number"
                 }
               ] 
@@ -1403,7 +1403,7 @@
               "desc": "Recupera um Comentário através do seu Id, e se possuir, suas respostas",
               "query": [
                 {
-                  "field": "id",
+                  "field": "id_comment",
                   "value": "number"
                 }
               ] 

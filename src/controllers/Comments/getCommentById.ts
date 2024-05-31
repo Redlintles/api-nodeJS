@@ -3,9 +3,9 @@ import { Request, Response } from "express";
 const { Comment } = require("../../utils/models");
 
 const getCommentById = async (req: Request, res: Response) => {
-  let { id } = req.query;
+  let { id_comment } = req.query;
 
-  const comment = await Comment.findByPk(id);
+  const comment = await Comment.findByPk(id_comment);
 
   const answers = await Comment.findAll({
     where: {
