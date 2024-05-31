@@ -46,6 +46,7 @@ function idValidator(
         arr.push([value, fieldObj]);
       }
     }
+
     if (equal) {
       const toCompare = arr.map((item) => JSON.stringify(item));
       const set = new Set(toCompare);
@@ -56,9 +57,8 @@ function idValidator(
           message: "Os ids não podem ser iguais",
         });
       }
-    } else {
-      return next();
     }
+    return next();
   };
 }
 

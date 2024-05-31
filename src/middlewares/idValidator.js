@@ -91,10 +91,7 @@ function idValidator(fields, equal, queryParams) {
                                 })];
                         }
                     }
-                    else {
-                        return [2 /*return*/, next()];
-                    }
-                    return [2 /*return*/];
+                    return [2 /*return*/, next()];
             }
         });
     }); };
