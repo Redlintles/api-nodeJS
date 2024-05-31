@@ -13,6 +13,8 @@ const {
   UserTag,
 } = require("../../utils/models");
 
+const { Op } = require("sequelize");
+
 const deleteById = async (req: Request, res: Response) => {
   const { id_user } = req.query;
 
@@ -21,7 +23,7 @@ const deleteById = async (req: Request, res: Response) => {
   try {
     await UserFriends.destroy({
       where: {
-        id_user: id_user,
+        [Op.or]: [{ id_user: id_user }, { id_friend: id_user }],
       },
     });
 
@@ -54,7 +56,7 @@ const deleteById = async (req: Request, res: Response) => {
 
     await UserFollower.destroy({
       where: {
-        id_followed: id_user,
+        [Op.or]: [{ id_followed: id_user }, { id_follower: id_user }],
       },
     });
 
@@ -83,6 +85,7 @@ const deleteById = async (req: Request, res: Response) => {
       message: "User deleted succesfully",
     });
   } catch (err) {
+    console.log(err);
     await transaction.rollback();
     return res.status(500).json({
       error: true,
