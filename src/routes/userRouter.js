@@ -30,7 +30,7 @@ router.delete("/deleteById", idValidator([
 ], false, true), deleteById);
 router.put("/editById", idValidator([
     {
-        fieldStr: "id",
+        fieldStr: "id_user",
         fieldObj: models.User,
     },
 ], false, true), editById);

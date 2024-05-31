@@ -51,7 +51,7 @@ router.put(
   idValidator(
     [
       {
-        fieldStr: "id",
+        fieldStr: "id_user",
         fieldObj: models.User,
       },
     ],

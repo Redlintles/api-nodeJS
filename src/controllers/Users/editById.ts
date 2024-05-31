@@ -3,9 +3,9 @@ const { User } = require("../../utils/models");
 const validateEditObj = require("../../utils/validateEditObj");
 
 const editById = async (req: Request, res: Response) => {
-  const { id } = req.query;
+  const { id_user } = req.query;
 
-  const object = await User.findByPk(id);
+  const object = await User.findByPk(id_user);
 
   const old = {
     username: object.username,
@@ -23,17 +23,24 @@ const editById = async (req: Request, res: Response) => {
     });
   } else {
     await User.update(result, {
-      where: { id },
+      where: { id: id_user },
     });
 
-    const after = await User.findByPk(id);
+    try {
+      const after = await User.findByPk(id_user);
 
-    return res.status(200).json({
-      error: false,
-      message: "User Updated Successfully",
-      old: object,
-      after,
-    });
+      return res.status(200).json({
+        error: false,
+        message: "User Updated Successfully",
+        old: object,
+        after,
+      });
+    } catch {
+      return res.status(500).json({
+        error: true,
+        message: "An unexpected error ocurred, try again later",
+      });
+    }
   }
 };
 

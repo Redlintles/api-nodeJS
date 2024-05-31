@@ -39,14 +39,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var User = require("../../utils/models").User;
 var validateEditObj = require("../../utils/validateEditObj");
 var editById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, object, old, result, after;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var id_user, object, old, result, after, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                id = req.query.id;
-                return [4 /*yield*/, User.findByPk(id)];
+                id_user = req.query.id_user;
+                return [4 /*yield*/, User.findByPk(id_user)];
             case 1:
-                object = _a.sent();
+                object = _b.sent();
                 old = {
                     username: object.username,
                     email: object.email,
@@ -60,19 +60,29 @@ var editById = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                         message: result,
                     })];
             case 2: return [4 /*yield*/, User.update(result, {
-                    where: { id: id },
+                    where: { id: id_user },
                 })];
             case 3:
-                _a.sent();
-                return [4 /*yield*/, User.findByPk(id)];
+                _b.sent();
+                _b.label = 4;
             case 4:
-                after = _a.sent();
+                _b.trys.push([4, 6, , 7]);
+                return [4 /*yield*/, User.findByPk(id_user)];
+            case 5:
+                after = _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "User Updated Successfully",
                         old: object,
                         after: after,
                     })];
+            case 6:
+                _a = _b.sent();
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "An unexpected error ocurred, try again later",
+                    })];
+            case 7: return [2 /*return*/];
         }
     });
 }); };

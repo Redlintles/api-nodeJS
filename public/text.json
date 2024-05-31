@@ -102,7 +102,7 @@
               "identifier": "user-edit",
               "desc": "Allows a user update through it's ID, it allows the change of the phone number, username, email and password.",
               "query": [{
-                "field": "id",
+                "field": "id_user",
                 "value": "number"
               }],
               "body": [
@@ -897,7 +897,7 @@
               "identifier": "user-edit",
               "desc": "Permite editar um usuário com base em seu ID, você pode mudar o número de telefone, nome de usuário, senha e email",
               "query": [{
-                "field": "id",
+                "field": "id_user",
                 "value": "number"
               }],
               "body": [
