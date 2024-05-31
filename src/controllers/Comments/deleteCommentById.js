@@ -42,7 +42,7 @@ var deleteCommentById = function (req, res) { return __awaiter(void 0, void 0, v
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                commentId = req.query.id;
+                commentId = req.query.id_comment;
                 return [4 /*yield*/, Comment.findByPk(commentId)];
             case 1:
                 register = _a.sent();
@@ -60,7 +60,7 @@ var deleteCommentById = function (req, res) { return __awaiter(void 0, void 0, v
                 _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
-                        message: "Comentário e respostas removidas com sucesso",
+                        message: "Comment and it's replies removed successfully",
                     })];
         }
     });

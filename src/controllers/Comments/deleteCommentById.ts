@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 const { Comment } = require("../../utils/models");
 
 const deleteCommentById = async (req: Request, res: Response) => {
-  let { id: commentId } = req.query;
+  let { id_comment: commentId } = req.query;
 
   const register = await Comment.findByPk(commentId);
 
@@ -17,7 +17,7 @@ const deleteCommentById = async (req: Request, res: Response) => {
 
   return res.status(200).json({
     error: false,
-    message: "Comentário e respostas removidas com sucesso",
+    message: "Comment and it's replies removed successfully",
   });
 };
 

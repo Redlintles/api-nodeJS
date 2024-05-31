@@ -645,7 +645,7 @@
               "desc": "Allows a comment deletion through it's id.",
               "query": [
                 {
-                  "field": "id",
+                  "field": "id_comment",
                   "value": "number"
                 }
               ]   
@@ -1432,7 +1432,7 @@
               "desc": "Permite a exclusão de um comentário através do seu id.",
               "query": [
                 {
-                  "field": "id",
+                  "field": "id_comment",
                   "value": "number"
                 }
               ]   
