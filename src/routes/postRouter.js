@@ -22,7 +22,7 @@ router.post("/add", idValidator([
         fieldStr: "id_author",
         fieldObj: models.User,
     },
-]), upload.single("image"), createPost);
+], false, true), upload.single("image"), createPost);
 router.put("/editById", idValidator([
     {
         fieldStr: "id",

@@ -270,11 +270,13 @@
               "path": "/post/add",
               "identifier": "post-add",
               "desc": "This route creates a post associated with a user, this post must contain the author_id, a title, a content and optionally an image smaller than 500kb.",
-              "body": [
+              "query": [
                 {
                   "field": "id_author",
                   "value": "number"
-                },
+                }
+              ],
+              "body": [
                 {
                   "field": "title",
                   "value": "string"

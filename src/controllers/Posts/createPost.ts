@@ -24,7 +24,7 @@ const createPost = async (req: ImageRequest, res: Response) => {
   }
 
   const obj = {
-    id_author: req.body.id_author,
+    id_author: req.query.id_author as string,
     title: req.body.title,
     content: req.body.content,
     image: req.file ? req.file.buffer : undefined,

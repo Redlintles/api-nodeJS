@@ -23,12 +23,16 @@ router.use(auth);
 
 router.post(
   "/add",
-  idValidator([
-    {
-      fieldStr: "id_author",
-      fieldObj: models.User,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "id_author",
+        fieldObj: models.User,
+      },
+    ],
+    false,
+    true
+  ),
   upload.single("image"),
   createPost
 );

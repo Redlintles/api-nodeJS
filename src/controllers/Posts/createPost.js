@@ -54,7 +54,7 @@ var createPost = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                     });
                 }
                 obj = {
-                    id_author: req.body.id_author,
+                    id_author: req.query.id_author,
                     title: req.body.title,
                     content: req.body.content,
                     image: req.file ? req.file.buffer : undefined,
