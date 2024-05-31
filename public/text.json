@@ -462,12 +462,18 @@
               "path": "/group/editGroup",
               "identifier": "group-edit",
               "desc": "Allows updating a group through it's ID, you can change it's name, it's banner and the group desc.",
-              "body": [
+              "query": [
                 {
                   "field": "group_id",
-                  "value": "number",
-                  "optional": true
+                  "value": "number"
                 },
+                {
+                  "field": "admin_id",
+                  "value": "number"
+                }
+              ],
+              
+              "body": [
                 {
                   "field": "group_name",
                   "value": "number",
@@ -519,7 +525,7 @@
               "path": "/group/removeMember",
               "identifier": "group-delete-member",
               "desc": "Allows removing a member from a group.",
-              "body": [
+              "query": [
                 {
                   "field": "id_user",
                   "value": "number"
@@ -1249,12 +1255,17 @@
               "path": "/group/editGroup",
               "identifier": "group-edit",
               "desc": "Permite editar um grupo com base em seu ID, você pode mudar o nome, o banner e a descrição do grupo",
-              "body": [
+              "query": [
                 {
                   "field": "group_id",
-                  "value": "number",
-                  "optional": true
+                  "value": "number"
                 },
+                {
+                  "field": "admin_id",
+                  "value": "number"
+                }
+              ],       
+              "body": [
                 {
                   "field": "group_name",
                   "value": "number",
@@ -1306,7 +1317,7 @@
               "path": "/group/removeMember",
               "identifier": "group-delete-member",
               "desc": "Permite remover um membro de um grupo",
-              "body": [
+              "query": [
                 {
                   "field": "id_user",
                   "value": "number"
