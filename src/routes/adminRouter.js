@@ -13,5 +13,5 @@ router.delete("/delete", idValidator([
         fieldStr: "admin_id",
         fieldObj: models.Admin,
     },
-]), deleteAdmin);
+], false, true), deleteAdmin);
 module.exports = router;
