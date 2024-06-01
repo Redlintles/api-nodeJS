@@ -40,7 +40,7 @@ var uuid_1 = require("uuid");
 var userValidation = require("../../utils/stringUtils").userValidation;
 var Admin = require("../../utils/models").Admin;
 var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
-var createAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var createAdmin = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var apiKey, newApiKey, _a, username, password, validateUsername, validatePassword, isNotDefined, root, adm, admin, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -107,14 +107,9 @@ var createAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0,
                     })];
             case 5:
                 err_1 = _b.sent();
-                sequelizeErrorLogger.error({
-                    message: err_1.message,
-                    stack: err_1.stack,
-                });
-                return [2 /*return*/, res.status(500).json({
-                        error: true,
-                        message: "An Unexpected error ocurred, please try later",
-                    })];
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }
     });

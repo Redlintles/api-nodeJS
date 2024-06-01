@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 const { userValidation } = require("../../utils/stringUtils");
 const { Admin } = require("../../utils/models");
 const { sequelizeErrorLogger } = require("../../utils/logger");
 
-const createAdmin = async (req: Request, res: Response) => {
+const createAdmin = async (req: Request, res: Response, next: NextFunction) => {
   const apiKey = req.headers["x-api-key"];
   const newApiKey = uuidv4();
   const { username, password } = req.body;
@@ -67,14 +67,8 @@ const createAdmin = async (req: Request, res: Response) => {
       admin,
     });
   } catch (err: any) {
-    sequelizeErrorLogger.error({
-      message: err.message,
-      stack: err.stack,
-    });
-    return res.status(500).json({
-      error: true,
-      message: "An Unexpected error ocurred, please try later",
-    });
+    req.body.error = err;
+    next();
   }
 };
 

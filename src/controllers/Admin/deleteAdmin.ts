@@ -1,8 +1,7 @@
-import { Request, Response } from "express";
-const { sequelizeErrorLogger } = require("../../utils/logger");
+import { NextFunction, Request, Response } from "express";
 const { Admin } = require("../../utils/models");
 
-const deleteAdmin = async (req: Request, res: Response) => {
+const deleteAdmin = async (req: Request, res: Response, next: NextFunction) => {
   const apiKey = req.headers["x-api-key"];
   const { admin_id: adminId } = req.query;
 
@@ -43,14 +42,8 @@ const deleteAdmin = async (req: Request, res: Response) => {
       message: "Admin deleted successfully",
     });
   } catch (err: any) {
-    sequelizeErrorLogger.error({
-      message: err.message,
-      stack: err.stack,
-    });
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+    req.body.error = err;
+    next();
   }
 };
 
