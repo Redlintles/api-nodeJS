@@ -38,8 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var isInRange = require("../../utils/stringUtils").isInRange;
 var Profile = require("../../utils/models").Profile;
-var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
-var editProfile = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var editProfile = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id_user, bio, maxSize, photo, banner, profilePhoto, profileBanner, userProfile, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -96,14 +95,9 @@ var editProfile = function (req, res) { return __awaiter(void 0, void 0, void 0,
                     })];
             case 4:
                 err_1 = _a.sent();
-                sequelizeErrorLogger.error({
-                    message: err_1.message,
-                    stack: err_1.stack,
-                });
-                return [2 /*return*/, res.status(500).json({
-                        error: true,
-                        message: "N\u00E3o foi poss\u00EDvel completar a opera\u00E7\u00E3o de edi\u00E7\u00E3o devido ao erro ".concat(err_1.toString()),
-                    })];
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 5];
             case 5: return [2 /*return*/];
         }
     });
