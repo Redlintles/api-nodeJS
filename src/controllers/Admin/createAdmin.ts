@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 const { userValidation } = require("../../utils/stringUtils");
 const { Admin } = require("../../utils/models");
-const { sequelizeErrorLogger } = require("../../utils/logger");
 
 const createAdmin = async (req: Request, res: Response, next: NextFunction) => {
   const apiKey = req.headers["x-api-key"];

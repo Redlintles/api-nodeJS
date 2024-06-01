@@ -15,7 +15,8 @@ var groupRouter = require("./routes/groupRouter");
 var bodyParser = require("body-parser");
 var profileRouter = require("./routes/profileRouter");
 var morgan = require("morgan");
-var _a = require("./utils/logger"), requestLogger = _a.requestLogger, sequelizeErrorLogger = _a.sequelizeErrorLogger;
+var requestLogger = require("./utils/logger").requestLogger;
+var sequelizeLogger = require("./middlewares/sequelizeLogger");
 morgan.token("query", function (req) { return JSON.stringify(req.query); });
 morgan.token("body", function (req) { return JSON.stringify(req.body); });
 var morganFormat = ":method :url :status :res[content-length] - :response-time ms :query :body";
@@ -54,7 +55,7 @@ app.get("/:language", function (req, res) {
 app.get("/", function (_, res) {
     return res.redirect("/pt");
 });
-app.use(sequelizeErrorLogger);
+app.use(sequelizeLogger);
 sequelize
     .sync({ alter: true })
     .then(function () {

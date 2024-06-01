@@ -39,7 +39,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var uuid_1 = require("uuid");
 var userValidation = require("../../utils/stringUtils").userValidation;
 var Admin = require("../../utils/models").Admin;
-var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
 var createAdmin = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var apiKey, newApiKey, _a, username, password, validateUsername, validatePassword, isNotDefined, root, adm, admin, err_1;
     return __generator(this, function (_b) {
