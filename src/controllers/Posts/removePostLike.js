@@ -37,10 +37,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var PostLikes = require("../../utils/models").PostLikes;
-var removePostLike = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_user, id_post, likeExists, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+var removePostLike = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, id_user, id_post, likeExists, err_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
                 _a = req.query, id_user = _a.id_user, id_post = _a.id_post;
                 return [4 /*yield*/, PostLikes.findOne({
@@ -50,30 +50,29 @@ var removePostLike = function (req, res) { return __awaiter(void 0, void 0, void
                         },
                     })];
             case 1:
-                likeExists = _c.sent();
+                likeExists = _b.sent();
                 if (!likeExists) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
                             message: "The specified user hasn't liked this post",
                         })];
                 }
-                _c.label = 2;
+                _b.label = 2;
             case 2:
-                _c.trys.push([2, 4, , 5]);
+                _b.trys.push([2, 4, , 5]);
                 return [4 /*yield*/, likeExists.destroy()];
             case 3:
-                _c.sent();
+                _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Like removed successfully",
                         obj: likeExists,
                     })];
             case 4:
-                _b = _c.sent();
-                return [2 /*return*/, res.status(500).json({
-                        error: true,
-                        message: "An unexpected error ocurred, try again later",
-                    })];
+                err_1 = _b.sent();
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 5];
             case 5: return [2 /*return*/];
         }
     });

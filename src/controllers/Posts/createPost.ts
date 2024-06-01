@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { isInRange } = require("../../utils/stringUtils");
 
@@ -12,7 +12,11 @@ interface ImageRequest extends Request {
   file?: FileImportantProps;
 }
 
-const createPost = async (req: ImageRequest, res: Response) => {
+const createPost = async (
+  req: ImageRequest,
+  res: Response,
+  next: NextFunction
+) => {
   const maxSize: number = process.env.MAX_IMAGE_SIZE
     ? parseInt(process.env.MAX_IMAGE_SIZE)
     : 500000;
@@ -52,14 +56,19 @@ const createPost = async (req: ImageRequest, res: Response) => {
     });
   }
 
-  const post = await Post.create(obj);
+  try {
+    const post = await Post.create(obj);
 
-  return res.status(200).json({
-    error: false,
-    message: "Postagem criada com sucesso",
-    author,
-    post,
-  });
+    return res.status(200).json({
+      error: false,
+      message: "Postagem criada com sucesso",
+      author,
+      post,
+    });
+  } catch (err: any) {
+    req.body.error = err;
+    next();
+  }
 };
 
 module.exports = createPost;

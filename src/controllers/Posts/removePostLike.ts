@@ -1,8 +1,12 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { PostLikes } = require("../../utils/models");
 
-const removePostLike = async (req: Request, res: Response) => {
+const removePostLike = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id_user, id_post } = req.query;
 
   const likeExists = await PostLikes.findOne({
@@ -27,11 +31,9 @@ const removePostLike = async (req: Request, res: Response) => {
       message: "Like removed successfully",
       obj: likeExists,
     });
-  } catch {
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+  } catch (err: any) {
+    req.body.error = err;
+    next();
   }
 };
 

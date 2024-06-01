@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { Post } = require("../../utils/models");
 
@@ -10,7 +10,11 @@ interface ImageRequest extends Request {
   file?: FileImportantProps;
 }
 
-const editPostById = async (req: ImageRequest, res: Response) => {
+const editPostById = async (
+  req: ImageRequest,
+  res: Response,
+  next: NextFunction
+) => {
   const { id_post } = req.query;
 
   const maxSize: number = process.env.MAX_IMAGE_SIZE
@@ -24,42 +28,47 @@ const editPostById = async (req: ImageRequest, res: Response) => {
     });
   }
 
-  const post = await Post.findByPk(id_post);
+  try {
+    const post = await Post.findByPk(id_post);
 
-  const old = {
-    id_author: post.id_author,
-    title: post.title,
-    content: post.content,
-    image: post.image,
-    createdAt: post.createdAt,
-    updatedAt: post.updatedAt,
-  };
+    const old = {
+      id_author: post.id_author,
+      title: post.title,
+      content: post.content,
+      image: post.image,
+      createdAt: post.createdAt,
+      updatedAt: post.updatedAt,
+    };
 
-  const obj2 = Object.assign({}, old, {
-    ...req.body,
-  });
+    const obj2 = Object.assign({}, old, {
+      ...req.body,
+    });
 
-  if (req.file) {
-    obj2["image"] = req.file.buffer;
-  }
-  await Post.update(
-    {
-      ...obj2,
-      id_author: old.id_author,
-    },
-    {
-      where: {
-        id: id_post,
-      },
+    if (req.file) {
+      obj2["image"] = req.file.buffer;
     }
-  );
+    await Post.update(
+      {
+        ...obj2,
+        id_author: old.id_author,
+      },
+      {
+        where: {
+          id: id_post,
+        },
+      }
+    );
 
-  return res.status(200).json({
-    error: false,
-    message: "Post Updated Successfully",
-    old,
-    new: obj2,
-  });
+    return res.status(200).json({
+      error: false,
+      message: "Post Updated Successfully",
+      old,
+      new: obj2,
+    });
+  } catch (err: any) {
+    req.body.error = err;
+    next();
+  }
 };
 
 module.exports = editPostById;

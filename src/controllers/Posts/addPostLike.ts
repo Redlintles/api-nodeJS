@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { PostLikes } = require("../../utils/models");
 
-const addPostLike = async (req: Request, res: Response) => {
+const addPostLike = async (req: Request, res: Response, next: NextFunction) => {
   const { id_post, id_user } = req.query;
 
   const hasAlreadyLiked = await PostLikes.findOne({
@@ -19,16 +19,21 @@ const addPostLike = async (req: Request, res: Response) => {
     });
   }
 
-  const like = await PostLikes.create({
-    id_post,
-    id_user,
-  });
+  try {
+    const like = await PostLikes.create({
+      id_post,
+      id_user,
+    });
 
-  return res.status(200).json({
-    error: false,
-    message: "Like Added successfully",
-    obj: like,
-  });
+    return res.status(200).json({
+      error: false,
+      message: "Like Added successfully",
+      obj: like,
+    });
+  } catch (err: any) {
+    req.body.error = err;
+    next();
+  }
 };
 
 module.exports = addPostLike;

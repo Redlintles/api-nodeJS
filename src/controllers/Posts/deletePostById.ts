@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 const {
   Post,
   PostLikes,
@@ -6,7 +6,11 @@ const {
   Comment,
 } = require("../../utils/models");
 
-const deletePostById = async (req: Request, res: Response) => {
+const deletePostById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id_post } = req.query;
 
   const post = await Post.findByPk(id_post);
@@ -37,12 +41,10 @@ const deletePostById = async (req: Request, res: Response) => {
       message: "Post deleted successfully",
       post,
     });
-  } catch {
+  } catch (err: any) {
     await transaction.rollback();
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+    req.body.error = err;
+    next();
   }
 };
 

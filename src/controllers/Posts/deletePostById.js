@@ -37,59 +37,58 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var _a = require("../../utils/models"), Post = _a.Post, PostLikes = _a.PostLikes, sequelizeConn = _a.sequelizeConn, Comment = _a.Comment;
-var deletePostById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id_post, post, transaction, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+var deletePostById = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id_post, post, transaction, err_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
                 id_post = req.query.id_post;
                 return [4 /*yield*/, Post.findByPk(id_post)];
             case 1:
-                post = _b.sent();
+                post = _a.sent();
                 return [4 /*yield*/, sequelizeConn.transaction()];
             case 2:
-                transaction = _b.sent();
-                _b.label = 3;
+                transaction = _a.sent();
+                _a.label = 3;
             case 3:
-                _b.trys.push([3, 8, , 10]);
+                _a.trys.push([3, 8, , 10]);
                 return [4 /*yield*/, Comment.destroy({
                         where: {
                             id_post: id_post,
                         },
                     })];
             case 4:
-                _b.sent();
+                _a.sent();
                 return [4 /*yield*/, PostLikes.destroy({
                         where: {
                             id_post: id_post,
                         },
                     })];
             case 5:
-                _b.sent();
+                _a.sent();
                 return [4 /*yield*/, Post.destroy({
                         where: {
                             id: id_post,
                         },
                     })];
             case 6:
-                _b.sent();
+                _a.sent();
                 return [4 /*yield*/, transaction.commit()];
             case 7:
-                _b.sent();
+                _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Post deleted successfully",
                         post: post,
                     })];
             case 8:
-                _a = _b.sent();
+                err_1 = _a.sent();
                 return [4 /*yield*/, transaction.rollback()];
             case 9:
-                _b.sent();
-                return [2 /*return*/, res.status(500).json({
-                        error: true,
-                        message: "An unexpected error ocurred, try again later",
-                    })];
+                _a.sent();
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 10];
             case 10: return [2 /*return*/];
         }
     });

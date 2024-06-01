@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const {
   Post,
@@ -8,7 +8,7 @@ const {
   sequelizeConn,
 } = require("../../utils/models");
 
-const getPostById = async (req: Request, res: Response) => {
+const getPostById = async (req: Request, res: Response, next: NextFunction) => {
   const { id_post } = req.query;
 
   const post = await Post.findByPk(id_post);
@@ -38,12 +38,10 @@ const getPostById = async (req: Request, res: Response) => {
       comments,
       likes: likes.length,
     });
-  } catch {
+  } catch (err: any) {
     await transaction.rollback();
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+    req.body.error = err;
+    next();
   }
 };
 

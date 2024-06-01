@@ -37,41 +37,41 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var _a = require("../../utils/models"), Post = _a.Post, PostLikes = _a.PostLikes, Comment = _a.Comment, User = _a.User, sequelizeConn = _a.sequelizeConn;
-var getPostById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id_post, post, transaction, author, comments, likes, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+var getPostById = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id_post, post, transaction, author, comments, likes, err_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
                 id_post = req.query.id_post;
                 return [4 /*yield*/, Post.findByPk(id_post)];
             case 1:
-                post = _b.sent();
+                post = _a.sent();
                 return [4 /*yield*/, sequelizeConn.transaction()];
             case 2:
-                transaction = _b.sent();
-                _b.label = 3;
+                transaction = _a.sent();
+                _a.label = 3;
             case 3:
-                _b.trys.push([3, 8, , 10]);
+                _a.trys.push([3, 8, , 10]);
                 return [4 /*yield*/, User.findByPk(post.id_author)];
             case 4:
-                author = _b.sent();
+                author = _a.sent();
                 return [4 /*yield*/, Comment.findAll({
                         where: {
                             id_post: id_post,
                         },
                     })];
             case 5:
-                comments = _b.sent();
+                comments = _a.sent();
                 return [4 /*yield*/, PostLikes.findAll({
                         where: {
                             id_post: id_post,
                         },
                     })];
             case 6:
-                likes = _b.sent();
+                likes = _a.sent();
                 return [4 /*yield*/, transaction.commit()];
             case 7:
-                _b.sent();
+                _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Post found successfully",
@@ -81,14 +81,13 @@ var getPostById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                         likes: likes.length,
                     })];
             case 8:
-                _a = _b.sent();
+                err_1 = _a.sent();
                 return [4 /*yield*/, transaction.rollback()];
             case 9:
-                _b.sent();
-                return [2 /*return*/, res.status(500).json({
-                        error: true,
-                        message: "An unexpected error ocurred, try again later",
-                    })];
+                _a.sent();
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 10];
             case 10: return [2 /*return*/];
         }
     });

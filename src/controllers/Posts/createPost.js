@@ -39,8 +39,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var isInRange = require("../../utils/stringUtils").isInRange;
 var Post = require("../../utils/models").Post;
 var User = require("../../utils/models").User;
-var createPost = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var maxSize, obj, author, lengthCheck, post;
+var createPost = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var maxSize, obj, author, lengthCheck, post, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -78,8 +78,11 @@ var createPost = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                             message: "Exceeded Max Fields Length(for title is 50, for content is 200)",
                         })];
                 }
-                return [4 /*yield*/, Post.create(obj)];
+                _a.label = 2;
             case 2:
+                _a.trys.push([2, 4, , 5]);
+                return [4 /*yield*/, Post.create(obj)];
+            case 3:
                 post = _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
@@ -87,6 +90,12 @@ var createPost = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                         author: author,
                         post: post,
                     })];
+            case 4:
+                err_1 = _a.sent();
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };

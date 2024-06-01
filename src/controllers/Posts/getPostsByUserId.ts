@@ -1,8 +1,12 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { Post } = require("../../utils/models");
 
-const getPostsByUserId = async (req: Request, res: Response) => {
+const getPostsByUserId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id_author } = req.query;
 
   try {
@@ -17,11 +21,9 @@ const getPostsByUserId = async (req: Request, res: Response) => {
       message: "Posts founds successfully",
       posts,
     });
-  } catch {
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+  } catch (err: any) {
+    req.body.error = err;
+    next();
   }
 };
 
