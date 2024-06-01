@@ -4,6 +4,8 @@ const { isInRange } = require("../../utils/stringUtils");
 
 const { Profile } = require("../../utils/models");
 
+const { sequelizeErrorLogger } = require("../../utils/logger");
+
 interface FileImportantProps {
   size: number;
   buffer: any;
@@ -70,6 +72,10 @@ const editProfile = async (req: ImageRequest, res: Response) => {
       obj: userProfile,
     });
   } catch (err: any) {
+    sequelizeErrorLogger.error({
+      message: err.message,
+      stack: err.stack,
+    });
     return res.status(500).json({
       error: true,
       message: `Não foi possível completar a operação de edição devido ao erro ${err.toString()}`,
