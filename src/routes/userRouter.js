@@ -73,7 +73,7 @@ router.delete("/removeFriend", idValidator([
         fieldStr: "id_friend",
         fieldObj: models.User,
     },
-]), removeFriend);
+], true, true), removeFriend);
 router.post("/userAddTag", idValidator([
     {
         fieldStr: "id_tag",

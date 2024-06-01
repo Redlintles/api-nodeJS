@@ -204,7 +204,7 @@
               "path": "/user/userRemoveFriend",
               "identifier": "user-delete-friend",
               "desc": "Allows the removal of a friend.",
-              "body": [
+              "query": [
                 {
                   "field": "id_friend",
                   "value": "number"
@@ -999,7 +999,7 @@
               "path": "/user/userRemoveFriend",
               "identifier": "user-delete-friend",
               "desc": "Permite Remover um amigo, basta prover o id de ambos",
-              "body": [
+              "query": [
                 {
                   "field": "id_friend",
                   "value": "number"

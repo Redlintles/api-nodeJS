@@ -116,16 +116,20 @@ router.post(
 );
 router.delete(
   "/removeFriend",
-  idValidator([
-    {
-      fieldStr: "id_user",
-      fieldObj: models.User,
-    },
-    {
-      fieldStr: "id_friend",
-      fieldObj: models.User,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "id_user",
+        fieldObj: models.User,
+      },
+      {
+        fieldStr: "id_friend",
+        fieldObj: models.User,
+      },
+    ],
+    true,
+    true
+  ),
   removeFriend
 );
 router.post(
