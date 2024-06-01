@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 
 const { isInRange } = require("../../utils/stringUtils");
 
+const { sequelizeErrorLogger } = require("../../utils/logger");
+
 const { Group, UserGroup, sequelizeConn } = require("../../utils/models");
 const deleteGroup = async (req: Request, res: Response) => {
   const { group_name, admin_id } = req.query;
@@ -43,8 +45,12 @@ const deleteGroup = async (req: Request, res: Response) => {
       error: false,
       message: "Group deleted successfully",
     });
-  } catch {
+  } catch (err: any) {
     await transaction.rollback();
+    sequelizeErrorLogger.error({
+      message: err.message,
+      stack: err.stack,
+    });
     return res.status(500).json({
       error: true,
       message: "An unexpected error ocurred, try again later",

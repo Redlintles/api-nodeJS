@@ -37,8 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var UserGroup = require("../../utils/models").UserGroup;
-var addMember = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_member, id_group, isInGroup, obj;
+var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
+var addMember = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, id_member, id_group, isInGroup, obj, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -57,23 +58,26 @@ var addMember = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             message: "The user is already in the group",
                         })];
                 }
+                _b.label = 2;
+            case 2:
+                _b.trys.push([2, 4, , 5]);
                 return [4 /*yield*/, UserGroup.create({
                         id_member: id_member,
                         id_group: id_group,
                     })];
-            case 2:
+            case 3:
                 obj = _b.sent();
-                if (!obj) {
-                    return [2 /*return*/, res.status(500).json({
-                            error: true,
-                            message: "An unexpected error ocurred, try again later",
-                        })];
-                }
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Group user added successfully",
                         obj: obj,
                     })];
+            case 4:
+                err_1 = _b.sent();
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };

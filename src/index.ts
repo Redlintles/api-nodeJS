@@ -16,7 +16,7 @@ const groupRouter = require("./routes/groupRouter");
 const bodyParser = require("body-parser");
 const profileRouter = require("./routes/profileRouter");
 const morgan = require("morgan");
-const { requestLogger } = require("./utils/logger");
+const { requestLogger, sequelizeErrorLogger } = require("./utils/logger");
 
 morgan.token("query", (req: any) => JSON.stringify(req.query));
 morgan.token("body", (req: any) => JSON.stringify(req.body));
@@ -66,6 +66,8 @@ app.get("/", (_: Request, res: Response) => {
   return res.redirect("/pt");
 });
 
+app.use(sequelizeErrorLogger);
+
 sequelize
   .sync({ alter: true })
   .then(() => {
@@ -73,4 +75,4 @@ sequelize
       console.log("Server is running!");
     });
   })
-  .catch((err) => console.log(err));
+  .catch((err: any) => console.log(err));

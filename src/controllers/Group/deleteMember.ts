@@ -1,8 +1,13 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { Group, User, UserGroup } = require("../../utils/models");
+const { sequelizeErrorLogger } = require("../../utils/logger");
 
-const deleteMember = async (req: Request, res: Response) => {
+const deleteMember = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id_member, id_group } = req.query;
 
   const targetGroup = await Group.findByPk(id_group);
@@ -29,12 +34,17 @@ const deleteMember = async (req: Request, res: Response) => {
     });
   }
 
-  await groupMember.destroy();
+  try {
+    await groupMember.destroy();
 
-  return res.status(200).json({
-    error: false,
-    message: "User deleted successfully",
-  });
+    return res.status(200).json({
+      error: false,
+      message: "User deleted successfully",
+    });
+  } catch (err: any) {
+    req.body.error = err;
+    next();
+  }
 };
 
 module.exports = deleteMember;

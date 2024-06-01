@@ -38,11 +38,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _a = require("../../utils/models"), User = _a.User, Group = _a.Group, sequelizeConn = _a.sequelizeConn, UserGroup = _a.UserGroup;
 var validateId = require("../../utils/validateId");
+var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
 var isInRange = require("../../utils/stringUtils").isInRange;
-var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var admin_id, _a, group_name, group_desc, max_size, groups, transaction, newGroup, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+var createGroup = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var admin_id, _a, group_name, group_desc, max_size, groups, transaction, newGroup, err_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
                 admin_id = req.query.admin_id;
                 _a = req.body, group_name = _a.group_name, group_desc = _a.group_desc;
@@ -74,7 +75,7 @@ var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                         attributes: ["group_name"],
                     })];
             case 1:
-                groups = _c.sent();
+                groups = _b.sent();
                 if (groups.map(function (g) { return g.group_name; }).includes(group_name)) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
@@ -83,10 +84,10 @@ var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 }
                 return [4 /*yield*/, sequelizeConn.transaction()];
             case 2:
-                transaction = _c.sent();
-                _c.label = 3;
+                transaction = _b.sent();
+                _b.label = 3;
             case 3:
-                _c.trys.push([3, 7, , 9]);
+                _b.trys.push([3, 7, , 8]);
                 return [4 /*yield*/, Group.create({
                         admin_id: admin_id,
                         group_name: group_name,
@@ -94,31 +95,27 @@ var createGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                         group_banner: req.file ? req.file.buffer : undefined,
                     })];
             case 4:
-                newGroup = _c.sent();
+                newGroup = _b.sent();
                 return [4 /*yield*/, UserGroup.create({
                         id_group: newGroup.id,
                         id_member: admin_id,
                     })];
             case 5:
-                _c.sent();
+                _b.sent();
                 return [4 /*yield*/, transaction.commit()];
             case 6:
-                _c.sent();
+                _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Grupo created successfully",
                         obj: newGroup,
                     })];
             case 7:
-                _b = _c.sent();
-                return [4 /*yield*/, transaction.rollback()];
-            case 8:
-                _c.sent();
-                return [2 /*return*/, res.status(500).json({
-                        error: true,
-                        message: "An unexpected error occurred, try again later",
-                    })];
-            case 9: return [2 /*return*/];
+                err_1 = _b.sent();
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 8];
+            case 8: return [2 /*return*/];
         }
     });
 }); };

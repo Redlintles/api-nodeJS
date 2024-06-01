@@ -37,14 +37,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var _a = require("../../utils/models"), Group = _a.Group, UserGroup = _a.UserGroup, User = _a.User;
-var getGroupById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id_group, targetGroup, userDetails;
+var getGroupById = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id_group, targetGroup, userDetails, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 id_group = req.query.id_group;
-                return [4 /*yield*/, Group.findByPk(id_group)];
+                _a.label = 1;
             case 1:
+                _a.trys.push([1, 4, , 5]);
+                return [4 /*yield*/, Group.findByPk(id_group)];
+            case 2:
                 targetGroup = _a.sent();
                 if (!targetGroup) {
                     return [2 /*return*/, res.status(400).json({
@@ -73,13 +76,19 @@ var getGroupById = function (req, res) { return __awaiter(void 0, void 0, void 0
                             }
                         });
                     }); })];
-            case 2:
+            case 3:
                 userDetails = _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         group: targetGroup,
                         members: userDetails,
                     })];
+            case 4:
+                err_1 = _a.sent();
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };

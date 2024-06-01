@@ -37,18 +37,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Group = require("../../utils/models").Group;
-var getUserGroups = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id_user, userGroups;
+var getUserGroups = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id_user, userGroups, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 id_user = req.query.id_user;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, Group.findAll({
                         where: {
                             admin_id: id_user,
                         },
                     })];
-            case 1:
+            case 2:
                 userGroups = _a.sent();
                 if (userGroups.length === 0) {
                     return [2 /*return*/, res.status(200).json({
@@ -64,7 +67,13 @@ var getUserGroups = function (req, res) { return __awaiter(void 0, void 0, void 
                             groups: userGroups,
                         })];
                 }
-                return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 3:
+                err_1 = _a.sent();
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };

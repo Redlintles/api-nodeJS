@@ -37,11 +37,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Group = require("../../utils/models").Group;
-var getAllGroups = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var userGroups;
+var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
+var getAllGroups = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var userGroups, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, Group.findAll({})];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, Group.findAll({})];
             case 1:
                 userGroups = _a.sent();
                 if (userGroups.length === 0) {
@@ -58,7 +61,13 @@ var getAllGroups = function (req, res) { return __awaiter(void 0, void 0, void 0
                             groups: userGroups,
                         })];
                 }
-                return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 2:
+                err_1 = _a.sent();
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };

@@ -37,8 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var _a = require("../../utils/models"), Group = _a.Group, User = _a.User, UserGroup = _a.UserGroup;
-var deleteMember = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_member, id_group, targetGroup, targetUser, groupMember;
+var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
+var deleteMember = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, id_member, id_group, targetGroup, targetUser, groupMember, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -69,13 +70,22 @@ var deleteMember = function (req, res) { return __awaiter(void 0, void 0, void 0
                             message: "The group does not contain the specified user",
                         })];
                 }
-                return [4 /*yield*/, groupMember.destroy()];
+                _b.label = 4;
             case 4:
+                _b.trys.push([4, 6, , 7]);
+                return [4 /*yield*/, groupMember.destroy()];
+            case 5:
                 _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "User deleted successfully",
                     })];
+            case 6:
+                err_1 = _b.sent();
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 7];
+            case 7: return [2 /*return*/];
         }
     });
 }); };

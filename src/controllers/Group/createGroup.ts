@@ -1,7 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { User, Group, sequelizeConn, UserGroup } = require("../../utils/models");
 const validateId = require("../../utils/validateId");
+
+const { sequelizeErrorLogger } = require("../../utils/logger");
 const { isInRange } = require("../../utils/stringUtils");
 
 interface FileImportantProps {
@@ -12,7 +14,11 @@ interface ImageRequest extends Request {
   file?: FileImportantProps;
 }
 
-const createGroup = async (req: ImageRequest, res: Response) => {
+const createGroup = async (
+  req: ImageRequest,
+  res: Response,
+  next: NextFunction
+) => {
   const { admin_id } = req.query;
   const { group_name, group_desc } = req.body;
   const max_size = process.env.MAX_FILE_SIZE
@@ -74,12 +80,9 @@ const createGroup = async (req: ImageRequest, res: Response) => {
       message: "Grupo created successfully",
       obj: newGroup,
     });
-  } catch {
-    await transaction.rollback();
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error occurred, try again later",
-    });
+  } catch (err: any) {
+    req.body.error = err;
+    next();
   }
 };
 

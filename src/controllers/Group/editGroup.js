@@ -38,8 +38,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var isInRange = require("../../utils/stringUtils").isInRange;
 var Group = require("../../utils/models").Group;
-var editGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, group_id, admin_id, _b, group_name, group_desc, maxSize, group, obj;
+var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
+var editGroup = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, group_id, admin_id, _b, group_name, group_desc, maxSize, group, obj, err_1;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
@@ -80,6 +81,9 @@ var editGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             message: "Group desc is too long",
                         })];
                 }
+                _c.label = 2;
+            case 2:
+                _c.trys.push([2, 4, , 5]);
                 obj = {
                     group_name: group_name ? group_name : group.group_name,
                     group_desc: group_desc ? group_desc : group.group_desc,
@@ -91,7 +95,7 @@ var editGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             id: group_id,
                         },
                     })];
-            case 2:
+            case 3:
                 _c.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
@@ -99,6 +103,12 @@ var editGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                         old: group,
                         new: obj,
                     })];
+            case 4:
+                err_1 = _c.sent();
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };

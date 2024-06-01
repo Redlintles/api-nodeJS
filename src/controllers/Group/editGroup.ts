@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 interface FileImportantProps {
   size: number;
@@ -11,7 +11,13 @@ interface ImageRequest extends Request {
 const { isInRange } = require("../../utils/stringUtils");
 const { Group } = require("../../utils/models");
 
-const editGroup = async (req: ImageRequest, res: Response) => {
+const { sequelizeErrorLogger } = require("../../utils/logger");
+
+const editGroup = async (
+  req: ImageRequest,
+  res: Response,
+  next: NextFunction
+) => {
   const { group_id, admin_id } = req.query;
   const { group_name, group_desc } = req.body;
 
@@ -53,25 +59,30 @@ const editGroup = async (req: ImageRequest, res: Response) => {
     });
   }
 
-  const obj = {
-    group_name: group_name ? group_name : group.group_name,
-    group_desc: group_desc ? group_desc : group.group_desc,
-    group_banner: req.file ? req.file.buffer : group.group_banner,
-  };
+  try {
+    const obj = {
+      group_name: group_name ? group_name : group.group_name,
+      group_desc: group_desc ? group_desc : group.group_desc,
+      group_banner: req.file ? req.file.buffer : group.group_banner,
+    };
 
-  await Group.update(obj, {
-    where: {
-      admin_id,
-      id: group_id,
-    },
-  });
+    await Group.update(obj, {
+      where: {
+        admin_id,
+        id: group_id,
+      },
+    });
 
-  return res.status(200).json({
-    error: false,
-    message: "Grupo updated successfully",
-    old: group,
-    new: obj,
-  });
+    return res.status(200).json({
+      error: false,
+      message: "Grupo updated successfully",
+      old: group,
+      new: obj,
+    });
+  } catch (err: any) {
+    req.body.error = err;
+    next();
+  }
 };
 
 module.exports = editGroup;
