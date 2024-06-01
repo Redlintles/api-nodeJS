@@ -36,9 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
 var Admin = require("../../utils/models").Admin;
 var deleteAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var apiKey, adminId, root, admin;
+    var apiKey, adminId, root, admin, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -72,13 +73,27 @@ var deleteAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             message: "User does not exists",
                         })];
                 }
-                return [4 /*yield*/, admin.destroy()];
+                _a.label = 3;
             case 3:
+                _a.trys.push([3, 5, , 6]);
+                return [4 /*yield*/, admin.destroy()];
+            case 4:
                 _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Admin deleted successfully",
                     })];
+            case 5:
+                err_1 = _a.sent();
+                sequelizeErrorLogger.error({
+                    message: err_1.message,
+                    stack: err_1.stack,
+                });
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "An unexpected error ocurred, try again later",
+                    })];
+            case 6: return [2 /*return*/];
         }
     });
 }); };

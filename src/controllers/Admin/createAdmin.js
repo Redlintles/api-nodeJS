@@ -39,8 +39,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var uuid_1 = require("uuid");
 var userValidation = require("../../utils/stringUtils").userValidation;
 var Admin = require("../../utils/models").Admin;
+var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
 var createAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var apiKey, newApiKey, _a, username, password, validateUsername, validatePassword, isNotDefined, root, adm, admin;
+    var apiKey, newApiKey, _a, username, password, validateUsername, validatePassword, isNotDefined, root, adm, admin, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -89,27 +90,32 @@ var createAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             message: "User already Exists",
                         })];
                 }
+                _b.label = 3;
+            case 3:
+                _b.trys.push([3, 5, , 6]);
                 return [4 /*yield*/, Admin.create({
                         username: username,
                         password: password,
                         "api-key": newApiKey,
                     })];
-            case 3:
+            case 4:
                 admin = _b.sent();
-                if (admin) {
-                    return [2 /*return*/, res.status(200).json({
-                            error: false,
-                            message: "Admin Created Successfully",
-                            admin: admin,
-                        })];
-                }
-                else {
-                    return [2 /*return*/, res.status(500).json({
-                            error: true,
-                            message: "An Unexpected error ocurred, please try later",
-                        })];
-                }
-                return [2 /*return*/];
+                return [2 /*return*/, res.status(200).json({
+                        error: false,
+                        message: "Admin Created Successfully",
+                        admin: admin,
+                    })];
+            case 5:
+                err_1 = _b.sent();
+                sequelizeErrorLogger.error({
+                    message: err_1.message,
+                    stack: err_1.stack,
+                });
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "An Unexpected error ocurred, please try later",
+                    })];
+            case 6: return [2 /*return*/];
         }
     });
 }); };

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-
+const { sequelizeErrorLogger } = require("../../utils/logger");
 const { Admin } = require("../../utils/models");
 
 const deleteAdmin = async (req: Request, res: Response) => {
@@ -35,12 +35,23 @@ const deleteAdmin = async (req: Request, res: Response) => {
     });
   }
 
-  await admin.destroy();
+  try {
+    await admin.destroy();
 
-  return res.status(200).json({
-    error: false,
-    message: "Admin deleted successfully",
-  });
+    return res.status(200).json({
+      error: false,
+      message: "Admin deleted successfully",
+    });
+  } catch (err: any) {
+    sequelizeErrorLogger.error({
+      message: err.message,
+      stack: err.stack,
+    });
+    return res.status(500).json({
+      error: true,
+      message: "An unexpected error ocurred, try again later",
+    });
+  }
 };
 
 module.exports = deleteAdmin;
