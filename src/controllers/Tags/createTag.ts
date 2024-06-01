@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 
 const { Tag } = require("../../utils/models");
+const { sequelizeErrorLogger } = require("../../utils/logger");
+
 const createTag = async (req: Request, res: Response) => {
   let { tag_name } = req.body;
 
@@ -26,20 +28,31 @@ const createTag = async (req: Request, res: Response) => {
     },
   });
 
-  if (tags.length == 0) {
-    const obj = await Tag.create({
-      tag_name: tag_name,
-    });
+  try {
+    if (tags.length == 0) {
+      const obj = await Tag.create({
+        tag_name: tag_name,
+      });
 
-    return res.status(200).json({
-      error: false,
-      message: "Tag created successfully",
-      obj,
+      return res.status(200).json({
+        error: false,
+        message: "Tag created successfully",
+        obj,
+      });
+    } else {
+      return res.status(400).json({
+        error: true,
+        message: "Tag already exists",
+      });
+    }
+  } catch (err: any) {
+    sequelizeErrorLogger.error({
+      message: err.message,
+      stack: err.stack,
     });
-  } else {
-    return res.status(400).json({
+    return res.status(500).json({
       error: true,
-      message: "Tag already exists",
+      message: "An unexpected error ocurred, try again later",
     });
   }
 };

@@ -37,8 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Tag = require("../../utils/models").Tag;
+var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
 var deleteTag = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_tag, tag_name, tag;
+    var _a, id_tag, tag_name, tag, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -65,13 +66,27 @@ var deleteTag = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             message: "Tag not found for deletion",
                         })];
                 }
-                return [4 /*yield*/, tag.destroy()];
+                _b.label = 6;
             case 6:
+                _b.trys.push([6, 8, , 9]);
+                return [4 /*yield*/, tag.destroy()];
+            case 7:
                 _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Tag deleted successfully",
                     })];
+            case 8:
+                err_1 = _b.sent();
+                sequelizeErrorLogger.error({
+                    message: err_1.message,
+                    stack: err_1.stack,
+                });
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "An unexpected error ocurred, try again later",
+                    })];
+            case 9: return [2 /*return*/];
         }
     });
 }); };
