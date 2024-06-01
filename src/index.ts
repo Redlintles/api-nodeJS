@@ -15,6 +15,21 @@ const sequelize = require("./utils/db");
 const groupRouter = require("./routes/groupRouter");
 const bodyParser = require("body-parser");
 const profileRouter = require("./routes/profileRouter");
+const morgan = require("morgan");
+const { requestLogger } = require("./utils/logger");
+
+morgan.token("query", (req: any) => JSON.stringify(req.query));
+morgan.token("body", (req: any) => JSON.stringify(req.body));
+const morganFormat =
+  ":method :url :status :res[content-length] - :response-time ms :query :body";
+
+app.use(
+  morgan(morganFormat, {
+    stream: {
+      write: (message: string) => requestLogger.info(message.trim()),
+    },
+  })
+);
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "..", "public")));
