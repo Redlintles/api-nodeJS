@@ -39,8 +39,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Comment = require("../../utils/models").Comment;
 var validateId = require("../../utils/validateId");
 var isInRange = require("../../utils/stringUtils").isInRange;
+var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
 var createComment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_author, id_post, _b, comment, belongs_to, origin_1, register;
+    var _a, id_author, id_post, _b, comment, belongs_to, origin_1, register, err_1;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
@@ -82,19 +83,33 @@ var createComment = function (req, res) { return __awaiter(void 0, void 0, void 
                             message: "Max size for comment is 200 characters",
                         })];
                 }
+                _c.label = 3;
+            case 3:
+                _c.trys.push([3, 5, , 6]);
                 return [4 /*yield*/, Comment.create({
                         id_post: id_post,
                         id_author: id_author,
                         comment: comment,
                         belongs_to: belongs_to,
                     })];
-            case 3:
+            case 4:
                 register = _c.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Comment Created Successfully",
                         comment: register,
                     })];
+            case 5:
+                err_1 = _c.sent();
+                sequelizeErrorLogger.error({
+                    message: err_1.message,
+                    stack: err_1.stack,
+                });
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "An unexpected error ocurred, try again later",
+                    })];
+            case 6: return [2 /*return*/];
         }
     });
 }); };

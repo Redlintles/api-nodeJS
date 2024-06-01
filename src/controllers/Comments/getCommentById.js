@@ -37,21 +37,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Comment = require("../../utils/models").Comment;
+var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
 var getCommentById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id_comment, comment, answers;
+    var id_comment, comment, answers, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 id_comment = req.query.id_comment;
-                return [4 /*yield*/, Comment.findByPk(id_comment)];
+                _a.label = 1;
             case 1:
+                _a.trys.push([1, 4, , 5]);
+                return [4 /*yield*/, Comment.findByPk(id_comment)];
+            case 2:
                 comment = _a.sent();
                 return [4 /*yield*/, Comment.findAll({
                         where: {
                             belongs_to: comment.id,
                         },
                     })];
-            case 2:
+            case 3:
                 answers = _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
@@ -59,6 +63,17 @@ var getCommentById = function (req, res) { return __awaiter(void 0, void 0, void
                         comment: comment,
                         answers: answers,
                     })];
+            case 4:
+                err_1 = _a.sent();
+                sequelizeErrorLogger.error({
+                    message: err_1.message,
+                    stack: err_1.stack,
+                });
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "An unexpected error ocurred, try again later",
+                    })];
+            case 5: return [2 /*return*/];
         }
     });
 }); };

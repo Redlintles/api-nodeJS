@@ -38,8 +38,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Comment = require("../../utils/models").Comment;
 var isInRange = require("../../utils/stringUtils").isInRange;
+var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
 var editComment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id_comment, text, comment;
+    var id_comment, text, comment, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -54,6 +55,9 @@ var editComment = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             message: "Comment is too big(max 200 characters)",
                         })];
                 }
+                _a.label = 2;
+            case 2:
+                _a.trys.push([2, 4, , 5]);
                 return [4 /*yield*/, Comment.update({
                         comment: text,
                     }, {
@@ -61,7 +65,7 @@ var editComment = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             id: id_comment,
                         },
                     })];
-            case 2:
+            case 3:
                 _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
@@ -69,6 +73,17 @@ var editComment = function (req, res) { return __awaiter(void 0, void 0, void 0,
                         old: comment,
                         new: Object.assign({}, comment.dataValues, { comment: text }),
                     })];
+            case 4:
+                err_1 = _a.sent();
+                sequelizeErrorLogger.error({
+                    message: err_1.message,
+                    stack: err_1.stack,
+                });
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "An unexpected error ocurred, try again later",
+                    })];
+            case 5: return [2 /*return*/];
         }
     });
 }); };

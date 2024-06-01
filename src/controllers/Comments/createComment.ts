@@ -3,6 +3,8 @@ const { Comment } = require("../../utils/models");
 const validateId = require("../../utils/validateId");
 const { isInRange } = require("../../utils/stringUtils");
 
+const { sequelizeErrorLogger } = require("../../utils/logger");
+
 const createComment = async (req: Request, res: Response) => {
   let { id_author, id_post } = req.query;
   let { comment, belongs_to } = req.body;
@@ -44,18 +46,29 @@ const createComment = async (req: Request, res: Response) => {
     });
   }
 
-  const register = await Comment.create({
-    id_post,
-    id_author,
-    comment,
-    belongs_to,
-  });
+  try {
+    const register = await Comment.create({
+      id_post,
+      id_author,
+      comment,
+      belongs_to,
+    });
 
-  return res.status(200).json({
-    error: false,
-    message: "Comment Created Successfully",
-    comment: register,
-  });
+    return res.status(200).json({
+      error: false,
+      message: "Comment Created Successfully",
+      comment: register,
+    });
+  } catch (err: any) {
+    sequelizeErrorLogger.error({
+      message: err.message,
+      stack: err.stack,
+    });
+    return res.status(500).json({
+      error: true,
+      message: "An unexpected error ocurred, try again later",
+    });
+  }
 };
 
 module.exports = createComment;
