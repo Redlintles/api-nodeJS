@@ -18,7 +18,7 @@ router.use(auth);
 router.post("/add", createUser);
 router.get("/getById", idValidator([
     {
-        fieldStr: "id",
+        fieldStr: "id_user",
         fieldObj: models.User,
     },
 ], false, true), getUserById);

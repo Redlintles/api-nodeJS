@@ -92,7 +92,7 @@
               "desc": "Allows fetching data from a specific user through it's ID, it returns an user, his profile, information about his friends and followers and the tags associated with that specific user.",
               "query": [
                 {
-                  "field": "id",
+                  "field": "id_user",
                   "value": "number"
                 }
               ] 
@@ -887,7 +887,7 @@
               "desc": "Permite recuperar os dados de um usuário através de seu ID, ela retorna o usuário,o perfil, informações sobre os amigos e seguidores e as tags associadas aquele determinado usuário.",
               "query": [
                 {
-                  "field": "id",
+                  "field": "id_user",
                   "value": "number"
                 }
               ] 

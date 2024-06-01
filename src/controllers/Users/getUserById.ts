@@ -10,15 +10,15 @@ const {
 } = require("../../utils/models");
 
 const getUserById = async (req: Request, res: Response) => {
-  const { id } = req.query;
+  const { id_user } = req.query;
 
   const transaction = await sequelizeConn.transaction();
 
   try {
-    const object = await User.findByPk(id);
-    const profile = await Profile.findOne({ where: { id_user: id } });
+    const object = await User.findByPk(id_user);
+    const profile = await Profile.findOne({ where: { id_user } });
     const friends = await UserFriends.findAll({
-      where: { id_user: id },
+      where: { id_user },
       attributes: [["id_friend", "id"]],
     })
       .then((data: any[]) => {
@@ -32,7 +32,7 @@ const getUserById = async (req: Request, res: Response) => {
         });
       });
     const followers = await UserFollower.findAll({
-      where: { id_followed: id },
+      where: { id_followed: id_user },
       attributes: [["id_follower", "id"]],
     })
       .then((data: any[]) => {
@@ -48,7 +48,7 @@ const getUserById = async (req: Request, res: Response) => {
 
     const tags = await UserTag.findAll({
       where: {
-        id_user: id,
+        id_user,
       },
       attributes: [["id_tag", "id"]],
     })
@@ -67,6 +67,7 @@ const getUserById = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       error: false,
+      message: "User fetched successfully",
       user: object,
       profile,
       friends,
@@ -78,7 +79,7 @@ const getUserById = async (req: Request, res: Response) => {
     console.log(err);
     return res.status(500).json({
       error: true,
-      message: "Ocorreu um erro inesperado",
+      message: "An unexpected error ocurred, try again later",
     });
   }
 };

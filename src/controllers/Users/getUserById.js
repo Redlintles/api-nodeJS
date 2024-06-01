@@ -38,25 +38,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _a = require("../../utils/models"), User = _a.User, Profile = _a.Profile, UserFriends = _a.UserFriends, UserFollower = _a.UserFollower, sequelizeConn = _a.sequelizeConn, UserTag = _a.UserTag, Tag = _a.Tag;
 var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, transaction, object, profile, friends, followers, tags, err_1;
+    var id_user, transaction, object, profile, friends, followers, tags, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                id = req.query.id;
+                id_user = req.query.id_user;
                 return [4 /*yield*/, sequelizeConn.transaction()];
             case 1:
                 transaction = _a.sent();
                 _a.label = 2;
             case 2:
                 _a.trys.push([2, 9, , 11]);
-                return [4 /*yield*/, User.findByPk(id)];
+                return [4 /*yield*/, User.findByPk(id_user)];
             case 3:
                 object = _a.sent();
-                return [4 /*yield*/, Profile.findOne({ where: { id_user: id } })];
+                return [4 /*yield*/, Profile.findOne({ where: { id_user: id_user } })];
             case 4:
                 profile = _a.sent();
                 return [4 /*yield*/, UserFriends.findAll({
-                        where: { id_user: id },
+                        where: { id_user: id_user },
                         attributes: [["id_friend", "id"]],
                     })
                         .then(function (data) {
@@ -72,7 +72,7 @@ var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0,
             case 5:
                 friends = _a.sent();
                 return [4 /*yield*/, UserFollower.findAll({
-                        where: { id_followed: id },
+                        where: { id_followed: id_user },
                         attributes: [["id_follower", "id"]],
                     })
                         .then(function (data) {
@@ -89,7 +89,7 @@ var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 followers = _a.sent();
                 return [4 /*yield*/, UserTag.findAll({
                         where: {
-                            id_user: id,
+                            id_user: id_user,
                         },
                         attributes: [["id_tag", "id"]],
                     })
@@ -110,6 +110,7 @@ var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
+                        message: "User fetched successfully",
                         user: object,
                         profile: profile,
                         friends: friends,
@@ -124,7 +125,7 @@ var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 console.log(err_1);
                 return [2 /*return*/, res.status(500).json({
                         error: true,
-                        message: "Ocorreu um erro inesperado",
+                        message: "An unexpected error ocurred, try again later",
                     })];
             case 11: return [2 /*return*/];
         }
