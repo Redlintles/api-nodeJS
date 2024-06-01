@@ -93,5 +93,5 @@ router.delete("/userRemoveTag", idValidator([
         fieldStr: "id_user",
         fieldObj: models.User,
     },
-]), userRemoveTag);
+], false, true), userRemoveTag);
 module.exports = router;

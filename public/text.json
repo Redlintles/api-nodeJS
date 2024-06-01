@@ -219,7 +219,7 @@
               "path": "/user/userRemoveTag",
               "identifier": "user-delete-tag",
               "desc": "Allows the removal of a user tag.",
-              "body": [
+              "query": [
                 {
                   "field": "id_tag",
                   "value": "number"
@@ -1014,7 +1014,7 @@
               "path": "/user/userRemoveTag",
               "identifier": "user-delete-tag",
               "desc": "Permite a remoção de uma tag do usuário",
-              "body": [
+              "query": [
                 {
                   "field": "id_tag",
                   "value": "number"

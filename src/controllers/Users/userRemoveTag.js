@@ -38,11 +38,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var UserTag = require("../../utils/models").UserTag;
 var userRemoveTag = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_tag, id_user, targetRelationship;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var _a, id_tag, id_user, targetRelationship, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
-                _a = req.body, id_tag = _a.id_tag, id_user = _a.id_user;
+                _a = req.query, id_tag = _a.id_tag, id_user = _a.id_user;
                 return [4 /*yield*/, UserTag.findOne({
                         where: {
                             id_tag: id_tag,
@@ -50,20 +50,30 @@ var userRemoveTag = function (req, res) { return __awaiter(void 0, void 0, void 
                         },
                     })];
             case 1:
-                targetRelationship = _b.sent();
+                targetRelationship = _c.sent();
                 if (!targetRelationship) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "O Usuário já não possuí a tag especificada",
+                            message: "The user doesn't have the specified tag anymore",
                         })];
                 }
-                return [4 /*yield*/, targetRelationship.destroy()];
+                _c.label = 2;
             case 2:
-                _b.sent();
+                _c.trys.push([2, 4, , 5]);
+                return [4 /*yield*/, targetRelationship.destroy()];
+            case 3:
+                _c.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
-                        message: "Tag removida com sucesso",
+                        message: "Tag removed successfully",
                     })];
+            case 4:
+                _b = _c.sent();
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "An unexpected error ocurred, try again later"
+                    })];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
