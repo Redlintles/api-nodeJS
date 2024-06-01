@@ -37,8 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Comment = require("../../utils/models").Comment;
-var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
-var deleteCommentById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var deleteCommentById = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var commentId, register, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -67,14 +66,9 @@ var deleteCommentById = function (req, res) { return __awaiter(void 0, void 0, v
                     })];
             case 5:
                 err_1 = _a.sent();
-                sequelizeErrorLogger.error({
-                    message: err_1.message,
-                    stack: err_1.stack,
-                });
-                return [2 /*return*/, res.status(500).json({
-                        error: true,
-                        message: "An unexpected error ocurred, try again later",
-                    })];
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }
     });

@@ -39,8 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Comment = require("../../utils/models").Comment;
 var validateId = require("../../utils/validateId");
 var isInRange = require("../../utils/stringUtils").isInRange;
-var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
-var createComment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var createComment = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, id_author, id_post, _b, comment, belongs_to, origin_1, register, err_1;
     return __generator(this, function (_c) {
         switch (_c.label) {
@@ -101,14 +100,9 @@ var createComment = function (req, res) { return __awaiter(void 0, void 0, void 
                     })];
             case 5:
                 err_1 = _c.sent();
-                sequelizeErrorLogger.error({
-                    message: err_1.message,
-                    stack: err_1.stack,
-                });
-                return [2 /*return*/, res.status(500).json({
-                        error: true,
-                        message: "An unexpected error ocurred, try again later",
-                    })];
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }
     });

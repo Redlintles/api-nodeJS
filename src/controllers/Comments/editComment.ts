@@ -1,10 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { Comment } = require("../../utils/models");
 const { isInRange } = require("../../utils/stringUtils");
-const { sequelizeErrorLogger } = require("../../utils/logger");
 
-const editComment = async (req: Request, res: Response) => {
+const editComment = async (req: Request, res: Response, next: NextFunction) => {
   let { id_comment } = req.query;
   let { comment: text } = req.body;
 
@@ -36,14 +35,8 @@ const editComment = async (req: Request, res: Response) => {
       new: Object.assign({}, comment.dataValues, { comment: text }),
     });
   } catch (err: any) {
-    sequelizeErrorLogger.error({
-      message: err.message,
-      stack: err.stack,
-    });
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+    req.body.error = err;
+    next();
   }
 };
 

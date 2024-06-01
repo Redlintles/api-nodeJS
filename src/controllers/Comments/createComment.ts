@@ -1,11 +1,13 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 const { Comment } = require("../../utils/models");
 const validateId = require("../../utils/validateId");
 const { isInRange } = require("../../utils/stringUtils");
 
-const { sequelizeErrorLogger } = require("../../utils/logger");
-
-const createComment = async (req: Request, res: Response) => {
+const createComment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   let { id_author, id_post } = req.query;
   let { comment, belongs_to } = req.body;
 
@@ -60,14 +62,8 @@ const createComment = async (req: Request, res: Response) => {
       comment: register,
     });
   } catch (err: any) {
-    sequelizeErrorLogger.error({
-      message: err.message,
-      stack: err.stack,
-    });
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+    req.body.error = err;
+    next();
   }
 };
 
