@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { UserFollower } = require("../../utils/models");
 
-const addFollower = async (req: Request, res: Response) => {
+const addFollower = async (req: Request, res: Response, next: NextFunction) => {
   const { id_follower, id_followed } = req.query;
 
   const alreadyExists = await UserFollower.findOne({
@@ -30,11 +30,9 @@ const addFollower = async (req: Request, res: Response) => {
       message: "follower added successfully",
       obj: relationship,
     });
-  } catch {
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+  } catch (err: any) {
+    req.body.error = err;
+    next();
   }
 };
 

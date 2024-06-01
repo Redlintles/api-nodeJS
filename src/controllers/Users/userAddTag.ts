@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { UserTag } = require("../../utils/models");
 
-const userAddTag = async (req: Request, res: Response) => {
+const userAddTag = async (req: Request, res: Response, next: NextFunction) => {
   const { id_tag, id_user } = req.query;
 
   const alreadyExists = await UserTag.findOne({
@@ -29,11 +29,9 @@ const userAddTag = async (req: Request, res: Response) => {
       error: false,
       message: "Tag added successfully",
     });
-  } catch {
-    return res.status(500).json({
-      error: true,
-      message: "AN unexpected error ocurred, try again later",
-    });
+  } catch (err: any) {
+    req.body.error = err;
+    next();
   }
 };
 

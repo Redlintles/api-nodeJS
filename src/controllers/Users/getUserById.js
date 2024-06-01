@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var _a = require("../../utils/models"), User = _a.User, Profile = _a.Profile, UserFriends = _a.UserFriends, UserFollower = _a.UserFollower, sequelizeConn = _a.sequelizeConn, UserTag = _a.UserTag, Tag = _a.Tag;
-var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var getUserById = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id_user, transaction, object, profile, friends, followers, tags, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -122,11 +122,9 @@ var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [4 /*yield*/, transaction.rollback()];
             case 10:
                 _a.sent();
-                console.log(err_1);
-                return [2 /*return*/, res.status(500).json({
-                        error: true,
-                        message: "An unexpected error ocurred, try again later",
-                    })];
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 11];
             case 11: return [2 /*return*/];
         }
     });

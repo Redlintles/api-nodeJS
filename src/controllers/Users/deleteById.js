@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _a = require("../../utils/models"), User = _a.User, Profile = _a.Profile, UserFriends = _a.UserFriends, UserFollower = _a.UserFollower, Group = _a.Group, UserGroup = _a.UserGroup, Comment = _a.Comment, Post = _a.Post, PostLikes = _a.PostLikes, sequelizeConn = _a.sequelizeConn, UserTag = _a.UserTag;
 var Op = require("sequelize").Op;
-var deleteById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var deleteById = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id_user, transaction, err_1;
     var _a, _b;
     return __generator(this, function (_c) {
@@ -130,14 +130,12 @@ var deleteById = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                     })];
             case 14:
                 err_1 = _c.sent();
-                console.log(err_1);
                 return [4 /*yield*/, transaction.rollback()];
             case 15:
                 _c.sent();
-                return [2 /*return*/, res.status(500).json({
-                        error: true,
-                        message: "An unexpected error ocurred, try again later",
-                    })];
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 16];
             case 16: return [2 /*return*/];
         }
     });

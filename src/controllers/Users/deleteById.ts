@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 const {
   User,
   Profile,
@@ -15,7 +15,7 @@ const {
 
 const { Op } = require("sequelize");
 
-const deleteById = async (req: Request, res: Response) => {
+const deleteById = async (req: Request, res: Response, next: NextFunction) => {
   const { id_user } = req.query;
 
   const transaction = await sequelizeConn.transaction();
@@ -84,13 +84,10 @@ const deleteById = async (req: Request, res: Response) => {
       error: false,
       message: "User deleted succesfully",
     });
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
     await transaction.rollback();
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+    req.body.error = err;
+    next();
   }
 };
 

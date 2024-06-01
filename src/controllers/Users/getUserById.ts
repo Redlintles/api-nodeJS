@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 const {
   User,
   Profile,
@@ -9,7 +9,7 @@ const {
   Tag,
 } = require("../../utils/models");
 
-const getUserById = async (req: Request, res: Response) => {
+const getUserById = async (req: Request, res: Response, next: NextFunction) => {
   const { id_user } = req.query;
 
   const transaction = await sequelizeConn.transaction();
@@ -74,13 +74,10 @@ const getUserById = async (req: Request, res: Response) => {
       followers,
       tags,
     });
-  } catch (err) {
+  } catch (err: any) {
     await transaction.rollback();
-    console.log(err);
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+    req.body.error = err;
+    next();
   }
 };
 

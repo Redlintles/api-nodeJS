@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var UserFriends = require("../../utils/models").UserFriends;
-var addFriend = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_user, id_friend, alreadyExists, relationship;
+var addFriend = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, id_user, id_friend, alreadyExists, relationship, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -57,17 +57,26 @@ var addFriend = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             message: "relationship already exists",
                         })];
                 }
+                _b.label = 2;
+            case 2:
+                _b.trys.push([2, 4, , 5]);
                 return [4 /*yield*/, UserFriends.create({
                         id_friend: id_friend,
                         id_user: id_user,
                     })];
-            case 2:
+            case 3:
                 relationship = _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "friend added successfully",
                         obj: relationship,
                     })];
+            case 4:
+                err_1 = _b.sent();
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };

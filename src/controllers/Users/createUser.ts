@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 const { User, Profile, sequelizeConn } = require("../../utils/models");
 const { isInRange, userValidation } = require("../../utils/stringUtils");
 
-const createUser = async (req: Request, res: Response) => {
+const createUser = async (req: Request, res: Response, next: NextFunction) => {
   const { body } = req;
   const obj = {
     username: body.username,
@@ -78,17 +78,14 @@ const createUser = async (req: Request, res: Response) => {
     await transaction.commit();
     return res.status(200).json({
       error: false,
-      message: "Usuário Adicionado Com Sucesso",
+      message: "User added successfully",
       user,
       profile,
     });
-  } catch {
+  } catch (err: any) {
     await transaction.rollback();
-    return res.status(400).json({
-      error: true,
-      message:
-        "A Inserção não pode ser realizada por algum motivo desconhecido",
-    });
+    req.body.error = err;
+    next();
   }
 };
 

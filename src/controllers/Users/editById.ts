@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 const { User } = require("../../utils/models");
 const validateEditObj = require("../../utils/validateEditObj");
 
-const editById = async (req: Request, res: Response) => {
+const editById = async (req: Request, res: Response, next: NextFunction) => {
   const { id_user } = req.query;
 
   const object = await User.findByPk(id_user);
@@ -22,11 +22,10 @@ const editById = async (req: Request, res: Response) => {
       message: result,
     });
   } else {
-    await User.update(result, {
-      where: { id: id_user },
-    });
-
     try {
+      await User.update(result, {
+        where: { id: id_user },
+      });
       const after = await User.findByPk(id_user);
 
       return res.status(200).json({
@@ -35,11 +34,9 @@ const editById = async (req: Request, res: Response) => {
         old: object,
         after,
       });
-    } catch {
-      return res.status(500).json({
-        error: true,
-        message: "An unexpected error ocurred, try again later",
-      });
+    } catch (err: any) {
+      req.body.error = err;
+      next();
     }
   }
 };

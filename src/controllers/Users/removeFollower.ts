@@ -1,8 +1,12 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { UserFollower } = require("../../utils/models");
 
-const removeFollower = async (req: Request, res: Response) => {
+const removeFollower = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id_follower, id_followed } = req.query;
 
   const alreadyExists = await UserFollower.findOne({
@@ -26,11 +30,9 @@ const removeFollower = async (req: Request, res: Response) => {
       error: false,
       message: "follower removed successfully",
     });
-  } catch {
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+  } catch (err: any) {
+    req.body.error = err;
+    next();
   }
 };
 

@@ -1,8 +1,12 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { UserFriends } = require("../../utils/models");
 
-const removeFriend = async (req: Request, res: Response) => {
+const removeFriend = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id_user, id_friend } = req.query;
 
   const alreadyExists = await UserFriends.findOne({
@@ -26,11 +30,9 @@ const removeFriend = async (req: Request, res: Response) => {
       error: false,
       message: "friend removed successfully",
     });
-  } catch {
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+  } catch (err: any) {
+    req.body.error = err;
+    next();
   }
 };
 

@@ -37,10 +37,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var UserTag = require("../../utils/models").UserTag;
-var userRemoveTag = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_tag, id_user, targetRelationship, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+var userRemoveTag = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, id_tag, id_user, targetRelationship, err_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
                 _a = req.query, id_tag = _a.id_tag, id_user = _a.id_user;
                 return [4 /*yield*/, UserTag.findOne({
@@ -50,29 +50,28 @@ var userRemoveTag = function (req, res) { return __awaiter(void 0, void 0, void 
                         },
                     })];
             case 1:
-                targetRelationship = _c.sent();
+                targetRelationship = _b.sent();
                 if (!targetRelationship) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
                             message: "The user doesn't have the specified tag anymore",
                         })];
                 }
-                _c.label = 2;
+                _b.label = 2;
             case 2:
-                _c.trys.push([2, 4, , 5]);
+                _b.trys.push([2, 4, , 5]);
                 return [4 /*yield*/, targetRelationship.destroy()];
             case 3:
-                _c.sent();
+                _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Tag removed successfully",
                     })];
             case 4:
-                _b = _c.sent();
-                return [2 /*return*/, res.status(500).json({
-                        error: true,
-                        message: "An unexpected error ocurred, try again later"
-                    })];
+                err_1 = _b.sent();
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 5];
             case 5: return [2 /*return*/];
         }
     });

@@ -38,15 +38,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var User = require("../../utils/models").User;
 var validateEditObj = require("../../utils/validateEditObj");
-var editById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id_user, object, old, result, after, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+var editById = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id_user, object, old, result, after, err_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
                 id_user = req.query.id_user;
                 return [4 /*yield*/, User.findByPk(id_user)];
             case 1:
-                object = _b.sent();
+                object = _a.sent();
                 old = {
                     username: object.username,
                     email: object.email,
@@ -59,30 +59,28 @@ var editById = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                         error: true,
                         message: result,
                     })];
-            case 2: return [4 /*yield*/, User.update(result, {
-                    where: { id: id_user },
-                })];
+            case 2:
+                _a.trys.push([2, 5, , 6]);
+                return [4 /*yield*/, User.update(result, {
+                        where: { id: id_user },
+                    })];
             case 3:
-                _b.sent();
-                _b.label = 4;
-            case 4:
-                _b.trys.push([4, 6, , 7]);
+                _a.sent();
                 return [4 /*yield*/, User.findByPk(id_user)];
-            case 5:
-                after = _b.sent();
+            case 4:
+                after = _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "User Updated Successfully",
                         old: object,
                         after: after,
                     })];
-            case 6:
-                _a = _b.sent();
-                return [2 /*return*/, res.status(500).json({
-                        error: true,
-                        message: "An unexpected error ocurred, try again later",
-                    })];
-            case 7: return [2 /*return*/];
+            case 5:
+                err_1 = _a.sent();
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
         }
     });
 }); };

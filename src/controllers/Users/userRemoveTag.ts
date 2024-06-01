@@ -1,8 +1,12 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { UserTag } = require("../../utils/models");
 
-const userRemoveTag = async (req: Request, res: Response) => {
+const userRemoveTag = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id_tag, id_user } = req.query;
 
   const targetRelationship = await UserTag.findOne({
@@ -25,14 +29,10 @@ const userRemoveTag = async (req: Request, res: Response) => {
       error: false,
       message: "Tag removed successfully",
     });
-  } catch() {
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later"
-    })
+  } catch (err: any) {
+    req.body.error = err;
+    next();
   }
-
-
 };
 
 module.exports = userRemoveTag;
