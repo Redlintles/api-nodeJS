@@ -189,7 +189,7 @@
               "path": "/user/userRemoveFollower",
               "identifier": "user-delete-follower",
               "desc": "Allows the deletion of a follower",
-              "body": [
+              "query": [
                 {
                   "field": "id_follower",
                   "value": "number"
@@ -984,7 +984,7 @@
               "path": "/user/userRemoveFollower",
               "identifier": "user-delete-follower",
               "desc": "Permite a remoção de um seguidor",
-              "body": [
+              "query": [
                 {
                   "field": "id_follower",
                   "value": "number"

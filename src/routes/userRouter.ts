@@ -91,6 +91,7 @@ router.delete(
         fieldObj: models.User,
       },
     ],
+    true,
     true
   ),
   removeFollower
