@@ -10,15 +10,18 @@ var requestLogger = createLogger({
     })),
     transports: [new transports.File({ filename: "logs/requests.log" })],
 });
-var errorLogger = createLogger({
+var sequelizeErrorLogger = createLogger({
     format: combine(timestamp({
         format: "YYYY-MM-DD HH:mm:ss",
     }), format.json()),
     transports: [
-        new transports.File({ filename: "logs/errors.log", level: "error" }),
+        new transports.File({
+            filename: "logs/sequelizeErrors.log",
+            level: "error",
+        }),
     ],
 });
 module.exports = {
     requestLogger: requestLogger,
-    errorLogger: errorLogger,
+    sequelizeErrorLogger: sequelizeErrorLogger,
 };
