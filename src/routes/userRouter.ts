@@ -134,16 +134,20 @@ router.delete(
 );
 router.post(
   "/userAddTag",
-  idValidator([
-    {
-      fieldStr: "id_tag",
-      fieldObj: models.Tag,
-    },
-    {
-      fieldStr: "id_user",
-      fieldObj: models.User,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "id_tag",
+        fieldObj: models.Tag,
+      },
+      {
+        fieldStr: "id_user",
+        fieldObj: models.User,
+      },
+    ],
+    false,
+    true
+  ),
   userAddTag
 );
 router.delete(

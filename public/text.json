@@ -173,7 +173,7 @@
               "path": "/user/userAddTag",
               "identifier": "user-add-tag",
               "desc": "Allows adding a tag to an user, just give the id of both.",
-              "body": [
+              "query": [
                 {
                   "field": "id_tag",
                   "value": "number"
@@ -968,7 +968,7 @@
               "path": "/user/userAddTag",
               "identifier": "user-add-tag",
               "desc": "Permite adicionar uma tag a um usuário, basta prover o id dos ambos",
-              "body": [
+              "query": [
                 {
                   "field": "id_tag",
                   "value": "number"

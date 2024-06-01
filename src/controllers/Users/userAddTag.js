@@ -38,11 +38,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var UserTag = require("../../utils/models").UserTag;
 var userAddTag = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id_tag, id_user, alreadyExists;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var _a, id_tag, id_user, alreadyExists, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
-                _a = req.body, id_tag = _a.id_tag, id_user = _a.id_user;
+                _a = req.query, id_tag = _a.id_tag, id_user = _a.id_user;
                 return [4 /*yield*/, UserTag.findOne({
                         where: {
                             id_user: id_user,
@@ -50,23 +50,33 @@ var userAddTag = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                         },
                     })];
             case 1:
-                alreadyExists = _b.sent();
+                alreadyExists = _c.sent();
                 if (alreadyExists) {
                     return [2 /*return*/, res.status(400).json({
                             error: true,
-                            message: "O Usuário já possuí esta tag",
+                            message: "The user already have this tag",
                         })];
                 }
+                _c.label = 2;
+            case 2:
+                _c.trys.push([2, 4, , 5]);
                 return [4 /*yield*/, UserTag.create({
                         id_tag: id_tag,
                         id_user: id_user,
                     })];
-            case 2:
-                _b.sent();
+            case 3:
+                _c.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
-                        message: "Tag adicionada com sucesso",
+                        message: "Tag added successfully",
                     })];
+            case 4:
+                _b = _c.sent();
+                return [2 /*return*/, res.status(500).json({
+                        error: true,
+                        message: "AN unexpected error ocurred, try again later",
+                    })];
+            case 5: return [2 /*return*/];
         }
     });
 }); };

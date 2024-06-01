@@ -83,7 +83,7 @@ router.post("/userAddTag", idValidator([
         fieldStr: "id_user",
         fieldObj: models.User,
     },
-]), userAddTag);
+], false, true), userAddTag);
 router.delete("/userRemoveTag", idValidator([
     {
         fieldStr: "id_tag",
