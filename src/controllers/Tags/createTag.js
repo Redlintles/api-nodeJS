@@ -37,8 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Tag = require("../../utils/models").Tag;
-var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
-var createTag = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var createTag = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var tag_name, tags, obj, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -85,14 +84,9 @@ var createTag = function (req, res) { return __awaiter(void 0, void 0, void 0, f
             case 5: return [3 /*break*/, 7];
             case 6:
                 err_1 = _a.sent();
-                sequelizeErrorLogger.error({
-                    message: err_1.message,
-                    stack: err_1.stack,
-                });
-                return [2 /*return*/, res.status(500).json({
-                        error: true,
-                        message: "An unexpected error ocurred, try again later",
-                    })];
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 7];
             case 7: return [2 /*return*/];
         }
     });

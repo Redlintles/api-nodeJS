@@ -1,9 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { Tag } = require("../../utils/models");
-const { sequelizeErrorLogger } = require("../../utils/logger");
 
-const createTag = async (req: Request, res: Response) => {
+const createTag = async (req: Request, res: Response, next: NextFunction) => {
   let { tag_name } = req.body;
 
   if (!/[a-zA-Z]+/.test(tag_name)) {
@@ -46,14 +45,8 @@ const createTag = async (req: Request, res: Response) => {
       });
     }
   } catch (err: any) {
-    sequelizeErrorLogger.error({
-      message: err.message,
-      stack: err.stack,
-    });
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+    req.body.error = err;
+    next();
   }
 };
 

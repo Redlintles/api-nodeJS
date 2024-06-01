@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { Tag } = require("../../utils/models");
 const { sequelizeErrorLogger } = require("../../utils/logger");
 
-const deleteTag = async (req: Request, res: Response) => {
+const deleteTag = async (req: Request, res: Response, next: NextFunction) => {
   let { id_tag, tag_name } = req.query;
 
   let tag;
@@ -33,14 +33,8 @@ const deleteTag = async (req: Request, res: Response) => {
       message: "Tag deleted successfully",
     });
   } catch (err: any) {
-    sequelizeErrorLogger.error({
-      message: err.message,
-      stack: err.stack,
-    });
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+    req.body.error = err;
+    next();
   }
 };
 
