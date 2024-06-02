@@ -7,10 +7,9 @@ const requestLogger = createLogger({
     timestamp({
       format: "YYYY-MM-DD HH:mm:ss",
     }),
-    printf(({ timestamp, level, message, stack }: any) => {
-      return `${timestamp} ${level} ${message}\n\t CallStack: ${stack || ""};`;
-    }),
-    format.json()
+    printf(({ timestamp, level, message }: any) => {
+      return `${timestamp} ${level} ${message}`;
+    })
   ),
   transports: [new transports.File({ filename: "logs/requests.log" })],
 });
@@ -20,8 +19,10 @@ const sequelizeErrorLogger = createLogger({
     timestamp({
       format: "YYYY-MM-DD HH:mm:ss",
     }),
-    printf(({ timestamp, level, message }: any) => {
-      return `${timestamp} ${level} ${message} `;
+    printf(({ timestamp, level, message, stack }: any) => {
+      return `${timestamp} ${level} ${message} \n\t CallStack: ${
+        stack || ""
+      }; `;
     })
   ),
   transports: [

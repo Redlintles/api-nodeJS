@@ -5,17 +5,17 @@ var requestLogger = createLogger({
     format: combine(timestamp({
         format: "YYYY-MM-DD HH:mm:ss",
     }), printf(function (_a) {
-        var timestamp = _a.timestamp, level = _a.level, message = _a.message, stack = _a.stack;
-        return "".concat(timestamp, " ").concat(level, " ").concat(message, "\n\t CallStack: ").concat(stack || "", ";");
-    }), format.json()),
+        var timestamp = _a.timestamp, level = _a.level, message = _a.message;
+        return "".concat(timestamp, " ").concat(level, " ").concat(message);
+    })),
     transports: [new transports.File({ filename: "logs/requests.log" })],
 });
 var sequelizeErrorLogger = createLogger({
     format: combine(timestamp({
         format: "YYYY-MM-DD HH:mm:ss",
     }), printf(function (_a) {
-        var timestamp = _a.timestamp, level = _a.level, message = _a.message;
-        return "".concat(timestamp, " ").concat(level, " ").concat(message, " ");
+        var timestamp = _a.timestamp, level = _a.level, message = _a.message, stack = _a.stack;
+        return "".concat(timestamp, " ").concat(level, " ").concat(message, " \n\t CallStack: ").concat(stack || "", "; ");
     })),
     transports: [
         new transports.File({
