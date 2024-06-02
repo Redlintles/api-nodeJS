@@ -48,17 +48,17 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       User.belongsToMany(models.User, {
-        through: "user_friends",
-        as: "friendsOf",
-        foreignKey: "id_friend",
-        otherKey: "id_user",
+        through: "user_followers",
+        as: "follower",
+        foreignKey: "id_follower",
+        onDelete: "CASCADE",
       });
 
       User.belongsToMany(models.User, {
-        through: "user_follower",
-        as: "follower",
-        foreignKey: "id_user",
-        otherKey: "id_friend",
+        through: "user_followers",
+        as: "followed",
+        foreignKey: "id_followed",
+        onDelete: "CASCADE",
       });
 
       User.belongsToMany(models.User, {
