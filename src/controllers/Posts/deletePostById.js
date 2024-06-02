@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _a = require("../../utils/models"), Post = _a.Post, PostLikes = _a.PostLikes, sequelizeConn = _a.sequelizeConn, Comment = _a.Comment;
+var _a = require("../../utils/models"), Post = _a.Post, sequelizeConn = _a.sequelizeConn;
 var deletePostById = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id_post, post, transaction, err_1;
     return __generator(this, function (_a) {

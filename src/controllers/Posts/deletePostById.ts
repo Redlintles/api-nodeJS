@@ -1,10 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-const {
-  Post,
-  PostLikes,
-  sequelizeConn,
-  Comment,
-} = require("../../utils/models");
+const { Post, sequelizeConn } = require("../../utils/models");
 
 const deletePostById = async (
   req: Request,
