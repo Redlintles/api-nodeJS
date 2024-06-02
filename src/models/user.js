@@ -34,7 +34,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "id_user",
         onDelete: "CASCADE",
       });
-      User.belongsToMany(models.Tag, { through: "User_tag" });
+      User.belongsToMany(models.Tag, {
+        through: "User_tag",
+        foreignKey: "id_user",
+        onDelete: "CASCADE",
+      });
 
       User.belongsToMany(models.User, {
         through: "user_friends",
