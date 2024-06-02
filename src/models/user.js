@@ -18,7 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsToMany(models.Group, { through: "User_group" });
       User.belongsToMany(models.Post, { through: "post_likes" });
 
-      User.hasOne(models.Profile);
+      User.hasOne(models.Profile, {
+        foreignKey: "id_user",
+        onDelete: "CASCADE",
+      });
       User.belongsToMany(models.Tag, { through: "User_tag" });
 
       User.belongsToMany(models.User, {
