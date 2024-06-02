@@ -51,45 +51,31 @@ var deletePostById = function (req, res, next) { return __awaiter(void 0, void 0
                 transaction = _a.sent();
                 _a.label = 3;
             case 3:
-                _a.trys.push([3, 8, , 10]);
-                return [4 /*yield*/, Comment.destroy({
-                        where: {
-                            id_post: id_post,
-                        },
-                    })];
-            case 4:
-                _a.sent();
-                return [4 /*yield*/, PostLikes.destroy({
-                        where: {
-                            id_post: id_post,
-                        },
-                    })];
-            case 5:
-                _a.sent();
+                _a.trys.push([3, 6, , 8]);
                 return [4 /*yield*/, Post.destroy({
                         where: {
                             id: id_post,
                         },
                     })];
-            case 6:
+            case 4:
                 _a.sent();
                 return [4 /*yield*/, transaction.commit()];
-            case 7:
+            case 5:
                 _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Post deleted successfully",
                         post: post,
                     })];
-            case 8:
+            case 6:
                 err_1 = _a.sent();
                 return [4 /*yield*/, transaction.rollback()];
-            case 9:
+            case 7:
                 _a.sent();
                 req.body.error = err_1;
                 next();
-                return [3 /*break*/, 10];
-            case 10: return [2 /*return*/];
+                return [3 /*break*/, 8];
+            case 8: return [2 /*return*/];
         }
     });
 }); };

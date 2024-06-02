@@ -18,17 +18,6 @@ const deletePostById = async (
   const transaction = await sequelizeConn.transaction();
 
   try {
-    await Comment.destroy({
-      where: {
-        id_post,
-      },
-    });
-
-    await PostLikes.destroy({
-      where: {
-        id_post,
-      },
-    });
     await Post.destroy({
       where: {
         id: id_post,
