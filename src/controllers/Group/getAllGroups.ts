@@ -2,8 +2,6 @@ import { NextFunction, Request, Response } from "express";
 
 const { Group } = require("../../utils/models");
 
-const { sequelizeErrorLogger } = require("../../utils/logger");
-
 const getAllGroups = async (
   req: Request,
   res: Response,
