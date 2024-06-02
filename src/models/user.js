@@ -42,9 +42,16 @@ module.exports = (sequelize, DataTypes) => {
 
       User.belongsToMany(models.User, {
         through: "user_friends",
-        as: "friends",
+        as: "friend",
+        foreignKey: "id_friend",
+        onDelete: "CASCADE",
+      });
+
+      User.belongsToMany(models.User, {
+        through: "user_follower",
+        as: "user",
         foreignKey: "id_user",
-        otherKey: "id_friend",
+        onDelete: "CASCADE",
       });
 
       User.belongsToMany(models.User, {
@@ -59,13 +66,6 @@ module.exports = (sequelize, DataTypes) => {
         as: "followed",
         foreignKey: "id_followed",
         onDelete: "CASCADE",
-      });
-
-      User.belongsToMany(models.User, {
-        through: "user_follower",
-        as: "friendsOf",
-        foreignKey: "id_friend",
-        otherKey: "id_user",
       });
     }
   }
