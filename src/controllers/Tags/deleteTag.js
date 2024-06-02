@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Tag = require("../../utils/models").Tag;
-var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
 var deleteTag = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, id_tag, tag_name, tag, err_1;
     return __generator(this, function (_b) {

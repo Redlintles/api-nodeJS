@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
 const { Tag } = require("../../utils/models");
-const { sequelizeErrorLogger } = require("../../utils/logger");
 
 const deleteTag = async (req: Request, res: Response, next: NextFunction) => {
   let { id_tag, tag_name } = req.query;
