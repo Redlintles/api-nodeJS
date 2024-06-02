@@ -36,107 +36,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _a = require("../../utils/models"), User = _a.User, Profile = _a.Profile, UserFriends = _a.UserFriends, UserFollower = _a.UserFollower, Group = _a.Group, UserGroup = _a.UserGroup, Comment = _a.Comment, Post = _a.Post, PostLikes = _a.PostLikes, sequelizeConn = _a.sequelizeConn, UserTag = _a.UserTag;
-var Op = require("sequelize").Op;
+var _a = require("../../utils/models"), User = _a.User, sequelizeConn = _a.sequelizeConn;
 var deleteById = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id_user, transaction, err_1;
-    var _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
                 id_user = req.query.id_user;
                 return [4 /*yield*/, sequelizeConn.transaction()];
             case 1:
-                transaction = _c.sent();
-                _c.label = 2;
+                transaction = _a.sent();
+                _a.label = 2;
             case 2:
-                _c.trys.push([2, 14, , 16]);
-                return [4 /*yield*/, UserFriends.destroy({
-                        where: (_a = {},
-                            _a[Op.or] = [{ id_user: id_user }, { id_friend: id_user }],
-                            _a),
-                    })];
-            case 3:
-                _c.sent();
-                return [4 /*yield*/, Comment.destroy({
-                        where: {
-                            id_author: id_user,
-                        },
-                    })];
-            case 4:
-                _c.sent();
-                return [4 /*yield*/, UserGroup.destroy({
-                        where: {
-                            id_member: id_user,
-                        },
-                    })];
-            case 5:
-                _c.sent();
-                return [4 /*yield*/, Group.destroy({
-                        where: {
-                            admin_id: id_user,
-                        },
-                    })];
-            case 6:
-                _c.sent();
-                return [4 /*yield*/, PostLikes.destroy({
-                        where: {
-                            id_user: id_user,
-                        },
-                    })];
-            case 7:
-                _c.sent();
-                return [4 /*yield*/, Post.destroy({
-                        where: {
-                            id_author: id_user,
-                        },
-                    })];
-            case 8:
-                _c.sent();
-                return [4 /*yield*/, UserFollower.destroy({
-                        where: (_b = {},
-                            _b[Op.or] = [{ id_followed: id_user }, { id_follower: id_user }],
-                            _b),
-                    })];
-            case 9:
-                _c.sent();
-                return [4 /*yield*/, Profile.destroy({
-                        where: {
-                            id_user: id_user,
-                        },
-                    })];
-            case 10:
-                _c.sent();
-                return [4 /*yield*/, UserTag.destroy({
-                        where: {
-                            id_user: id_user,
-                        },
-                    })];
-            case 11:
-                _c.sent();
+                _a.trys.push([2, 5, , 7]);
                 return [4 /*yield*/, User.destroy({
                         where: {
                             id: id_user,
                         },
                     })];
-            case 12:
-                _c.sent();
+            case 3:
+                _a.sent();
                 return [4 /*yield*/, transaction.commit()];
-            case 13:
-                _c.sent();
+            case 4:
+                _a.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "User deleted succesfully",
                     })];
-            case 14:
-                err_1 = _c.sent();
+            case 5:
+                err_1 = _a.sent();
                 return [4 /*yield*/, transaction.rollback()];
-            case 15:
-                _c.sent();
+            case 6:
+                _a.sent();
                 req.body.error = err_1;
                 next();
-                return [3 /*break*/, 16];
-            case 16: return [2 /*return*/];
+                return [3 /*break*/, 7];
+            case 7: return [2 /*return*/];
         }
     });
 }); };
