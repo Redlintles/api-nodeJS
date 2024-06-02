@@ -35,19 +35,19 @@ router.get("/getUserGroups", idValidator([
         fieldStr: "id_user",
         fieldObj: models.User,
     },
-]), getUserGroups);
+], false, true), getUserGroups);
 router.get("/getGroupById", idValidator([
     {
         fieldStr: "id_group",
         fieldObj: models.Group,
     },
-]), getGroupById);
+], false, true), getGroupById);
 router.get("/getGroupsWithUser", idValidator([
     {
         fieldStr: "id_user",
         fieldObj: models.User,
     },
-]), getGroupsWithUser);
+], false, true), getGroupsWithUser);
 router.put("/editGroup", idValidator([
     {
         fieldStr: "group_id",

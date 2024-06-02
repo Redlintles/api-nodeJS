@@ -46,33 +46,45 @@ router.post(
 );
 router.get(
   "/getUserGroups",
-  idValidator([
-    {
-      fieldStr: "id_user",
-      fieldObj: models.User,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "id_user",
+        fieldObj: models.User,
+      },
+    ],
+    false,
+    true
+  ),
   getUserGroups
 );
 
 router.get(
   "/getGroupById",
-  idValidator([
-    {
-      fieldStr: "id_group",
-      fieldObj: models.Group,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "id_group",
+        fieldObj: models.Group,
+      },
+    ],
+    false,
+    true
+  ),
   getGroupById
 );
 router.get(
   "/getGroupsWithUser",
-  idValidator([
-    {
-      fieldStr: "id_user",
-      fieldObj: models.User,
-    },
-  ]),
+  idValidator(
+    [
+      {
+        fieldStr: "id_user",
+        fieldObj: models.User,
+      },
+    ],
+    false,
+    true
+  ),
   getGroupsWithUser
 );
 router.put(
