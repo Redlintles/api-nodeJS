@@ -28,7 +28,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "id_user",
         onDelete: "CASCADE",
       });
-      User.belongsToMany(models.Post, { through: "post_likes" });
+      User.belongsToMany(models.Post, {
+        through: "post_likes",
+        foreignKey: "id_user",
+        onDelete: "CASCADE",
+      });
 
       User.hasOne(models.Profile, {
         foreignKey: "id_user",
