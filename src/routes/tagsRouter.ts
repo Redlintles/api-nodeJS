@@ -1,29 +1,31 @@
-const express = require("express");
-const router = express.Router();
+{
+  const express = require("express");
+  const router = express.Router();
 
-const createTag = require("../controllers/Tags/createTag");
-const deleteTag = require("../controllers/Tags/deleteTag");
-const auth = require("../middlewares/auth");
+  const createTag = require("../controllers/Tags/createTag");
+  const deleteTag = require("../controllers/Tags/deleteTag");
+  const auth = require("../middlewares/auth");
 
-const idValidator = require("../middlewares/idValidator");
-const models = require("../utils/models");
+  const idValidator = require("../middlewares/idValidator");
+  const models = require("../utils/models");
 
-router.use(auth);
-router.post("/add", createTag);
-router.delete(
-  "/delete",
-  idValidator(
-    [
-      {
-        fieldStr: "id_tag",
-        fieldObj: models.Tag,
-        optional: true,
-      },
-    ],
-    false,
-    true
-  ),
-  deleteTag
-);
+  router.use(auth);
+  router.post("/add", createTag);
+  router.delete(
+    "/delete",
+    idValidator(
+      [
+        {
+          fieldStr: "id_tag",
+          fieldObj: models.Tag,
+          optional: true,
+        },
+      ],
+      false,
+      true
+    ),
+    deleteTag
+  );
 
-module.exports = router;
+  module.exports = router;
+}
