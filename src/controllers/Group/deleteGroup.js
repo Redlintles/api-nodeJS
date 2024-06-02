@@ -70,28 +70,21 @@ var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 transaction = _b.sent();
                 _b.label = 3;
             case 3:
-                _b.trys.push([3, 7, , 9]);
-                return [4 /*yield*/, UserGroup.destroy({
-                        where: {
-                            id_group: group.id,
-                        },
-                    })];
+                _b.trys.push([3, 6, , 8]);
+                return [4 /*yield*/, group.destroy()];
             case 4:
                 _b.sent();
-                return [4 /*yield*/, group.destroy()];
-            case 5:
-                _b.sent();
                 return [4 /*yield*/, transaction.commit()];
-            case 6:
+            case 5:
                 _b.sent();
                 return [2 /*return*/, res.status(200).json({
                         error: false,
                         message: "Group deleted successfully",
                     })];
-            case 7:
+            case 6:
                 err_1 = _b.sent();
                 return [4 /*yield*/, transaction.rollback()];
-            case 8:
+            case 7:
                 _b.sent();
                 sequelizeErrorLogger.error({
                     message: err_1.message,
@@ -101,7 +94,7 @@ var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                         error: true,
                         message: "An unexpected error ocurred, try again later",
                     })];
-            case 9: return [2 /*return*/];
+            case 8: return [2 /*return*/];
         }
     });
 }); };

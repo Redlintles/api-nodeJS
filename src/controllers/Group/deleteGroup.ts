@@ -32,11 +32,6 @@ const deleteGroup = async (req: Request, res: Response) => {
   const transaction = await sequelizeConn.transaction();
 
   try {
-    await UserGroup.destroy({
-      where: {
-        id_group: group.id,
-      },
-    });
     await group.destroy();
 
     await transaction.commit();
