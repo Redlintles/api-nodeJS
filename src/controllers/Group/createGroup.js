@@ -36,9 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _a = require("../../utils/models"), User = _a.User, Group = _a.Group, sequelizeConn = _a.sequelizeConn, UserGroup = _a.UserGroup;
-var validateId = require("../../utils/validateId");
-var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
+var _a = require("../../utils/models"), Group = _a.Group, sequelizeConn = _a.sequelizeConn, UserGroup = _a.UserGroup;
 var isInRange = require("../../utils/stringUtils").isInRange;
 var createGroup = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var admin_id, _a, group_name, group_desc, max_size, groups, transaction, newGroup, err_1;

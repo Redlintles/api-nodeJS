@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var UserGroup = require("../../utils/models").UserGroup;
-var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
 var addMember = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, id_member, id_group, isInGroup, obj, err_1;
     return __generator(this, function (_b) {

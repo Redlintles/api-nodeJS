@@ -1,11 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const { isInRange } = require("../../utils/stringUtils");
 
-const { sequelizeErrorLogger } = require("../../utils/logger");
-
-const { Group, UserGroup, sequelizeConn } = require("../../utils/models");
-const deleteGroup = async (req: Request, res: Response) => {
+const { Group, sequelizeConn } = require("../../utils/models");
+const deleteGroup = async (req: Request, res: Response, next: NextFunction) => {
   const { group_name, admin_id } = req.query;
 
   if (!isInRange(group_name, 0, 30)) {
@@ -41,15 +39,8 @@ const deleteGroup = async (req: Request, res: Response) => {
       message: "Group deleted successfully",
     });
   } catch (err: any) {
-    await transaction.rollback();
-    sequelizeErrorLogger.error({
-      message: err.message,
-      stack: err.stack,
-    });
-    return res.status(500).json({
-      error: true,
-      message: "An unexpected error ocurred, try again later",
-    });
+    req.body.error = err;
+    next();
   }
 };
 

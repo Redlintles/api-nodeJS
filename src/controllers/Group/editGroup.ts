@@ -1,4 +1,6 @@
 import { NextFunction, Request, Response } from "express";
+const { isInRange } = require("../../utils/stringUtils");
+const { Group } = require("../../utils/models");
 
 interface FileImportantProps {
   size: number;
@@ -7,11 +9,6 @@ interface FileImportantProps {
 interface ImageRequest extends Request {
   file?: FileImportantProps;
 }
-
-const { isInRange } = require("../../utils/stringUtils");
-const { Group } = require("../../utils/models");
-
-const { sequelizeErrorLogger } = require("../../utils/logger");
 
 const editGroup = async (
   req: ImageRequest,

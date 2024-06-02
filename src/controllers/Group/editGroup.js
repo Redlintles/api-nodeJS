@@ -38,7 +38,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var isInRange = require("../../utils/stringUtils").isInRange;
 var Group = require("../../utils/models").Group;
-var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
 var editGroup = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, group_id, admin_id, _b, group_name, group_desc, maxSize, group, obj, err_1;
     return __generator(this, function (_c) {

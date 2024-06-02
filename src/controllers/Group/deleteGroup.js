@@ -37,9 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var isInRange = require("../../utils/stringUtils").isInRange;
-var sequelizeErrorLogger = require("../../utils/logger").sequelizeErrorLogger;
-var _a = require("../../utils/models"), Group = _a.Group, UserGroup = _a.UserGroup, sequelizeConn = _a.sequelizeConn;
-var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var _a = require("../../utils/models"), Group = _a.Group, sequelizeConn = _a.sequelizeConn;
+var deleteGroup = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, group_name, admin_id, group, transaction, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -70,7 +69,7 @@ var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 transaction = _b.sent();
                 _b.label = 3;
             case 3:
-                _b.trys.push([3, 6, , 8]);
+                _b.trys.push([3, 6, , 7]);
                 return [4 /*yield*/, group.destroy()];
             case 4:
                 _b.sent();
@@ -83,18 +82,10 @@ var deleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                     })];
             case 6:
                 err_1 = _b.sent();
-                return [4 /*yield*/, transaction.rollback()];
-            case 7:
-                _b.sent();
-                sequelizeErrorLogger.error({
-                    message: err_1.message,
-                    stack: err_1.stack,
-                });
-                return [2 /*return*/, res.status(500).json({
-                        error: true,
-                        message: "An unexpected error ocurred, try again later",
-                    })];
-            case 8: return [2 /*return*/];
+                req.body.error = err_1;
+                next();
+                return [3 /*break*/, 7];
+            case 7: return [2 /*return*/];
         }
     });
 }); };

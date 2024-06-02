@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
 const { Group, User, UserGroup } = require("../../utils/models");
-const { sequelizeErrorLogger } = require("../../utils/logger");
 
 const deleteMember = async (
   req: Request,

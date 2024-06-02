@@ -1,9 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
-const { User, Group, sequelizeConn, UserGroup } = require("../../utils/models");
-const validateId = require("../../utils/validateId");
+const { Group, sequelizeConn, UserGroup } = require("../../utils/models");
 
-const { sequelizeErrorLogger } = require("../../utils/logger");
 const { isInRange } = require("../../utils/stringUtils");
 
 interface FileImportantProps {
