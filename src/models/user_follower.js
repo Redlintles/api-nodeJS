@@ -9,13 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User_follower.belongsTo(models.Usuario, {
+      User_follower.belongsTo(models.User, {
         foreignKey: "id_followed",
         as: "followed",
         onDelete: "CASCADE",
       });
 
-      User_follower.belongsTo(models.Usuario, {
+      User_follower.belongsTo(models.User, {
         foreignKey: "id_follower",
         as: "follower",
         onDelete: "CASCADE",
