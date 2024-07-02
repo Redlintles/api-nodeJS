@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  db:
+    build:
+      context: ./mysql
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: Itsumade@1997
+      MYSQL_DATABASE: nodeSQL
+      MYSQL_ROOT_HOST: "%"
+    ports:
+      - "3306:3306"
+    networks:
+      - nt1
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+    environment:
+      PORT: "3000"
+      DB_DATABASE: nodeSQL
+      DB_USER: root
+      DB_PASSWORD: Itsumade@1997
+      DB_HOST: db
+      DB_PORT: "3306"
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    networks:
+      - nt1
+
+networks:
+  nt1:
+    driver: bridge
+
+volumes:
+  mysql-data:

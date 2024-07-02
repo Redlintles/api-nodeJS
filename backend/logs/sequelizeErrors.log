@@ -1,0 +1,8 @@
+2024-06-02 16:22:52 error Cannot delete or update a parent row: a foreign key constraint fails (`nodeSQL`.`Comments`, CONSTRAINT `Comments_ibfk_1` FOREIGN KEY (`id_author`) REFERENCES `Users` (`id`)) 
+2024-06-02 17:43:38 error Unknown column 'User_group.id_banana' in 'where clause' 
+	 CallStack: Error
+    at Query.run (/home/jota/Documentos/api-nodeJS/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/jota/Documentos/api-nodeJS/node_modules/sequelize/lib/sequelize.js:315:28
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async MySQLQueryInterface.select (/home/jota/Documentos/api-nodeJS/node_modules/sequelize/lib/dialects/abstract/query-interface.js:407:12)
+    at async User_group.findAll (/home/jota/Documentos/api-nodeJS/node_modules/sequelize/lib/model.js:1140:21); 
